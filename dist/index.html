@@ -332,6 +332,23 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 @media(max-width:800px){.guided-presets{grid-template-columns:1fr}}
 @media(max-width:480px){.guided-preset{padding:16px 12px;gap:12px}.guided-step{padding:10px}.guided-step-controls{padding-left:0;flex-wrap:wrap}.guided-duration output{min-width:55px}.guided-order{margin-left:auto}.guided-table-wrap table{font-size:11px}.guided-summary th,.guided-summary td{padding:10px 6px}.guided-review-step .fields-2{grid-template-columns:1fr}.guided-active-actions .btn{flex:1 1 130px}.guided-experience .dialog-button-bar{align-items:stretch}.guided-experience .dialog-button-bar>.btn{flex:1 1 130px}.guided-destructive{margin-left:0}}
 @media(prefers-reduced-motion:reduce){.guided-experience{animation:none}.guided-preset,.guided-progress>span{transition:none}}
+/* Visit panel — Olo Notes Figma 144:2943 / 143:1921. */
+#page-journal>.lede{max-width:896px}
+.visit-session-card{max-width:896px;padding:24px 24px 32px;box-shadow:none}
+.visit-session-card .session-entry-actions{margin-bottom:16px}
+.visit-session-card .guided-tabs{background:var(--sand);padding:5px;gap:5px}
+.visit-session-card .guided-tabs .tab{height:44px;display:flex;align-items:center;gap:7px;padding:10px 15px;color:var(--pine2)}
+.visit-session-card .guided-tabs .tab.active{background:#35564b;color:white;box-shadow:0 2px 9px #344b3a12}
+.visit-session-card .guided-tabs svg{width:16px;height:16px}
+.visit-session-card #liveSessionTab:after{content:'';width:6px;height:6px;border-radius:50%;background:var(--heat)}
+.visit-session-card .guided-experience{padding-top:20px}
+.visit-session-card .guided-experience>h2{margin-bottom:17px}
+.visit-session-card .guided-experience>.guided-copy{margin-bottom:12px}
+.visit-session-card .guided-preset{gap:12px;padding:12px;min-height:106px;background:var(--sand)}
+.visit-session-card .guided-thumb{width:80px;height:80px}
+.visit-session-card .guided-preset .chevron img{display:block;width:20px;height:20px}
+@media(max-width:1100px){.visit-session-card .guided-presets{grid-template-columns:1fr}}
+@media(max-width:480px){.visit-session-card{padding:16px 12px 24px}.visit-session-card .guided-preset{gap:10px}.visit-session-card .guided-thumb{width:64px;height:64px}.visit-session-card .guided-tabs .tab{padding:10px 11px}}
 /* END GUIDED RITUAL STYLES */
 </style>
 <script>
@@ -339,7 +356,7 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="60">
+<meta name="olo-release" content="61">
 </head>
 <body>
 <div class="app">
@@ -510,7 +527,7 @@ function setGuidedMode(mode){
 function guidedTabsMarkup(){const live=sessionTab==='timer'&&guidedMode==='timer',guided=sessionTab==='timer'&&guidedMode==='guided';return `<div class="tabs guided-tabs" role="tablist" aria-label="Session experience" onkeydown="guidedTabKey(event)"><button type="button" id="liveSessionTab" class="tab ${live?'active':''}" role="tab" aria-selected="${live}" aria-controls="sessionArea" tabindex="${guided?-1:0}" onclick="setGuidedMode('timer')">${icon('timer')} Live Timer</button><button type="button" id="guidedSessionTab" class="tab ${guided?'active':''}" role="tab" aria-selected="${guided}" aria-controls="sessionArea" tabindex="${guided?0:-1}" onclick="setGuidedMode('guided')">Guided Session</button></div>`}
 function guidedTabKey(event){if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();setGuidedMode(event.key==='Home'?'timer':event.key==='End'?'guided':guidedMode==='timer'?'guided':'timer')}}
 function guidedTime(ms){const seconds=Math.round(ms/1000);return `${Math.floor(seconds/60)}m${seconds%60?' '+seconds%60+'s':''}`}
-function guidedThumb(template){return `<img class="guided-thumb" src="${esc(template.image)}" alt="" width="52" height="52" decoding="async"/>`}
+function guidedThumb(template){return `<img class="guided-thumb" src="${esc('assets/rituals/'+({'mindful-reset':'ritual-lake.png','pure-sauna':'ritual-lake.png','first-dip':'ritual-dip.png','nordic-contrast':'ritual-sauna.png'}[template.id]||template.image.split('/').pop()))}" alt="" width="80" height="80" decoding="async"/>`}
 function guidedHeading(title,description=''){return `<h2 id="guidedTitle" tabindex="-1">${esc(title)}</h2>${description?`<p class="small guided-copy">${esc(description)}</p>`:''}`}
 function guidedSafety(){return `<p class="small guided-copy guided-safety">${GUIDED_SAFETY} Leave your phone outside the sauna if needed; add a post-visit entry anytime with Add visit.</p>`}
 function guidedMarkup(){
@@ -518,7 +535,7 @@ function guidedMarkup(){
   if(r?.phase==='review')return guidedReviewMarkup(r);
   if(r?.phase==='active')return guidedActiveMarkup(r);
   if(r?.phase==='preview'&&!guidedShowList)return guidedPreviewMarkup(r);
-  return `<section class="guided-experience" aria-labelledby="guidedTitle">${guidedHeading('Find your ritual','A little structure, at your own pace. Preview a ritual and make it yours before beginning.')}${r?.phase==='preview'?`<button type="button" class="btn btn-outline guided-return" onclick="guidedShowList=false;guidedRenderFocus()">Continue editing ${esc(r.name)}</button>`:''}<div class="guided-presets">${OloRituals.templates.map(t=>`<button type="button" class="guided-preset" onclick="chooseGuidedPreset('${t.id}')">${guidedThumb(t)}<span class="guided-preset-copy"><strong>${t.name}</strong><span>${t.description}</span><small>${t.steps.length} steps · ${guidedTime(OloRituals.plannedMs(t))}</small></span><span class="chevron" aria-hidden="true">${icon('chev')}</span></button>`).join('')}</div>${guidedSafety()}</section>`;
+  return `<section class="guided-experience" aria-labelledby="guidedTitle">${guidedHeading('Find your ritual','A little structure, at your own pace. Preview a ritual and make it yours before beginning.')}${r?.phase==='preview'?`<button type="button" class="btn btn-outline guided-return" onclick="guidedShowList=false;guidedRenderFocus()">Continue editing ${esc(r.name)}</button>`:''}<div class="guided-presets">${['mindful-reset','pure-sauna','first-dip','nordic-contrast'].map(id=>OloRituals.templates.find(t=>t.id===id)).map(t=>`<button type="button" class="guided-preset" onclick="chooseGuidedPreset('${t.id}')">${guidedThumb(t)}<span class="guided-preset-copy"><strong>${t.name}</strong><span>${t.description}</span><small>${t.steps.length} steps · ${guidedTime(OloRituals.plannedMs(t))}</small></span><span class="chevron" aria-hidden="true"><img src="assets/rituals/ritual-chevron.svg" width="20" height="20" alt=""/></span></button>`).join('')}</div></section>`;
 }
 function chooseGuidedPreset(presetId){
   if(db.guidedRitual&&['active','review'].includes(db.guidedRitual.phase))return;
@@ -1059,7 +1076,7 @@ let insightWeekStart=null;
 function openWeeklyInsights(){insightPeriod='week';insightWeekStart=homeWeekStart()===startOfWeek()?null:homeWeekStart();nav('insights')}
 function empty(t,d){return `<div class="empty">${icon('book')}<h3>${t}</h3><p class="small">${d}</p></div>`}
 function visitRow(v){return `<div class="visit-item" role="button" tabindex="0" onclick="openVisit('${v.id}')" onkeydown="if(event.key==='Enter')openVisit('${v.id}')"><div class="date-square"><strong>${dayStart(v.date).getDate()}</strong><span>${pretty(v.date,{month:'short'})}</span></div><div class="visit-info"><strong>${pretty(v.date,{weekday:'long',month:'short',day:'numeric'})}</strong><p><span class="duration-badge metric-sauna">${fmtM(total(v,'sauna'))} heat</span> <span class="duration-badge metric-cold">${fmtM(total(v,'cold'))} cold</span> · ${v.intervals.length} cycle${v.intervals.length===1?'':'s'} ${v.notes?.trim()?`<span class="visit-note" role="img" aria-label="Has notes" title="Has notes">${icon('book')}</span>`:''}</p>${v.ritual?`<p class="guided-history-name">${esc(v.ritual.name)} · Guided ritual</p>`:''}${v.intention?`<p class="intention-history">${esc(v.intention)}</p>`:''}</div><span class="chevron">${icon('chev')}</span></div>`}
-function visitControlsMarkup(){return `<div class="session-entry-actions content-width">${guidedTabsMarkup()}</div><div class="content-width" id="sessionArea"></div>`}
+function visitControlsMarkup(){return `<div class="card visit-session-card content-width"><div class="session-entry-actions">${guidedTabsMarkup()}</div><div id="sessionArea"></div></div>`}
 function setSessionTab(tab){sessionTab=tab;renderJournal()}
 function currentElapsed(){if(!draft||!draft.current)return 0;return num(draft.current.accumulated)+(draft.current.running?Date.now()-draft.current.startedAt:0)}
 function visitIsEnded(visit){return Number.isFinite(visit?.endedAt)&&visit.endedAt>0}
