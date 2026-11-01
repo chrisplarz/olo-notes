@@ -3,7 +3,7 @@
   "github": {
     "remote": "https://github.com/chrisplarz/olo-notes.git",
     "branch": "main",
-    "commit": "661e7be21b8df769282d94e31cafa020cdb042b0",
+    "commit": "f539db4d119a9529a4408d5c153bc9a552cc64dc",
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -16,12 +16,16 @@
       "assets/olo-notes-logo-ui.svg": "b67ef6563e35112dda67fbdcb094fc37518c01c47263f90e9c383117cc97d304",
       "assets/olo-notes-logo.svg": "18525245edda1917281b042d570b55f11e6070c8a6a3fd71fd2acf6e1ca0df0b",
       "assets/paper.svg": "6abfe7f03019dcdd97656d5d245497a859cb9763a6607806e00350d3a21116a4",
+      "assets/rituals/first-dip.jpg": "2f9f6c90d009a37fdc2af19cf185c721dfa6ede6b87e8438dd38d7f71b2d5cea",
+      "assets/rituals/mindful-reset.jpg": "21dc0d7df0677fa77ee897f8870fb49d942632de53dde1b65781938a10a527f5",
+      "assets/rituals/nordic-contrast.jpg": "e31a2bc858d49b73ce66024fbfbdd8e1b8c6344b0ed4d03b0be70e96176ff7d9",
+      "assets/rituals/pure-sauna.jpg": "dd3a383c2fe36435fddbd595ec9b233681f22d40c07c781c8cc9b114fd484851",
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "e5c139b70bd0d215c81f5e7fa026c9d2d6b09781958657919605de3c0ab73095",
+      "index.html": "3cb09f9c3f584eba1c531e6b4f62b4ab473b7c49757d53fd227085a437cadf1a",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "1d574039f356e91d4b9a9121848d5fa94549c87412cf01d9052a9f7f1da9115f"
+      "sw.js": "892d9d082c8c97d76728ff981b240f1fe7b3fbaf6236993cedada77ff61167a3"
     }
   },
   "design": {
@@ -67,7 +71,7 @@
     }
   },
   "prepared": {
-    "version": 59,
+    "version": 60,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -87,9 +91,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "3cb09f9c3f584eba1c531e6b4f62b4ab473b7c49757d53fd227085a437cadf1a",
+      "index.html": "c72d1f838078d8908a21b73876ab148b15dcf00a35fbac15fa97b0ee14935f54",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "892d9d082c8c97d76728ff981b240f1fe7b3fbaf6236993cedada77ff61167a3"
+      "sw.js": "83e3e6192002a17b76cd35fb047e946486fc9123af536ba453622a476ab79d7b"
     }
   }
 }

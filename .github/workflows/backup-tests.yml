@@ -18,6 +18,7 @@ jobs:
       - run: node --test tests/release.test.cjs tests/backup.test.cjs tests/chatgpt-share.test.cjs tests/visits-page.test.cjs tests/intentions.test.cjs tests/planning.test.cjs tests/guided-rituals.test.cjs
       - run: npm install --no-save --package-lock=false playwright@1.56.1
       - run: npx playwright install --with-deps chromium
+      - run: node tests/insights.browser.test.cjs
       - run: node tests/accounts.browser.test.cjs
       - run: node tests/planning.browser.test.cjs
       - run: node tests/backup.browser.test.cjs

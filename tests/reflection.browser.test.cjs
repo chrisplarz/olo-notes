@@ -37,7 +37,7 @@ for(const width of [390,1280])test(`daily reflection and session regression at $
  assert.equal(new Set(rotation.slice(0,30)).size,30);assert.equal(new Set(rotation.slice(30)).size,30);assert.notEqual(rotation[29],rotation[30]);
  assert.equal(await page.evaluate(()=>localStorage.getItem(KEY)),original);
  await page.evaluate(()=>{insightPeriod='week';renderInsights()});
- assert.deepEqual(await page.locator('#page-insights .bar-col small').allTextContents(),['S','M','T','W','T','F','S']);
+ assert.deepEqual(await page.locator('#page-insights .bar-col small:last-child').allTextContents(),['Sun','Mon','Tue','Wed','Thu','Fri','Sat']);
  await page.clock.setSystemTime(new Date(2026,9,18,12));
  await page.evaluate(()=>renderHome());
  assert.deepEqual(await page.locator('.week-grid .day-circle').allTextContents(),['18','19','20','21','22','23','24']);
