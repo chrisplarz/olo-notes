@@ -35,3 +35,4 @@ jobs:
       - run: node tests/fort-union.browser.test.cjs
       - run: node tests/visit-polish.browser.test.cjs
       - run: node tests/guided-rituals.browser.test.cjs
+      - run: node tests/activity-indicator.browser.test.cjs

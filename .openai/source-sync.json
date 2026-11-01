@@ -3,7 +3,7 @@
   "github": {
     "remote": "https://github.com/chrisplarz/olo-notes.git",
     "branch": "main",
-    "commit": "0301c56f30d59d28bcaeb5e2d720044390ed4b8f",
+    "commit": "41ee897d714ffb8d0c46124c0c5c129ca5d6b126",
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -20,12 +20,16 @@
       "assets/rituals/mindful-reset.jpg": "21dc0d7df0677fa77ee897f8870fb49d942632de53dde1b65781938a10a527f5",
       "assets/rituals/nordic-contrast.jpg": "e31a2bc858d49b73ce66024fbfbdd8e1b8c6344b0ed4d03b0be70e96176ff7d9",
       "assets/rituals/pure-sauna.jpg": "dd3a383c2fe36435fddbd595ec9b233681f22d40c07c781c8cc9b114fd484851",
+      "assets/rituals/ritual-chevron.svg": "d70361bc75a8ef383bfb7062f672a9af11753b4c320a96d42c3dca24b4f09ddb",
+      "assets/rituals/ritual-dip.png": "2f9f6c90d009a37fdc2af19cf185c721dfa6ede6b87e8438dd38d7f71b2d5cea",
+      "assets/rituals/ritual-lake.png": "21dc0d7df0677fa77ee897f8870fb49d942632de53dde1b65781938a10a527f5",
+      "assets/rituals/ritual-sauna.png": "e31a2bc858d49b73ce66024fbfbdd8e1b8c6344b0ed4d03b0be70e96176ff7d9",
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "c72d1f838078d8908a21b73876ab148b15dcf00a35fbac15fa97b0ee14935f54",
+      "index.html": "fe5cf90c2e084bf07f98cd37618bfc6e237b83658b90b13abfffd944e13149e6",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "83e3e6192002a17b76cd35fb047e946486fc9123af536ba453622a476ab79d7b"
+      "sw.js": "1a18c74729cb4cfb0d5817211e47281d7fc411c754c650d6b314ce813a7c7784"
     }
   },
   "design": {
@@ -76,14 +80,17 @@
         "136:1281",
         "144:2943",
         "143:1921",
-        "144:2677"
+        "144:2677",
+        "133:430",
+        "133:51",
+        "133:48"
       ],
       "reviewed": "2026-11-01",
-      "notes": "Selected approved Visits layout. Existing foundations reused; system file was unavailable to the Olo Apps connection."
+      "notes": "Selected approved Visits layout. Existing foundations reused; system file was unavailable to the Olo Apps connection. Live Timer card and intro aligned; activity dot derives from the running live interval while Guided Session is open."
     }
   },
   "prepared": {
-    "version": 61,
+    "version": 62,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -107,9 +114,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "fe5cf90c2e084bf07f98cd37618bfc6e237b83658b90b13abfffd944e13149e6",
+      "index.html": "b91da1d4d6ae54633ee89b1eac78378d0c53bff0bc5656877b318cebbc773d55",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "1a18c74729cb4cfb0d5817211e47281d7fc411c754c650d6b314ce813a7c7784"
+      "sw.js": "ab9f5a03703a918e5e9d210cf516c277f25428f18bd95c161eecab8f4dfbe529"
     }
   }
 }
