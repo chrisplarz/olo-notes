@@ -90,7 +90,7 @@
     }
   },
   "prepared": {
-    "version": 63,
+    "version": 64,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -114,9 +114,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "048c502b509eea35ec4d44d4ed92f97f4c8555deaf14e9901aa0a49098b10bd1",
+      "index.html": "e917c9af470c14fa8b2e5c8455c73abbf86cd195ef15b176d9619248a1f74276",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "c8a4ddb0981afebaf8f895c3fd8cd902e3ed1199da64ad12b538f6ff3e17bf13"
+      "sw.js": "9191e6bd6f27beccff0bb9388e35b5c8137ca8f86cc13b54a84c7c62f557ad02"
     }
   }
 }
