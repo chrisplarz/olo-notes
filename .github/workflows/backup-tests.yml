@@ -21,6 +21,7 @@ jobs:
       - run: node tests/insights.browser.test.cjs
       - run: node tests/accounts.browser.test.cjs
       - run: node tests/planning.browser.test.cjs
+      - run: node tests/calendar-gestures.browser.test.cjs
       - run: node tests/backup.browser.test.cjs
       - run: node tests/appearance.browser.test.cjs
       - run: node tests/reflection.browser.test.cjs

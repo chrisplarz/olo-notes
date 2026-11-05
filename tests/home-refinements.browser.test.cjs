@@ -8,6 +8,7 @@ for(const width of [320,390,1280])test('home and Visits refinements at '+width+'
  const hero=await page.locator('.hero .actions .btn').evaluateAll(ns=>ns.map(n=>({top:n.getBoundingClientRect().top,bottom:n.getBoundingClientRect().bottom,fits:n.scrollWidth<=n.clientWidth})));
  assert.equal(hero.length,2);assert.ok(Math.abs(hero[0].top-hero[1].top)<1);assert.ok(hero.every(b=>b.fits));
  assert.equal(await page.getByRole('button',{name:'Change thought topic →',exact:true}).count(),0);
+ assert.equal(await page.getByRole('link',{name:'Membership card',exact:true}).getAttribute('href'),'https://loylymemberships.com/card');assert.equal(await page.locator('.home-greeting').isVisible(),true);assert.equal(await page.locator('#page-home').getByText('F4C8E405',{exact:false}).count(),0);
  assert.equal(await page.locator('.sidebar-brand .brand-sub').evaluate(e=>getComputedStyle(e).textTransform),'uppercase');
  assert.equal(await page.locator('.daily-reflection').getAttribute('data-topic'),'tolle');
  assert.equal(await page.locator('.reflection-attribution').textContent(),'Eckhart Tolle');
