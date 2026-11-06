@@ -3,15 +3,30 @@
   "github": {
     "remote": "https://github.com/chrisplarz/olo-notes.git",
     "branch": "main",
-    "commit": "c007690797e8cd46e758f86df7947950b81a5406",
+    "commit": "251d1771b3a054a2eb700723ef343bcf67801199",
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
+      "assets/fonts/lora-LICENSE.txt": "1d9a970809ac804b582a6ce7f0ebc4e7fefcbfd7ff6299cad35ee656a21be716",
+      "assets/fonts/lora.ttf": "822a6621ccbe8d97d20ac88c1c41f5615c9c2c202eaa75f272cd452aac6475a7",
+      "assets/fonts/plus-jakarta-sans-LICENSE.txt": "995c7199cab65954f545996326755daee7b63cc6b42b06c13da1f9502ab08a99",
+      "assets/fonts/plus-jakarta-sans.ttf": "89b3fb38aa0d275d7a731d0d817a4f1622b316b4d7fbdedcf02ee9099ff68bc8",
+      "assets/home-botanical.png": "f7a834d21173279b06d136ed5423b3a9f9aab4d5f2048734273c1034723d6215",
+      "assets/home-texture.png": "98d8cd941e2868510b3f46dc0c401d0141fd20840e1c1697e7b5e602144c7223",
+      "assets/membership-key.svg": "5efc3c11b650748ab28004fd3cd33febfce70a4ef0deb405e233c3f395ff2dc3",
       "assets/mood-1.svg": "47d383b7b80833905f02d9ec732b56042f7020a8f9aeacb44e91f5a682d2ee23",
       "assets/mood-2.svg": "60dd90d0f625e4faa3702e18cb7b4903f7a616c091c31102840a944dbd6a09fd",
       "assets/mood-3.svg": "2587afe474b70f0423e67e9c20a060781a6d0966ad7684c608378cabd8a73c41",
       "assets/mood-4.svg": "97c4927b60099719a84ae3b0ad6df386cf7d7d3f4865f9957ff49f123fad08c8",
       "assets/mood-5.svg": "6926c81f2f7dfa29766c171f1d1e0b87d331d75ea27c26232479c88971c040ec",
+      "assets/mood-filled/1.svg": "cc2ac42e5fddbf41e6645a5032d8790674cbde55442bd8f50cdd8042ea801c55",
+      "assets/mood-filled/2-head.svg": "9861d5434778315a92c942ec9a10da50da3b5f2af609cc69f53f8d77426b19ad",
+      "assets/mood-filled/2-mouth.svg": "2702b9e844357e8c1029623c7f0cc77ede06738c8c4bda7245ae4c33def862a1",
+      "assets/mood-filled/3-head.svg": "d0bfd05774e06e812c17c96c0ad6e3e65d9ca3db3dc1af28ab89fbffb96d0baa",
+      "assets/mood-filled/3-mouth.svg": "24c50b63929428d7027d85732c27b1367b87a241fcf067c5741c10de34428cfa",
+      "assets/mood-filled/4-head.svg": "4fe4f061135334bfcb827c1d019535471fe672ff02d752f00fe359e3979ede39",
+      "assets/mood-filled/4-mouth.svg": "dfdd1ceef75a713c07d26a10c31a62c8fc5197b861abf4f42dbb04a85a52eaf3",
+      "assets/mood-filled/5.svg": "50304ef4e4879c2416b0f252bdc6c92cc9d5b1e1c619063040c524e767cd9f16",
       "assets/olo-activity-prototype.html": "6520f0274ebd034e05f832feeae395fad4a4247d51ddff153553bcf329d10a96",
       "assets/olo-notes-logo-ui.svg": "b67ef6563e35112dda67fbdcb094fc37518c01c47263f90e9c383117cc97d304",
       "assets/olo-notes-logo.svg": "18525245edda1917281b042d570b55f11e6070c8a6a3fd71fd2acf6e1ca0df0b",
@@ -27,9 +42,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "08a292acb4650f6602c82d254331c0729cf6eda137883e064cb718317b231c7c",
+      "index.html": "17f15bae41dfa47aa4199c6880af458704402e3f4309019989065b4ccb9abea5",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "654d72dc7ea0bd25b10d7d66c5b04db71ea717a5ce0f2873973876103699acd6"
+      "sw.js": "743f76c84621e82b05a12ec0e62b9b9850037a3542504881e3b46803158bb9c7"
     }
   },
   "design": {
@@ -102,7 +117,7 @@
     }
   },
   "prepared": {
-    "version": 74,
+    "version": 77,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -141,9 +156,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "17f15bae41dfa47aa4199c6880af458704402e3f4309019989065b4ccb9abea5",
+      "index.html": "ea9de5c0bf90651dec7e7d57ffb428b40d1087658cae3f2f4243ca1e29dc0850",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "743f76c84621e82b05a12ec0e62b9b9850037a3542504881e3b46803158bb9c7"
+      "sw.js": "a4fb53d4d936a9e0db8071b0d892c104d78bde96236a5e29cd9a2e0f227661a9"
     }
   }
 }
