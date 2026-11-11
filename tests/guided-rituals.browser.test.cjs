@@ -1,4 +1,3 @@
-// Authored for the next testing batch; no browser suite was run in this task.
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
@@ -28,10 +27,10 @@ for(const width of [320,390,1280])test(`presets, editing and independent Live Ti
   assert.equal(await page.getByRole('button',{name:'Post-visit entry',exact:true}).count(),0);
   assert.match(await page.locator('.guided-presets').textContent(),/19m/);assert.match(await page.locator('.guided-presets').textContent(),/10m 30s/);
   await page.getByRole('button',{name:/Mindful Reset/}).click();
-  assert.equal(await page.evaluate(()=>guidedPreview.phase),'preview');assert.equal(await page.evaluate(()=>guidedPreview.startedAt),null);assert.equal(await page.evaluate(()=>draft),null);
+  assert.equal(await page.evaluate(()=>guidedPreview.phase),'preview');assert.equal(await page.evaluate(()=>guidedPreview.startedAt),null);assert.equal(await page.evaluate(()=>draft),null);assert.equal(await page.evaluate(()=>db.guidedRitual==null),true);
   await page.getByRole('button',{name:/Increase step 1 by 30 seconds/}).click();assert.equal(await page.evaluate(()=>guidedPreview.steps[0].plannedMs),510000);
   await page.getByRole('button',{name:'Add step',exact:true}).click();assert.equal(await page.locator('.guided-step').count(),4);
-  await page.locator('#guidedActivity3').selectOption('cold');await page.getByRole('button',{name:'Move step 4 up',exact:true}).click();
+  await page.locator('#guidedActivity3').selectOption('cold');await page.getByRole('button',{name:'Reorder step 4',exact:true}).press('ArrowUp');
   assert.equal(await page.evaluate(()=>guidedPreview.steps[2].activity),'cold');
   await page.getByRole('button',{name:'Remove step 3',exact:true}).click();
   page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Restore preset',exact:true}).click();

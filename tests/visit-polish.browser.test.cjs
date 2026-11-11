@@ -12,6 +12,32 @@ for(const width of [320,390,1280])test('End Visit confirmation, remembered choic
  await page.evaluate(()=>editVisit(db.visits[0].id));assert.equal(await page.getByRole('button',{name:'Add cycle',exact:false}).count(),0);assert.equal(await page.getByRole('button',{name:'Quick log',exact:true}).isDisabled(),true);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.evaluate(()=>{resetManual();sessionTab='timer';renderSessionArea();startInterval('rest');draft.current.startedAt=Date.now()-2000;finishLive()});assert.equal(await page.getByRole('dialog',{name:'End your visit?',exact:true}).count(),0);assert.equal(await page.getByRole('dialog',{name:'How do you feel?',exact:true}).count(),1);
 });
+for(const width of [320,471])test('compact timer and activity states at '+width+'px',async t=>{
+ const page=await boot(t,width);
+ await page.evaluate(()=>nav('journal'));
+ const panel=page.locator('.live-timer-panel');
+ const height=await panel.evaluate(e=>e.getBoundingClientRect().height);
+ const variants=[
+  ['sauna','rgb(227, 196, 176)','rgb(184, 109, 66)','rgb(153, 81, 40)','rgb(153, 81, 40)'],
+  ['cold','rgb(185, 211, 213)','rgb(27, 53, 63)','rgb(110, 159, 171)','rgb(27, 53, 63)'],
+  ['rest','rgb(205, 213, 203)','rgb(36, 53, 47)','rgb(129, 147, 136)','rgb(36, 53, 47)']
+ ];
+ for(const [type,border,color] of variants){
+  const button=page.locator('.activity-btn[data-type="'+type+'"]');
+  assert.deepEqual(await button.evaluate(e=>{const s=getComputedStyle(e);return [s.borderColor,s.color,s.borderWidth]}),[border,color,'1px']);
+ }
+ for(const [type,,,border,color] of variants){
+  await page.evaluate(type=>startInterval(type),type);
+  const button=page.locator('.activity-btn[data-type="'+type+'"]');
+  assert.deepEqual(await button.evaluate(e=>{const s=getComputedStyle(e);return [s.borderColor,s.color,s.borderWidth]}),[border,color,'2px']);
+  const layout=await panel.evaluate(e=>{
+   const box=e.getBoundingClientRect(),eyebrow=e.querySelector('.timer-label').getBoundingClientRect();
+   const [first,second]=Array.from(e.querySelectorAll('.live-timer-actions button'),b=>b.getBoundingClientRect());
+   return {height:box.height,top:eyebrow.top-box.top,bottom:box.bottom-first.bottom,oneRow:first.top===second.top,fit:first.left>=box.left&&second.right<=box.right};
+  });
+  assert.deepEqual(layout,{height,top:22,bottom:22,oneRow:true,fit:true});
+ }
+});
 test('failed End Visit save preserves active timer and does not remember dismissal',async t=>{
  const page=await boot(t);await page.evaluate(()=>{nav('journal');startInterval('cold');draft.current.startedAt=Date.now()-3000;persistDraft()});await page.locator('.timer-panel').getByRole('button',{name:'End Visit',exact:true}).click();await page.getByLabel('Do not show again',{exact:true}).check();await page.evaluate(()=>{const original=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){if(k===KEY)throw Error('quota');return original.call(this,k,v)}});await page.getByRole('dialog').getByRole('button',{name:'End Visit',exact:true}).click();assert.equal(await page.evaluate(()=>draft.current.running),true);assert.equal(await page.evaluate(()=>visitIsEnded(draft)),false);assert.equal(await page.evaluate(()=>localStorage.getItem(ownerKey('olo-hide-end-visit-confirmation-v1'))),null);assert.match(await page.locator('#endVisitError').textContent(),/couldn’t end/);
 });
