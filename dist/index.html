@@ -64,13 +64,13 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .modal .metric-card .stat-number{font-size:clamp(22px,3vw,32px)}.modal .metric-card .stat-unit{display:inline-block}
 
 .interval-length{color:var(--ink);white-space:nowrap}.interval-icon{background:var(--sauna)}.interval-icon.cold{background:var(--cold-bg);color:var(--cold)}.interval-icon.rest{background:var(--rest-bg);color:var(--rest)}
-.activity-btn{--activity-bg:var(--sauna);--activity-accent:var(--heat);--activity-border:var(--metric-press-sauna);background:var(--activity-bg);border-color:var(--activity-border);color:var(--ink);line-height:18.2px;padding:12px;transition:background-color .15s,border-color .15s,box-shadow .15s}
-.activity-btn[data-type=cold]{--activity-bg:var(--cold-bg);--activity-accent:var(--cold);--activity-border:var(--metric-press-cold)}
-.activity-btn[data-type=rest]{--activity-bg:var(--rest-bg);--activity-accent:var(--rest);--activity-border:var(--metric-press-rest)}
-.activity-btn.selected,.activity-btn[data-type=cold].selected,.activity-btn[data-type=rest].selected{background:var(--activity-bg);border-color:var(--activity-accent);color:var(--ink);box-shadow:inset 0 0 0 1px var(--activity-accent)}
-.activity-btn svg{width:20px;height:20px;flex-shrink:0;color:var(--activity-accent)}
+.activity-btn{--activity-bg:var(--sauna);--activity-accent:#b86d42;--activity-selected-accent:#995128;--activity-text:#b86d42;--activity-selected-text:#995128;--activity-border:var(--metric-press-sauna);background:var(--activity-bg);border-color:var(--activity-border);color:var(--activity-text);line-height:18.2px;padding:12px;transition:background-color .15s,border-color .15s,box-shadow .15s}
+.activity-btn[data-type=cold]{--activity-bg:var(--cold-bg);--activity-accent:var(--cold);--activity-selected-accent:var(--cold);--activity-border:var(--metric-press-cold);--activity-text:#1b353f;--activity-selected-text:#1b353f}
+.activity-btn[data-type=rest]{--activity-bg:var(--rest-bg);--activity-accent:var(--rest);--activity-selected-accent:var(--rest);--activity-border:var(--metric-press-rest);--activity-text:var(--ink);--activity-selected-text:var(--ink)}
+.activity-btn[data-type].selected{background:var(--activity-bg);border:2px solid var(--activity-selected-accent,var(--activity-accent));color:var(--activity-selected-text,var(--activity-text));box-shadow:none}
+.activity-btn svg{width:20px;height:20px;flex-shrink:0;color:var(--activity-accent)}.activity-btn.selected svg{color:var(--activity-selected-accent,var(--activity-accent))}
 .activity-btn:focus-visible{outline:2px solid var(--pine);outline-offset:3px}
-@media(hover:hover) and (pointer:fine){.activity-btn:not(:disabled):hover{border-color:var(--activity-accent)}}
+@media(hover:hover) and (pointer:fine){.activity-btn:not(:disabled):hover{border-color:var(--activity-accent)}.activity-btn.selected:not(:disabled):hover{border-color:var(--activity-selected-accent,var(--activity-accent))}}
 .activity-btn:not(:disabled):active,.activity-btn:not(:disabled).is-pressed{background:var(--activity-border)}
 @media(max-width:680px){.activity-btn{padding:8px 3px}.activity-btn svg{width:15px;height:15px}}
 @media(prefers-reduced-motion:reduce){.activity-btn{transition:none}}
@@ -307,6 +307,23 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 
 /* Insights composes existing metric cards, tabs and progress tokens. */
 .insight-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:24px 0}.sync-footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.insight-toolbar .tabs{margin:0}.insight-toolbar label{display:flex;align-items:center;gap:12px}.insight-toolbar select{width:auto;max-width:100%;margin:0}.insight-tabs{margin-top:28px}.insight-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}.insight-row strong{text-align:right;font-weight:600}.insight-note{margin-top:22px!important;line-height:1.8}.insight-chart{gap:10px;margin-bottom:30px}.insight-chart .bar-col{min-width:0}.insight-chart small{font-size:11px}.insight-chart .bar-fill{margin-top:8px}.insight-chart small:first-child{bottom:0}#insightPanel h2{margin-top:0}#insightPanel h3{margin-top:0}#insightPanel .progress-line{margin:14px 0 20px}@media(max-width:680px){.insight-tabs{display:flex;width:100%}.insight-tabs .tab{flex:1;min-width:0;padding:10px 7px}.insight-chart{gap:5px}.insight-chart small{font-size:10px}.insight-toolbar{align-items:flex-start;flex-direction:column}}
+/* Figma 156:2315: recorded session time by activity. */
+.insight-session-breakdown{min-width:0;padding:21px;border-width:2px;border-radius:29px}
+.insight-session-breakdown h3{margin:0;font:700 21px/1.4 Lora,Georgia,serif;letter-spacing:-.04em}
+.insight-session-donut{display:block;width:min(100%,314px);height:auto;margin:clamp(18px,3vw,30px) auto clamp(18px,6vw,58px);stroke:none;text-anchor:middle}
+.insight-donut-segment{fill:var(--segment-color);stroke:none}
+.insight-donut-segment.is-full{fill:none;stroke:var(--segment-color)}
+.insight-session-breakdown .sauna{--segment-color:var(--heat)}
+.insight-session-breakdown .cold{--segment-color:var(--cold)}
+.insight-session-breakdown .rest{--segment-color:var(--rest)}
+.insight-donut-center{fill:#212023;font-size:14px;font-weight:700}
+.insight-donut-label{fill:#303030;font-size:14px}
+.insight-donut-badge{fill:var(--sand)}
+.insight-donut-percent{fill:var(--ink);font-size:12px;font-weight:700}
+.insight-donut-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin:-4px 0 4px;padding:0;list-style:none}
+.insight-donut-legend li{display:flex;align-items:center;gap:6px;font-size:12px}
+.insight-donut-legend li::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--segment-color)}
+.insight-session-breakdown .empty{margin-top:18px}
 [hidden]{display:none!important}
 
 /* BEGIN GUIDED RITUAL STYLES */
@@ -323,10 +340,22 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .guided-thumb{display:block;width:52px;height:52px;flex:none;border-radius:14px;object-fit:cover;background:var(--mint)}
 .guided-preset-copy{display:grid;gap:7px;min-width:0;flex:1}.guided-preset-copy strong{font:600 14px Lora,Georgia,serif}.guided-preset-copy>span{font-size:12px;line-height:1.65;color:var(--pine2)}.guided-preset-copy small{font-size:11px;color:var(--pine2)}.guided-preset .chevron{flex:none;color:var(--pine)}
 .guided-back{display:inline-flex;align-items:center;min-height:44px;margin:-8px 0 10px}.guided-return{margin-bottom:18px}
-.guided-steps{list-style:none;padding:0;display:grid;gap:12px;margin:22px 0 18px}.guided-step{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--paper)}
-.guided-step-heading{display:flex;align-items:center;gap:12px}.guided-step-heading .field{flex:1;margin:0}.guided-step-heading select{font-size:16px;min-height:44px}
-.guided-step-number{display:grid;place-items:center;width:28px;height:28px;flex:none;border-radius:50%;background:var(--rest-bg);font-size:12px;color:var(--pine)}
-.guided-step-controls{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;padding-left:40px}.guided-duration,.guided-order{display:flex;align-items:center;gap:2px}.guided-duration{border:1px solid var(--line);border-radius:12px}.guided-duration output{min-width:58px;text-align:center;font:600 13px Lora,Georgia,serif}.guided-duration .icon-btn{font-size:22px}.guided-order .icon-btn{font-size:18px}
+.guided-steps{list-style:none;padding:0;display:grid;gap:8px;margin:22px 0 18px}
+.guided-step{display:grid;grid-template-columns:28px minmax(0,1fr) auto 32px;align-items:center;gap:6px;border:1px solid var(--line);border-radius:14px;padding:8px;background:var(--paper)}
+.guided-step .field{min-width:0;margin:0}
+.guided-step select{min-height:44px;font-size:16px;padding-inline:6px}
+.guided-step .icon-btn{min-width:0;min-height:44px;padding:0}
+.guided-step .guided-grip{font-size:18px;cursor:grab;touch-action:none;user-select:none}
+.guided-step.is-dragging{opacity:.6}
+.guided-step.is-drop-target{outline:2px solid var(--moss);outline-offset:1px}
+.guided-duration{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px}
+.guided-duration output{min-width:38px;text-align:center;font:600 13px Lora,Georgia,serif}
+.guided-duration .icon-btn{width:28px;font-size:22px}
+@media(max-width:380px){
+ .guided-step{grid-template-columns:28px minmax(0,1fr) 32px}
+ .guided-step .guided-duration{grid-column:2/4;grid-row:2;justify-self:end}
+ .guided-step .guided-remove{grid-column:3;grid-row:1}
+}
 .guided-edit-actions{align-items:center;margin-bottom:24px}.guided-start{margin-top:22px}.guided-destructive{margin-left:auto;color:var(--button-danger)}
 .guided-panel{margin-top:18px}.guided-panel h3{font-size:24px;font-weight:500;margin:18px 0 0}.guided-panel .timer-value{font-variant-numeric:tabular-nums}.guided-panel .timer-hint{min-height:42px;line-height:1.7;color:var(--pine2)}
 .guided-progress{height:5px;overflow:hidden;border-radius:999px;background:var(--paper);margin:24px 0 16px}.guided-progress>span{display:block;height:100%;border-radius:inherit;background:var(--pine);transition:width 250ms linear}.guided-timing{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 24px;font-size:12px;color:var(--pine2)}.guided-timing strong{margin-left:5px;font-variant-numeric:tabular-nums}
@@ -336,7 +365,7 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .guided-history-name{color:var(--pine);font-size:12px;line-height:1.7;margin:8px 0 0}.guided-resume-note{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.guided-resume-note .text-btn{min-height:44px}.guided-resume-note p{margin:0;font-size:12px}
 @keyframes guided-appear{from{opacity:.65}to{opacity:1}}
 @media(max-width:800px){.guided-presets{grid-template-columns:1fr}}
-@media(max-width:480px){.guided-preset{padding:16px 12px;gap:12px}.guided-step{padding:10px}.guided-step-controls{padding-left:0;flex-wrap:wrap}.guided-duration output{min-width:55px}.guided-order{margin-left:auto}.guided-table-wrap table{font-size:11px}.guided-summary th,.guided-summary td{padding:10px 6px}.guided-review-step .fields-2{grid-template-columns:1fr}.guided-active-actions .btn{flex:1 1 130px}.guided-experience .dialog-button-bar{align-items:stretch}.guided-experience .dialog-button-bar>.btn{flex:1 1 130px}.guided-destructive{margin-left:0}}
+@media(max-width:480px){.guided-preset{padding:16px 12px;gap:12px}.guided-table-wrap table{font-size:11px}.guided-summary th,.guided-summary td{padding:10px 6px}.guided-review-step .fields-2{grid-template-columns:1fr}.guided-active-actions .btn{flex:1 1 130px}.guided-experience .dialog-button-bar{align-items:stretch}.guided-experience .dialog-button-bar>.btn{flex:1 1 130px}.guided-destructive{margin-left:0}}
 @media(prefers-reduced-motion:reduce){.guided-experience{animation:none}.guided-preset,.guided-progress>span{transition:none}}
 /* Visit panel — Olo Notes Figma 144:2943 / 143:1921. */
 #page-journal>.lede{max-width:896px}
@@ -346,7 +375,8 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .visit-session-card .guided-tabs .tab{height:44px;display:flex;align-items:center;gap:7px;padding:10px 15px;color:var(--pine2)}
 .visit-session-card .guided-tabs .tab.active{background:#35564b;color:white;box-shadow:0 2px 9px #344b3a12}
 .visit-session-card .guided-tabs svg{width:16px;height:16px}
-.live-timer-indicator{display:block;width:6px;height:6px;flex:none;border-radius:50%;background:var(--heat)}
+.live-timer-indicator{display:block;width:6px;height:6px;flex:none;border-radius:50%}
+.live-timer-indicator[data-type=sauna]{background:var(--heat)}
 .live-timer-indicator[data-type=cold]{background:var(--cold)}
 .live-timer-indicator[data-type=rest]{background:var(--rest)}
 .visit-session-card .guided-experience{padding-top:20px}
@@ -360,7 +390,16 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 /* Live Timer card — selected Figma 133:430. */
 .visit-session-card .timer-panel:not(.guided-panel){min-height:323px}
 .visit-session-card .activity-options{gap:16px;margin:16px 0}
-.visit-session-card .activity-btn{min-height:66px}
+.visit-session-card .activity-btn{min-height:52px;font-size:14px;line-height:18px}
+#page-insights>.stats>.metric-sauna{background:#f3e0cb}
+#page-insights>.stats>.metric-cold{background:var(--cold-bg)}
+#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-label{line-height:14px;min-height:28px;margin-bottom:14px}
+#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-number{font:700 40px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:-.05em;color:var(--ink)}
+#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-unit{font-size:11px;line-height:16px;margin-left:0}
+#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-bottom{display:none}
+@media(max-width:680px){
+ #page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-number{font-size:27px}
+}
 .visit-session-card .session-divider{height:1px;background:var(--line);margin-bottom:16px}
 .visit-session-card .intention-card-botanical{background:var(--paper);border-color:#8da995;border-left-width:6px;margin:0}
 /* Keep the intention action aligned with the switch and panel edge. */
@@ -380,7 +419,7 @@ body::after{background:url('./assets/home-botanical.png') no-repeat right -72px 
 .home-greeting{margin:0 0 32px}.hero{min-height:318px}.hero-content{width:100%;max-width:460px}.hero h2{max-width:460px}.hero p{margin:14px 0 0}.hero .actions{margin-top:14px}
 .hero:after{inset:0;width:auto;height:auto;border-radius:inherit;background:url('./assets/home-texture.png') no-repeat left top,radial-gradient(ellipse at 80% 100%,#6b8d75,transparent 70%);background-size:512px 512px,auto;opacity:.12;pointer-events:none}
 .home-activity .stat-number{font-family:'Plus Jakarta Sans',sans-serif}.day-number{font-family:Lora,Georgia,serif}
-.home-support{align-items:start}.home-support .daily-reflection{min-height:291px}.home-support>.fort-union-card{min-height:291px}
+.home-support{align-items:start}.home-support>.fort-union-card{min-height:291px}
 .thought-heading{display:flex;align-items:center;gap:8px}.thought-heading>svg{width:24px;height:24px;flex:none;color:var(--pine2)}
 .home-thought .reflection-preview{display:block;padding:16px 24px 24px}.home-thought .reflection-heading{padding:0}.home-thought .reflection-title{font-size:23px;line-height:1.6}.home-thought .reflection-header{padding:24px 24px 0}.home-thought .reflection-hint{margin-top:24px}
 .fort-union-card{display:flex;flex-direction:column;padding:24px;gap:16px}.fort-union-heading{width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -402,24 +441,105 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 
 .visit-moods{display:flex;gap:32px;flex-wrap:wrap;margin-top:22px}.visit-mood{box-sizing:border-box;background:#fff;border:1px solid var(--line,#e5e7df);border-radius:8px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:94px;color:var(--ink)}.visit-mood-title{font-size:12px;font-weight:700;line-height:16px}.visit-mood-value{display:flex;flex-direction:column;align-items:center;font-size:11px;line-height:18px}.saved-mood-face{position:relative;display:block;width:48px;height:48px}.saved-mood-face>img{position:absolute;inset:0;width:48px;height:48px}.saved-mood-mouth{position:absolute;display:block}.saved-mood-mouth img{position:absolute;width:100%;height:100%}.saved-mood-eyes{position:absolute;display:block;width:4.669px;height:4.582px;border-radius:6px;background:#373435;box-shadow:17.12px 0 #373435}.saved-mood-2 .saved-mood-mouth{left:11.12px;top:30.33px;width:25.792px;height:6.764px;transform:scaleY(-1)}.saved-mood-2 .saved-mood-mouth img{left:15.6%;top:16.66%;width:72.15%;height:83.34%}.saved-mood-2 .saved-mood-eyes{left:13.12px;top:19.61px}.saved-mood-3 .saved-mood-mouth{left:15.75px;top:32.25px;width:17.25px;height:3px}.saved-mood-3 .saved-mood-eyes{left:12.75px;top:18.11px}.saved-mood-4 .saved-mood-mouth{left:11.12px;top:30.33px;width:25.792px;height:8.295px}.saved-mood-4 .saved-mood-mouth img{left:13.05%;top:16.27%;width:76.51%;height:83.73%}.saved-mood-4 .saved-mood-eyes{left:13.12px;top:17.37px}.visit-mood-missing{height:48px;display:grid;place-items:center;color:var(--muted);font-size:24px}
 .modal .stats.visit-detail-stats>.metric-card .stat-number{font-family:'Plus Jakarta Sans',sans-serif}.modal .visit-detail-stats{gap:16px}.visit-detail-intention .intention-text{font-size:12px;line-height:1.65;margin-top:4px}.visit-detail-notes{margin-top:24px}.visit-detail-notes h3{font:700 12px/1.5 'Plus Jakarta Sans',sans-serif;margin:0 0 8px}.visit-detail-notes p{margin:0;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}@media(max-width:680px){.modal .visit-detail-stats{gap:10px}}
-.home-week-description,.fort-union-details{--home-detail-size:14px}.fort-union-details .fort-union-address,.fort-union-details .fort-union-hours{font-size:var(--home-detail-size);line-height:1.6}.fort-union-details{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}.fort-union-hours dd{white-space:normal}.fort-union-card{container-type:inline-size}@container(max-width:400px){.fort-union-details{grid-template-columns:1fr;gap:16px}.fort-union-details .fort-union-hours{border-left:0;padding-left:0;max-width:none}}@media(max-width:680px){.home-week-description,.fort-union-details{--home-detail-size:13px}}
+.home-week-description,.fort-union-details{--home-detail-size:14px}
+.fort-union-details .fort-union-address,.fort-union-details .fort-union-hours{font-size:var(--home-detail-size);line-height:1.6}
+.fort-union-details{--details-gap:clamp(12px,3vw,28px);grid-template-columns:minmax(0,1fr) max-content;gap:var(--details-gap)}
+.fort-union-address a{overflow-wrap:anywhere}
+.fort-union-details .fort-union-hours{position:relative;border-left:0;padding-left:0;column-gap:clamp(5px,1vw,12px);max-width:none;white-space:nowrap}
+.fort-union-details .fort-union-hours::before{content:"";position:absolute;inset-block:0;inset-inline-start:calc(var(--details-gap) / -2);width:1px;background:var(--line)}
+
+@media(max-width:680px){.home-week-description,.fort-union-details{--home-detail-size:13px}}
 .visit-session-card .session-timeline-heading{margin-top:24px;margin-bottom:16px}
 
-/* The date and trailing icon share the form's available width. */
 .planner-modal #visitPlanForm,.planner-modal #visitPlanForm>.field{min-width:0;max-width:100%}
-.planner-date-group{display:flex;align-items:center;gap:8px;width:100%;min-width:0;max-width:100%}
-.planner-modal .planner-date-group #planDate{-webkit-appearance:none;appearance:none;box-sizing:border-box;display:block;flex:1 1 0;width:0;min-width:0;max-width:100%;height:48px;min-height:48px;max-height:48px;line-height:22px}
-.planner-date-icon{display:flex;align-items:center;justify-content:center;flex:0 0 20px;width:20px;color:var(--pine2)}
-.planner-date-icon svg{width:20px;height:20px}
+.planner-modal #planDate{appearance:auto;box-sizing:border-box;display:block;width:100%;height:48px;min-width:0;line-height:22px}
+.planner-modal #planDate::-webkit-calendar-picker-indicator{width:20px;height:20px;cursor:pointer}
 .planner-modal #planDate::-webkit-datetime-edit{padding:0;min-width:0}
 .planner-modal #planDate::-webkit-date-and-time-value{padding:0;min-width:0;line-height:22px}
+/* Live timer: Figma 5llaPZGBZKivU67LTDfS7c, Timer panel 6:324 / Button 3:441.
+   Number/Timer desktop: uUSYiwpSoqZGEJdG9Jfksi 177:7329.
+   Use timer-specific desktop/mobile styles; preserve ripple motion and messaging. */
+.live-timer-panel{--olo-type-number-timer-desktop:100px;--olo-type-number-timer-mobile:65px;--timer-button-bg:var(--button-light);--timer-button-hover:#fffffb;--timer-button-text:var(--pine);--timer-button-focus:var(--pine);--timer-info-color:var(--button-light)}
+.live-timer-panel .timer-value{font-family:'Plus Jakarta Sans',sans-serif;font-size:var(--olo-type-number-timer-desktop);font-weight:500;line-height:1.15;letter-spacing:-.065em;font-variant-numeric:tabular-nums;color:#fff}
+@media(max-width:680px){
+ .visit-session-card .timer-panel.live-timer-panel:not(.guided-panel){min-height:0}
+ .live-timer-panel{display:flex;flex-direction:column;align-items:center;gap:18px;padding:22px 15px}
+ .live-timer-panel>.live-timer-readout{width:100%;text-align:center}
+ .live-timer-panel .timer-value{font-size:var(--olo-type-number-timer-mobile);text-indent:.065em;margin:0 0 6px}
+ .live-timer-panel .timer-hint{width:100%;margin:0;text-align:center;line-height:18px}
+ .visit-session-card .activity-btn{align-items:center;justify-content:center;text-align:center;font-size:clamp(10px,2.8vw,14px);gap:clamp(3px,1.3vw,9px)}
+ .visit-session-card .activity-btn svg{width:19.5px;height:19.5px}
+}
+.live-timer-panel .timer-label,.live-timer-panel .timer-hint{color:#c3d2c6}
+.live-timer-panel:is(.sauna,.cold,.rest){--timer-button-bg:var(--pine);--timer-button-hover:#1b3d37;--timer-button-text:#fff}
+.live-timer-panel:is(.cold,.rest) .timer-value{color:var(--ink)}
+.live-timer-panel:is(.cold,.rest) .timer-label{color:var(--pine2)}
+.live-timer-panel:is(.cold,.rest) .timer-hint{color:#52665b}
+.live-timer-panel.sauna{--timer-button-bg:var(--button-danger);--timer-button-hover:#b55548;--timer-button-focus:var(--heat);--timer-end-bg:var(--sauna);--timer-end-text:var(--button-danger);--timer-end-border:#b55548;--timer-info-color:var(--button-danger)}
+.live-timer-panel.cold{--timer-button-bg:#1b353f;--timer-button-hover:#254652;--timer-button-focus:#1b353f;--timer-end-bg:var(--cold-bg);--timer-end-text:var(--pine);--timer-end-border:#1b353f;--timer-info-color:#1b353f}
+.live-timer-panel.rest{--timer-button-bg:var(--pine);--timer-button-hover:#254a43;--timer-button-focus:var(--pine);--timer-end-bg:var(--rest-bg);--timer-end-text:var(--pine);--timer-end-border:var(--pine);--timer-info-color:var(--pine)}
+.live-timer-panel .timer-info-button{color:var(--timer-info-color)}
+.live-timer-panel.sauna :is(.timer-value,.timer-label,.timer-hint){color:#9b3b2f}
+.live-timer-panel>.live-timer-actions{justify-content:center;flex-wrap:nowrap;margin-top:25px}
+.live-timer-panel>.live-timer-actions>.btn{min-height:45px;white-space:nowrap}
+@media(max-width:680px){
+ .live-timer-panel>.live-timer-actions{align-self:center;width:100%;margin-top:0;gap:8px}
+ .live-timer-panel>.live-timer-actions>.btn{min-height:44px;padding:10px clamp(9px,3vw,18px)}
+ .live-timer-panel>.live-timer-actions>.btn-outline{padding-block:9px}
+}
+@media(max-width:420px){
+ .live-timer-panel>.timer-label{font-size:clamp(9px,2.6vw,11px);letter-spacing:.15em}
+ .live-timer-panel .timer-hint{min-height:36px;display:grid;place-items:center}
+ .live-timer-panel .timer-value{font-size:clamp(46px,18vw,var(--olo-type-number-timer-mobile));line-height:1.15;min-height:74.75px;display:grid;align-items:center}
+ .visit-session-card .activity-options{gap:clamp(6px,2.2vw,16px)}
+}
+.live-timer-panel .actions>.btn{font-size:14px;line-height:18px;transition:background-color .15s,color .15s,box-shadow .15s}
+.live-timer-panel .live-timer-primary{width:170px;max-width:100%;background:var(--timer-button-bg);color:var(--timer-button-text)}
+.live-timer-panel .btn.live-timer-end{background:var(--timer-end-bg,transparent);color:var(--timer-end-text,var(--pine));border:1px solid var(--timer-end-border,var(--pine))}
+.live-timer-panel .actions>.btn:focus-visible{outline:0;box-shadow:inset 0 0 0 2px var(--pine)}
+.live-timer-panel .live-timer-primary:focus-visible{box-shadow:inset 0 0 0 2px var(--timer-button-focus)}
+.live-timer-panel .actions>.btn:disabled{opacity:.4;filter:none}
+@media(hover:hover){.live-timer-panel .actions>.btn:not(:disabled):hover{filter:none}.live-timer-panel .live-timer-primary:not(:disabled):hover{background:var(--timer-button-hover)}.live-timer-panel .btn.live-timer-end:not(:disabled):hover{border-color:var(--timer-end-border,var(--pine));background:color-mix(in srgb,var(--timer-end-text,var(--pine)) 8%,var(--timer-end-bg,transparent));filter:none}}
+@media(prefers-reduced-motion:reduce){.live-timer-panel .actions>.btn{transition:none}}
+/* Insights activity chart · Figma 6:463 */
+.mood-chart-card{min-width:0}
+.mood-chart-header{display:flex;align-items:flex-start;gap:8px}
+#insightPanel .mood-chart-header h3{font:700 21px/1.4 Lora,Georgia,serif;letter-spacing:-.04em;margin:0 0 8px}
+.mood-chart-header p{font-size:11px;line-height:16px;margin:0}
+.mood-chart-card summary{list-style:none;cursor:pointer}
+.mood-chart-card summary::-webkit-details-marker{display:none}
+.mood-chart-card summary:focus-visible{outline:2px solid var(--pine);outline-offset:1px;border-radius:6px}
+.mood-chart-info{position:relative;flex:none}
+.mood-chart-info summary{display:grid;place-items:center;width:32px;height:32px;color:var(--pine)}
+.mood-chart-info summary span{display:grid;place-items:center;width:20px;height:20px;border:1px solid currentColor;border-radius:50%;font:600 13px Georgia,serif}
+.mood-chart-info p{position:absolute;left:0;top:38px;z-index:4;width:min(252px,calc(100vw - 72px));padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);box-shadow:var(--shadow);color:var(--ink)}
+.mood-chart-plot{position:relative;display:grid;grid-template-columns:repeat(var(--mood-chart-columns),minmax(0,1fr));margin-top:24px}
+.mood-chart-column{min-width:0}
+.mood-chart-column summary{display:grid;grid-template-rows:134px 16px;justify-items:center;gap:8px;color:var(--ink);font-size:11px;line-height:16px;text-align:center}
+.mood-chart-stack{align-self:end;display:flex;flex-direction:column;gap:1px;width:min(30px,calc(100% - 4px));border-radius:6px;overflow:hidden}
+.mood-chart-stack:empty{height:1px;background:var(--mint)}
+.mood-chart-segment{display:block;border-radius:2px}
+.mood-chart-segment[data-activity=sauna]{background:var(--heat)}
+.mood-chart-segment[data-activity=cold]{background:var(--cold)}
+.mood-chart-segment[data-activity=rest]{background:var(--rest)}
+.mood-chart-tooltip{position:absolute;z-index:3;bottom:calc(var(--mood-stack-height) + 33px);left:clamp(58px,var(--mood-chart-x),calc(100% - 58px));width:max-content;min-width:90px;max-width:116px;transform:translateX(-50%);padding:8px 12px;border:1px solid #d9d9d9;border-radius:8px;background:white;box-shadow:0 1px 3px #0c0c0d26;font-size:14px;line-height:1.4;text-align:center;pointer-events:none}
+.mood-chart-tooltip-arrow{position:absolute;left:calc(50% - 4px);bottom:-5px;width:8px;height:8px;transform:rotate(45deg)}
+.mood-chart-tooltip-arrow img{position:absolute;inset:0}
+.mood-chart-tooltip .mood-chart-time{display:block;overflow-wrap:anywhere}
+.mood-chart-time[data-activity=sauna]{color:#9b6a3f}
+.mood-chart-time[data-activity=cold]{color:#1b353f}
+.mood-chart-time[data-activity=rest]{color:#52665b}
+.mood-chart-averages{margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}
+.mood-chart-averages h3{margin-bottom:4px}
+.mood-chart-averages .insight-row:last-child{border-bottom:0;padding-bottom:0}
+@media(max-width:680px){.mood-chart-plot[data-period=year] summary{font-size:clamp(8px,2.5vw,11px)}}
 </style>
 <script>
 // Gate the first paint only when a daily intro is eligible. No journal data is changed.
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="77">
+<meta name="olo-release" content="87">
 </head>
 <body>
 <div class="app">
@@ -561,10 +681,9 @@ function mergeGuidedLocalDrafts(incoming){
 }
 function guidedOtherSessionMarkup(){
   const r=db.guidedRitual,otherGuided=guidedMode==='timer'&&r&&['active','review'].includes(r.phase);
-  const otherLive=guidedMode==='guided'&&draft?.current;
   if(guidedMode==='guided'&&db.guidedRitualEdit?.phase==='review'&&r&&['active','review'].includes(r.phase))return `<aside class="guided-resume-note"><p>${guidedEditHidden?'You have unsaved edits to a journal visit.':r.phase==='review'?'Your current ritual is also ready to review.':`Your current ritual is ${r.runningSince===null?'paused or waiting':'still timing'}.`}</p><button type="button" class="text-btn" onclick="guidedEditHidden=!guidedEditHidden;guidedRenderFocus()">${guidedEditHidden?'Return to visit edits':'Return to current ritual'}</button></aside>`;
   if(guidedMode==='guided'&&guidedEditHidden&&db.guidedRitualEdit?.phase==='review')return `<aside class="guided-resume-note"><p>You have unsaved edits to a journal visit.</p><button type="button" class="text-btn" onclick="guidedEditHidden=false;guidedRenderFocus()">Return to visit edits</button></aside>`;
-  if(otherGuided||otherLive)return `<aside class="guided-resume-note"><p>${otherGuided?(r.phase==='review'?'Your guided ritual is ready to review.':`Your guided ritual is ${r.runningSince===null?'paused or waiting':'still timing'}.`):`Live Timer is ${draft.current.running?'still timing':'paused'}.`}</p><button type="button" class="text-btn" onclick="setGuidedMode('${otherGuided?'guided':'timer'}')">${otherGuided?'Return to Guided':'Return to Live Timer'}</button></aside>`;
+  if(otherGuided)return `<aside class="guided-resume-note"><p>${r.phase==='review'?'Your guided ritual is ready to review.':`Your guided ritual is ${r.runningSince===null?'paused or waiting':'still timing'}.`}</p><button type="button" class="text-btn" onclick="setGuidedMode('guided')">Return to Guided</button></aside>`;
   return '';
 }
 function guidedFresh(slot){
@@ -615,12 +734,53 @@ function chooseGuidedPreset(presetId){
   if(guidedCommit(next,'guidedRitual'))guidedFocus('guidedTitle');
 }
 function guidedPreviewMarkup(r){return `<section class="card guided-experience" aria-labelledby="guidedTitle"><button type="button" class="text-btn guided-back" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">← All rituals</button>${guidedHeading(r.name,r.templateSnapshot.description)}<p class="pill">${r.steps.length} steps · ${guidedTime(OloRituals.plannedMs(r))} planned</p><p class="small guided-copy">Adjust each step in 30-second increments. These changes are just for this visit.</p><ol class="guided-steps">${r.steps.map((s,i)=>guidedStepEditor(s,i,r.steps.length)).join('')}</ol><div class="actions guided-edit-actions"><button type="button" class="btn btn-outline" onclick="guidedAddStep()" ${r.steps.length>=100?'disabled':''}>${icon('plus')} Add step</button><button type="button" class="text-btn" onclick="guidedRestorePreset()">Restore preset</button></div><div class="field"><label for="guidedIntention">Intention (optional)</label><textarea id="guidedIntention" maxlength="200" oninput="guidedField('intention',this.value)">${esc(r.intention)}</textarea></div><div class="dialog-button-bar guided-start"><button type="button" class="btn" onclick="startGuidedRitual()">${icon('play')} Start Ritual</button><button type="button" class="btn btn-outline" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">Back to rituals</button></div>${guidedSafety()}</section>`}
-function guidedStepEditor(s,i,count){return `<li class="guided-step" id="guidedStep${i}"><div class="guided-step-heading"><span class="guided-step-number">${i+1}</span><div class="field"><label for="guidedActivity${i}" class="sr-only">Activity for step ${i+1}</label><select id="guidedActivity${i}" onchange="guidedEditStep(${i},'activity',this.value)">${Object.entries(OloRituals.activities).map(([key,a])=>`<option value="${key}" ${s.activity===key?'selected':''}>${a.label}</option>`).join('')}</select></div></div><div class="guided-step-controls"><div class="guided-duration" role="group" aria-label="Step ${i+1} planned duration"><button type="button" class="icon-btn" id="guidedMinus${i}" aria-label="Decrease step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs<=30000?'disabled':''} onclick="guidedAdjust(${i},-30000)">−</button><output id="guidedDuration${i}" aria-live="polite">${guidedTime(s.plannedMs)}</output><button type="button" class="icon-btn" id="guidedPlus${i}" aria-label="Increase step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs>=86400000?'disabled':''} onclick="guidedAdjust(${i},30000)">+</button></div><div class="guided-order" role="group" aria-label="Reorder step ${i+1}"><button type="button" class="icon-btn" aria-label="Move step ${i+1} up" ${i===0?'disabled':''} onclick="guidedMoveStep(${i},-1)">↑</button><button type="button" class="icon-btn" aria-label="Move step ${i+1} down" ${i===count-1?'disabled':''} onclick="guidedMoveStep(${i},1)">↓</button><button type="button" class="icon-btn" aria-label="Remove step ${i+1}" ${count===1?'disabled':''} onclick="guidedRemoveStep(${i})">${icon('trash')}</button></div></div></li>`}
+function guidedStepEditor(s,i,count){return `<li class="guided-step" id="guidedStep${i}" data-step-index="${i}"><button type="button" class="icon-btn guided-grip" id="guidedGrip${i}" aria-label="Reorder step ${i+1}" aria-description="Drag to reorder, or use the up and down arrow keys." onkeydown="guidedStepKey(event,${i})" onpointerdown="beginGuidedDrag(event,${i})"><span aria-hidden="true">⠿</span></button><div class="field"><label for="guidedActivity${i}" class="sr-only">Activity for step ${i+1}</label><select id="guidedActivity${i}" onchange="guidedEditStep(${i},'activity',this.value)">${Object.entries(OloRituals.activities).map(([key,a])=>`<option value="${key}" ${s.activity===key?'selected':''}>${a.label}</option>`).join('')}</select></div><div class="guided-duration" role="group" aria-label="Step ${i+1} planned duration"><button type="button" class="icon-btn" id="guidedMinus${i}" aria-label="Decrease step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs<=30000?'disabled':''} onclick="guidedAdjust(${i},-30000)">−</button><output id="guidedDuration${i}" aria-live="polite">${guidedTime(s.plannedMs)}</output><button type="button" class="icon-btn" id="guidedPlus${i}" aria-label="Increase step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs>=86400000?'disabled':''} onclick="guidedAdjust(${i},30000)">+</button></div><button type="button" class="icon-btn guided-remove" aria-label="Remove step ${i+1}" ${count===1?'disabled':''} onclick="guidedRemoveStep(${i})">${icon('trash')}</button></li>`}
 function guidedEditStep(index,key,value){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||!r.steps[index])return;if(key==='activity'&&!Object.hasOwn(OloRituals.activities,value))return;r.steps[index][key]=value;guidedCommit(r,'guidedRitual');guidedFocus('guidedActivity'+index)}
 function guidedAdjust(index,delta){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||!r.steps[index])return;r.steps[index].plannedMs=Math.min(86400000,Math.max(30000,r.steps[index].plannedMs+delta));if(guidedCommit(r,'guidedRitual'))guidedFocus((delta>0&&r.steps[index].plannedMs<86400000?'guidedPlus':delta<0&&r.steps[index].plannedMs>30000?'guidedMinus':'guidedActivity')+index)}
 function guidedAddStep(){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||r.steps.length>=100)return;r.steps.push(OloRituals.newStep('rest',300000,id));if(guidedCommit(r,'guidedRitual'))guidedFocus('guidedActivity'+(r.steps.length-1))}
 function guidedRemoveStep(index){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||r.steps.length<=1)return;r.steps.splice(index,1);if(guidedCommit(r,'guidedRitual'))guidedFocus('guidedActivity'+Math.min(index,r.steps.length-1))}
-function guidedMoveStep(index,direction){const r=structuredClone(guidedPreview),to=index+direction;if(r?.phase!=='preview'||!r.steps[index]||to<0||to>=r.steps.length)return;[r.steps[index],r.steps[to]]=[r.steps[to],r.steps[index]];if(guidedCommit(r,'guidedRitual'))guidedFocus('guidedActivity'+to)}
+function guidedMoveStep(from,to){
+ const preview=structuredClone(guidedPreview);
+ if(preview?.phase!=='preview'||!preview.steps[from]||!preview.steps[to]||from===to)return;
+ const [step]=preview.steps.splice(from,1);
+ preview.steps.splice(to,0,step);
+ if(guidedCommit(preview,'guidedRitual'))guidedFocus('guidedGrip'+to);
+}
+function guidedStepKey(event,index){
+ if(event.key!=='ArrowUp'&&event.key!=='ArrowDown')return;
+ event.preventDefault();
+ guidedMoveStep(index,index+(event.key==='ArrowUp'?-1:1));
+}
+function beginGuidedDrag(event,index){
+ if(!event.isPrimary||event.button!==0)return;
+ const handle=event.currentTarget,row=handle.closest('.guided-step'),list=row.parentElement,preview=guidedPreview;
+ const pointerId=event.pointerId;
+ const listeners=new AbortController();
+ let target=null;
+ handle.setPointerCapture(pointerId);
+ row.classList.add('is-dragging');
+ const hit=event=>{
+  const rowAtPoint=document.elementFromPoint(event.clientX,event.clientY)?.closest('.guided-step');
+  return rowAtPoint?.parentElement===list?rowAtPoint:null;
+ };
+ handle.addEventListener('pointermove',event=>{
+  if(event.pointerId!==pointerId)return;
+  target?.classList.remove('is-drop-target');
+  target=hit(event);
+  if(target!==row)target?.classList.add('is-drop-target');
+ },{signal:listeners.signal});
+ const finish=event=>{
+  if(event.pointerId!==pointerId)return;
+  listeners.abort();
+  row.classList.remove('is-dragging');
+  target?.classList.remove('is-drop-target');
+  const destination=event.type==='pointerup'?hit(event):null;
+  if(destination&&guidedPreview===preview)guidedMoveStep(index,Number(destination.dataset.stepIndex));
+ };
+ for(const type of ['pointerup','pointercancel','lostpointercapture']){
+  handle.addEventListener(type,finish,{signal:listeners.signal});
+ }
+}
 function guidedRestorePreset(){const r=guidedPreview;if(r?.phase!=='preview'||!confirm('Restore the original steps and durations for this ritual?'))return;const next=OloRituals.restore(r,id);if(guidedCommit(next,'guidedRitual'))guidedFocus('guidedTitle')}
 function guidedField(key,value){
   if(!['intention','notes','moodBefore','moodAfter','date'].includes(key))return;
@@ -756,7 +916,7 @@ icons.calendar='<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v
 icons.leaf='<path d="M20 4c-8 0-15 3-15 11a5 5 0 0 0 5 5c8 0 11-7 10-16Z"/><path d="M5 20c3-5 7-8 12-11"/>';
 icons.share='<path d="M12 16V3m-5 5 5-5 5 5"/><path d="M5 13v7h14v-7"/>';
 const sections=[['home','Home','home'],['journal','Visits','book'],['insights','Insights','chart']];
-let db=readStore(),draft=readDraft(),view='home',sessionTab='timer',insightPeriod='week',journalEditingId=null,manualIntervals=[],manualMoodBefore=3,manualMoodAfter=4,manualTags=[],manualMode='quick',manualDate=localDate(),manualNotes='',manualHeat='',manualCold='',manualTemp='',manualHeatTemp='';
+let db=readStore(),draft=readDraft(),view='home',sessionTab='timer',insightPeriod='week',journalEditingId=null,manualIntervals=[],manualMoodBefore=null,manualMoodAfter=null,manualTags=[],manualMode='quick',manualDate=localDate(),manualNotes='',manualHeat='',manualCold='',manualTemp='',manualHeatTemp='';
 function localDate(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
 function readStore(){try{let d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.visits))return {profile:d.profile||{name:'',gender:'',weight:'',goal:3},visits:d.visits,...(Array.isArray(d.plannedVisits)?{plannedVisits:d.plannedVisits.filter(validPlan)}:{}),...(d.pendingIntention?{pendingIntention:d.pendingIntention}:{}),...(d.pendingIntentionNeedsReview?{pendingIntentionNeedsReview:true}:{}),...(Object.hasOwn(d,'activeVisit')?{activeVisit:d.activeVisit}:{}),...(d.syncMeta?{syncMeta:d.syncMeta}:{}),...(d.guidedRitual?{guidedRitual:d.guidedRitual}:{}),...(d.guidedRitualEdit?{guidedRitualEdit:d.guidedRitualEdit}:{})}}catch(e){}return {profile:{name:'',gender:'',weight:'',goal:3},visits:[]}}
 function readDraft(){if(Object.hasOwn(db,'activeVisit'))return db.activeVisit;try{let x=JSON.parse(localStorage.getItem(DRAFTKEY));if(x&&Array.isArray(x.intervals))return x}catch(e){}return null}
@@ -813,10 +973,11 @@ function startOfWeek(d=new Date()){let t=new Date(d);t.setHours(12,0,0,0);t.setD
 function rangeVisits(start,end){return db.visits.filter(v=>v.date>=start&&v.date<=end)}
 const visitDays=vs=>new Set(vs.map(v=>v.date)).size;
 function toast(msg){const root=document.getElementById('toastRoot');root.innerHTML=`<div class="toast">${esc(msg)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>root.innerHTML='',3500)}
-function nav(page){if(page!=='journal')pauseTimerRippleMotion();const enteringHome=page==='home'&&(view!=='home'||!document.querySelector('#page-home .hero'));if(enteringHome){clearHomeRipple();homeRippleKind='entry';homeRipplePending=true}else if(page!=='home'){clearHomeRipple();homeRipplePending=false}if(page!=='profile'){settingsJumpNav?.destroy();settingsJumpNav=null}view=page;document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${page}`));document.querySelectorAll('[data-nav]').forEach(b=>{const active=b.dataset.nav===page;b.classList.toggle('active',active);active?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});renderPage();window.scrollTo(0,0)}
-function navRender(){const settings=document.getElementById('sidebarSettings');if(settings)settings.innerHTML=`<button type="button" data-nav="profile" onclick="nav('profile')">${icon('user')}Settings</button>`;document.getElementById('sideNav').innerHTML=sections.map(([p,t,i])=>`<button data-nav="${p}" onclick="nav('${p}')">${icon(i)}${t}</button>`).join('');document.getElementById('bottomNav').innerHTML=sections.map(([p,t,i])=>`<button type="button" data-nav="${p}" onclick="nav('${p}')"><span class="bottom-nav-content">${icon(i)}<span class="bottom-nav-label">${t}</span></span></button>`).join('');renderWeather();renderAccountControl();renderSyncStatus();}
+function nav(page,fromBottomNav=false){if(page!=='journal')pauseTimerRippleMotion();const enteringHome=page==='home'&&(view!=='home'||!document.querySelector('#page-home .hero'));if(enteringHome){clearHomeRipple();homeRippleKind='entry';homeRipplePending=true}else if(page!=='home'){clearHomeRipple();homeRipplePending=false}if(page!=='profile'){settingsJumpNav?.destroy();settingsJumpNav=null}view=page;document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${page}`));document.querySelectorAll('[data-nav]').forEach(b=>{const active=b.dataset.nav===page;b.classList.toggle('active',active);active?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});renderPage();if(page==='journal'&&fromBottomNav&&matchMedia('(max-width:680px)').matches){window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>{if(view!=='journal')return;const timer=document.querySelector('#sessionArea .timer-panel');if(!timer)return;const rect=timer.getBoundingClientRect(),viewport=window.visualViewport,bottom=Math.min(viewport?viewport.offsetTop+viewport.height:innerHeight,document.getElementById('bottomNav').getBoundingClientRect().top);const top=Math.max(0,Math.min(rect.top-12,rect.bottom-bottom+12));window.scrollTo({top,behavior:'instant'});})}else window.scrollTo(0,0)}
+function navRender(){const settings=document.getElementById('sidebarSettings');if(settings)settings.innerHTML=`<button type="button" data-nav="profile" onclick="nav('profile')">${icon('user')}Settings</button>`;document.getElementById('sideNav').innerHTML=sections.map(([p,t,i])=>`<button data-nav="${p}" onclick="nav('${p}')">${icon(i)}${t}</button>`).join('');document.getElementById('bottomNav').innerHTML=sections.map(([p,t,i])=>`<button type="button" data-nav="${p}" onclick="nav('${p}',true)"><span class="bottom-nav-content">${icon(i)}<span class="bottom-nav-label">${t}</span></span></button>`).join('');renderWeather();renderAccountControl();renderSyncStatus();}
 function renderPage(){document.getElementById('pageEyebrow').textContent={journal:'Make space to reset',insights:'Notice your rhythm'}[view]||'The art of feeling well';applyAppearance();({home:renderHome,journal:renderJournal,insights:renderInsights,profile:renderProfile}[view])()}
 function beginManual(){resetManual();sessionTab='manual';nav('journal')}
+function closeManual(){if(view!=='journal'||sessionTab!=='manual'||journalEditingId)return;resetManual();sessionTab='timer';renderJournal();requestAnimationFrame(()=>document.querySelector('#visitLog button[onclick="beginManual()"]')?.focus({preventScroll:true}))}
 function beginLive(){guidedMode='timer';sessionTab='timer';nav('journal')}
 function beginIntention(){beginLive();openIntention()}
 // Bundled content keeps the standalone app available offline. Replace this provider
@@ -1173,11 +1334,11 @@ function mountTimerRippleMotion(){
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseTimerRippleMotion();else if(view==='journal'&&sessionTab==='timer')mountTimerRippleMotion()});
 
 function timerRippleMarkup(){return `<svg class="timer-ripples ${draft?.current?.running?'is-active':'is-idle'}" viewBox="-500 0 1000 500" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false" style="--timer-ripple-phase:0ms"><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/></svg>`}
-function timerMarkup(){let cur=draft?.current,done=draft?.intervals||[],ended=visitIsEnded(draft),type=cur?.type||done.at(-1)?.type||'sauna';return `<div class="timer-panel ${cur||ended?type:''}">${timerRippleMarkup()}<button type="button" class="timer-info-button" onclick="openTimerInfo()" aria-label="Timer information"><span aria-hidden="true">i</span></button><div class="timer-label">${ended?'VISIT ENDED':cur?'LIVE SESSION · '+(type==='sauna'?'SAUNA':type==='cold'?'COLD PLUNGE':'REST'):'READY WHEN YOU ARE'}</div><div class="timer-value" id="liveClock">${fmtTime(ended?duration(draft):currentElapsed())}</div><div class="timer-hint">${ended?'Your time is captured. Take a moment to reflect and save.':cur?(cur.running?'Your moment, uninterrupted.':'Timer paused'):'Begin with warmth, cold, or a moment of rest.'}</div><div class="actions" style="justify-content:center;margin-top:25px">${ended?`<button class="btn btn-light" onclick="openReflectModal()">Reflect &amp; save</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button>`:cur?`<button class="btn btn-light" onclick="pauseResume()">${icon(cur.running?'pause':'play')} ${cur.running?'Pause':'Resume'}</button><button class="btn" style="background:var(--pine);border-color:var(--pine)" onclick="finishLive()">End Visit</button>`:`<button class="btn btn-light" onclick="startInterval('sauna')">${icon('play')} Begin sauna</button>`}</div></div>
-<div class="activity-options">${[['sauna','Sauna','flame'],['cold','Cold plunge','snow'],['rest','Rest','coffee']].map(([x,label,i])=>`<button class="activity-btn ${cur?.type===x?'selected':''}" data-type="${x}" aria-pressed="${cur?.type===x}" ${ended?'disabled':''} onclick="startInterval('${x}')">${icon(i)} ${label}</button>`).join('')}</div>
+function timerMarkup(){let cur=draft?.current,done=draft?.intervals||[],ended=visitIsEnded(draft),type=cur?.type||done.at(-1)?.type||'sauna';return `<div class="timer-panel live-timer-panel ${cur||ended?type:''}">${timerRippleMarkup()}<button type="button" class="timer-info-button" onclick="openTimerInfo()" aria-label="Timer information"><span aria-hidden="true">i</span></button><div class="timer-label">${ended?'VISIT ENDED':cur?'LIVE SESSION · '+(type==='sauna'?'SAUNA':type==='cold'?'COLD PLUNGE':'REST'):'READY WHEN YOU ARE'}</div><div class="live-timer-readout"><div class="timer-value" id="liveClock">${fmtTime(ended?duration(draft):currentElapsed())}</div><div class="timer-hint">${ended?'Your time is captured. Take a moment to reflect and save.':cur?(cur.running?'Your moment, uninterrupted.':'Timer paused'):'Begin with warmth, cold, or a moment of rest.'}</div></div><div class="actions live-timer-actions">${ended?`<button class="btn btn-light" onclick="openReflectModal()">Reflect &amp; save</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button>`:cur?`<button class="btn live-timer-primary" onclick="pauseResume()">${icon(cur.running?'pause':'play')} ${cur.running?'Pause':'Resume'}</button><button class="btn live-timer-end" onclick="finishLive()">End Visit</button>`:`<button class="btn live-timer-primary" onclick="startInterval('sauna')">${icon('play')} Begin sauna</button>`}</div></div>
+<div class="activity-options">${[['sauna','Sauna','flame'],['cold','Cold plunge','snow'],['rest','Rest','coffee']].map(([x,label,i])=>`<button class="activity-btn ${cur?.type===x?'selected':''}" data-type="${x}" aria-pressed="${cur?.type===x}" ${ended?'disabled':''} onclick="startInterval('${x}')">${icon(i)}<span>${label}</span></button>`).join('')}</div>
 ${draft?.intention?`<div class="session-divider" aria-hidden="true"></div>${intentionCard(draft)}`:''}
 ${legacyIntentionMarkup()}
-${visitHasStarted(draft)?`<div class="section-head session-timeline-heading"><h2>Session timeline</h2><span class="pill live">${ended?'Visit ended':cur?'In progress':'Ready to save'}</span></div><div class="interval-list">${done.map((x,i)=>intervalRow(x,i,'live')).join('')}${cur?`<div class="interval-row" data-type="${cur.type}"><div class="interval-icon ${cur.type}">${icon(cur.type==='sauna'?'flame':cur.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(cur.type)}</strong><p>Currently ${cur.running?'timing':'paused'}</p></div><div class="interval-length" id="currentIntervalLabel">${fmtM(currentElapsed())}</div></div>`:''}</div><div class="actions" style="margin-top:22px"><button class="btn" onclick="finishLive()">${icon('check')} ${ended?'Reflect &amp; save':'End Visit'}</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button></div>`:''}
+${visitHasStarted(draft)?`<div class="section-head session-timeline-heading"><h2>Session timeline</h2><span class="pill live">${ended?'Visit ended':cur?'In progress':'Ready to save'}</span></div><div class="interval-list">${done.map((x,i)=>intervalRow(x,i,'live')).join('')}${cur?`<div class="interval-row" data-type="${cur.type}"><div class="interval-icon ${cur.type}">${icon(cur.type==='sauna'?'flame':cur.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(cur.type)}</strong><p>Currently ${cur.running?'timing':'paused'}</p></div><div class="interval-length" id="currentIntervalLabel">${fmtM(currentElapsed())}</div></div>`:''}</div><div class="actions" style="margin-top:22px"><button class="btn${ended?'':' live-timer-end'}" onclick="finishLive()">${icon('check')} ${ended?'Reflect &amp; save':'End Visit'}</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button></div>`:''}
 `}
 function openTimerInfo(){document.getElementById('timerInfoDialog').showModal()}
 function labelType(x){return {sauna:'Sauna',cold:'Cold plunge',rest:'Rest'}[x]||x}
@@ -1215,10 +1376,10 @@ function updateActivitySummary(id){const menu=document.getElementById(id),select
 function editInterval(source,i){let list=source==='live'?draft.intervals:manualIntervals,x=list[i];const body=`<div class="fields-2"><div class="field"><label>Duration (minutes)</label><input id="editMinutes" type="number" min="0.1" step="0.1" value="${(x.durationMs/60000).toFixed(2)}"/></div><div class="field" ${x.type==='rest'?'hidden':''}><label>Temperature °F (optional)</label><input id="editTemp" type="number" value="${x.temp??(x.type==='sauna'?180:x.type==='cold'?54:'')}"/></div></div><div class="field"><label>Activities (optional)</label>${activityMenu('editActivity',x.type,x.activity||[])}</div>`;modal('Edit cycle',body,`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveIntervalEdit('${source}',${i})">Save changes</button>`)}
 function saveIntervalEdit(source,i){let m=Number(document.getElementById('editMinutes').value),t=document.getElementById('editTemp').value,a=selectedActivities('editActivity');if(!Number.isFinite(m)||m<=0||m>1440){toast('Enter a duration between 0 and 1,440 minutes.');return}let list=source==='live'?draft.intervals:manualIntervals;list[i]={...list[i],durationMs:Math.round(m*60000),temp:list[i].type==='rest'||t===''?null:Number(t),activity:a};if(source==='live')persistDraft();closeModal();renderSessionArea()}
 let manualIntention='',manualIntentionResponse=null;
-function resetManual(clearSaved=true){if(clearSaved)try{localStorage.removeItem(ownerKey('olo-manual-draft-v2'))}catch{}manualIntention='';manualIntentionResponse=null;journalEditingId=null;manualIntervals=[];manualDate=localDate();manualMoodBefore=3;manualMoodAfter=4;manualTags=[];manualNotes='';manualHeat='';manualCold='';manualTemp='';manualHeatTemp='';manualMode='quick'}
+function resetManual(clearSaved=true){if(clearSaved)try{localStorage.removeItem(ownerKey('olo-manual-draft-v2'))}catch{}manualIntention='';manualIntentionResponse=null;journalEditingId=null;manualIntervals=[];manualDate=localDate();manualMoodBefore=null;manualMoodAfter=null;manualTags=[];manualNotes='';manualHeat='';manualCold='';manualTemp='';manualHeatTemp='';manualMode='quick'}
 function moodBtns(value,prefix){return `<div class="mood-row" role="group" aria-label="${prefix==='before'?'Before':'After'} your visit mood">${[1,2,3,4,5].map(n=>`<button type="button" class="mood-choice ${value===n?'selected':''}" data-mood="${n}" aria-pressed="${value===n}" aria-label="${n} · ${['','Upset','Down','OK','Good','Excellent'][n]}" onclick="setMood('${prefix}',${n})"><img class="mood-icon" src="assets/mood-${n}.svg" alt=""/><span class="mood-label">${['','Upset','Down','OK','Good','Excellent'][n]}</span></button>`).join('')}</div>`}
 function setMood(key,n){if(key==='before')manualMoodBefore=n;else manualMoodAfter=n;renderSessionArea()}
-function manualMarkup(){return `<div class="card"><div class="section-head"><h2>${journalEditingId?'Edit your visit':'A moment worth remembering'}</h2></div><p class="small muted" style="line-height:1.8">Your spa ritual, in your own words. Add only as much detail as you like.</p><div class="field"><label>When did you visit?</label><input id="manualDate" type="date" value="${esc(manualDate)}" onchange="manualDate=this.value"/></div>${manualIntentionMarkup()}<div class="tabs" style="margin:8px 0 23px"><button class="tab ${manualMode==='quick'?'active':''}" ${manualVisitEnded()?'disabled':''} onclick="setManualMode('quick')">Quick log</button><button class="tab ${manualMode==='detailed'?'active':''}" onclick="setManualMode('detailed')">Individual cycles</button></div>${manualMode==='quick'?`<div class="fields-2"><div class="field"><label>Sauna · total minutes</label><input type="number" min="0" step="0.5" id="manualHeat" value="${esc(manualHeat)}" placeholder="e.g. 30" oninput="manualHeat=this.value"/></div><div class="field"><label>Cold · total minutes</label><input type="number" min="0" step="0.5" id="manualCold" value="${esc(manualCold)}" placeholder="e.g. 4" oninput="manualCold=this.value"/></div></div><div class="fields-2"><div class="field"><label>Sauna temperature °F (optional)</label><input type="number" id="manualHeatTemp" value="${esc(manualHeatTemp)}" placeholder="e.g. 175" oninput="manualHeatTemp=this.value"/></div><div class="field"><label>Cold temperature °F (optional)</label><input type="number" id="manualTemp" value="${esc(manualTemp)}" placeholder="e.g. 52" oninput="manualTemp=this.value"/></div></div>`:`<div class="section-head"><h3>Your cycles</h3>${manualVisitEnded()?'':'<button class="text-btn" onclick="addManualInterval()">+ Add cycle</button>'}</div><div class="interval-list">${manualIntervals.map((x,i)=>intervalRow(x,i,'manual')).join('')}</div>${manualVisitEnded()?'<p class="input-help">This visit has ended. You can adjust existing sessions and your reflection.</p>':`<div style="margin:17px 0"><button class="btn btn-outline" onclick="addManualInterval()">${icon('plus')} Add cycle</button></div>`}`}
+function manualMarkup(){return `<div class="card"><div class="section-head"><h2>${journalEditingId?'Edit your visit':'A moment worth remembering'}</h2>${journalEditingId?'':'<button type="button" class="icon-btn" aria-label="Close Add Visit" onclick="closeManual()"><span aria-hidden="true">×</span></button>'}</div><p class="small muted" style="line-height:1.8">Your spa ritual, in your own words. Add only as much detail as you like.</p><div class="field"><label>When did you visit?</label><input id="manualDate" type="date" value="${esc(manualDate)}" onchange="manualDate=this.value"/></div>${manualIntentionMarkup()}<div class="tabs" style="margin:8px 0 23px"><button class="tab ${manualMode==='quick'?'active':''}" ${manualVisitEnded()?'disabled':''} onclick="setManualMode('quick')">Quick log</button><button class="tab ${manualMode==='detailed'?'active':''}" onclick="setManualMode('detailed')">Individual cycles</button></div>${manualMode==='quick'?`<div class="fields-2"><div class="field"><label>Sauna · total minutes</label><input type="number" min="0" step="0.5" id="manualHeat" value="${esc(manualHeat)}" placeholder="e.g. 30" oninput="manualHeat=this.value"/></div><div class="field"><label>Cold · total minutes</label><input type="number" min="0" step="0.5" id="manualCold" value="${esc(manualCold)}" placeholder="e.g. 4" oninput="manualCold=this.value"/></div></div><div class="fields-2"><div class="field"><label>Sauna temperature °F (optional)</label><input type="number" id="manualHeatTemp" value="${esc(manualHeatTemp)}" placeholder="e.g. 175" oninput="manualHeatTemp=this.value"/></div><div class="field"><label>Cold temperature °F (optional)</label><input type="number" id="manualTemp" value="${esc(manualTemp)}" placeholder="e.g. 52" oninput="manualTemp=this.value"/></div></div>`:`<div class="section-head"><h3>Your cycles</h3>${manualVisitEnded()?'':'<button class="text-btn" onclick="addManualInterval()">+ Add cycle</button>'}</div><div class="interval-list">${manualIntervals.map((x,i)=>intervalRow(x,i,'manual')).join('')}</div>${manualVisitEnded()?'<p class="input-help">This visit has ended. You can adjust existing sessions and your reflection.</p>':`<div style="margin:17px 0"><button class="btn btn-outline" onclick="addManualInterval()">${icon('plus')} Add cycle</button></div>`}`}
 <div class="hr"></div><h3>How did you feel?</h3><div class="field"><label>Before your visit</label>${moodBtns(manualMoodBefore,'before')}</div><div class="field"><label>After your visit</label>${moodBtns(manualMoodAfter,'after')}</div><div class="field"><label>Activities (optional)</label><div class="choice-options">${['Controlled breathing','Meditation','Quiet relaxation','Socializing','Stretching','Hydration'].map(t=>`<button class="tag ${manualTags.includes(t)?'selected':''}" onclick="toggleTag('${t}')">${t}</button>`).join('')}</div></div><div class="field"><label>Notes (optional)</label><textarea id="manualNotes" placeholder="Anything you'd like to remember..." oninput="manualNotes=this.value">${esc(manualNotes)}</textarea></div><div class="actions"><button class="btn" onclick="saveManual()">${icon('check')} ${journalEditingId?'Update visit':'Save visit'}</button><button class="btn btn-outline" onclick="resetManual();renderSessionArea()">Clear</button></div></div>`}
 function setManualMode(m){if(m==='quick'&&manualVisitEnded())return;if(manualMode==='quick'){manualHeat=document.getElementById('manualHeat')?.value??manualHeat;manualCold=document.getElementById('manualCold')?.value??manualCold;manualTemp=document.getElementById('manualTemp')?.value??manualTemp;manualHeatTemp=document.getElementById('manualHeatTemp')?.value??manualHeatTemp}manualMode=m;renderSessionArea()}
 function toggleTag(tag){manualTags=manualTags.includes(tag)?manualTags.filter(x=>x!==tag):[...manualTags,tag];renderSessionArea()}
@@ -1226,8 +1387,8 @@ function addManualInterval(){if(manualVisitEnded())return;modal('Add a cycle',`<
 function updateRestOutsideTag(){const temp=document.getElementById('newTemp'),rest=document.getElementById('newType')?.value==='rest';if(temp){temp.closest('.field').hidden=rest;temp.disabled=rest;temp.parentElement.parentElement.style.gridTemplateColumns=rest?'1fr':''}const menu=document.getElementById('newActivity'),type=document.getElementById('newType')?.value;if(!menu)return;const selected=selectedActivities('newActivity').filter(t=>activityOptions(type).includes(t)),wrap=menu.parentElement;wrap.innerHTML='<label>Activities (optional)</label>'+activityMenu('newActivity',type,selected)}
 function confirmManualInterval(){if(manualVisitEnded())return;let m=Number(document.getElementById('newMinutes').value),t=document.getElementById('newTemp').value,a=selectedActivities('newActivity');if(!Number.isFinite(m)||m<=0||m>1440){toast('Enter a positive duration of up to 1,440 minutes.');return}manualIntervals.push({id:id(),type:document.getElementById('newType').value,durationMs:Math.round(m*60000),temp:document.getElementById('newType').value==='rest'||t===''?null:Number(t),activity:a});closeModal();renderSessionArea()}
 function saveManual(){if(manualVisitEnded()){const existing=db.visits.find(v=>v.id===journalEditingId),ids=new Set(existing.intervals.map(x=>x.id));if(manualMode!=='detailed'||manualIntervals.some(x=>!ids.has(x.id))){toast('This visit has ended. You can adjust existing sessions, but cannot add new ones.');return}}manualDate=document.getElementById('manualDate')?.value||manualDate;manualNotes=document.getElementById('manualNotes')?.value??manualNotes;if(!/^\d{4}-\d{2}-\d{2}$/.test(manualDate)||manualDate>localDate()){toast('Choose a valid date that is not in the future.');return}let intervals;if(manualMode==='quick'){let h=Number(document.getElementById('manualHeat').value||0),c=Number(document.getElementById('manualCold').value||0);if(!Number.isFinite(h)||!Number.isFinite(c)||h<0||c<0||h>1440||c>1440||(!h&&!c)){toast('Enter at least one valid sauna or cold duration.');return}let ht=document.getElementById('manualHeatTemp').value,ct=document.getElementById('manualTemp').value;intervals=[h?{id:id(),type:'sauna',durationMs:Math.round(h*60000),temp:ht===''?null:Number(ht),activity:[...manualTags]}:null,c?{id:id(),type:'cold',durationMs:Math.round(c*60000),temp:ct===''?null:Number(ct),activity:[...manualTags]}:null].filter(Boolean)}else{intervals=manualIntervals;if(!intervals.length){toast('Add a cycle to save this visit.');return}}let visit={...(journalEditingId?db.visits.find(v=>v.id===journalEditingId):{}),id:journalEditingId||id(),date:manualDate,source:'manual',intervals,moodBefore:manualMoodBefore,moodAfter:manualMoodAfter,tags:[...manualTags],notes:manualNotes,intention:manualIntention.trim()||null,intentionResponse:manualIntention.trim()?manualIntentionResponse:null,createdAt:journalEditingId?(db.visits.find(v=>v.id===journalEditingId)?.createdAt||Date.now()):Date.now()};db.visits=journalEditingId?db.visits.map(x=>x.id===journalEditingId?visit:x):[visit,...db.visits];if(persist()){resetManual();toast('Visit saved to your visits.');nav('journal')}}
-function openReflectModal(){let body=`${draft.intention?`<div class="notice"><strong>Your intention</strong><p class="intention-text">${esc(draft.intention)}</p></div>${intentionResponseMarkup(draft.intentionResponse,'live')}`:''}<p id="visitSaveError" class="small intention-error" role="alert"></p><p class="small muted">Your time is captured. Reflect for a moment before saving your visit.</p><div class="fields-2"><div class="field"><label>Before (1–5)</label><select id="reflectBefore">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div><div class="field"><label>After (1–5)</label><select id="reflectAfter">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===4?'selected':''}>${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div></div><div class="field"><label>Notes (optional)</label><textarea id="reflectNotes" placeholder="How was the experience?"></textarea></div><p class="input-help">You can edit individual cycle times and temperatures after saving.</p>`;modal('How do you feel?',body,`<div class="dialog-button-bar"><button class="btn" onclick="saveLiveVisit()">Save visit</button><button class="btn btn-outline" onclick="closeModal()">Review timeline</button></div>`)}
-function saveLiveVisit(){if(!draft)return;if(!draft.intervals?.length){document.getElementById('visitSaveError').textContent='This visit has no timed sessions to save. Close this window and choose Discard visit to reset the timer, or add a visit manually to record your time.';return}let visit={id:draft.id,date:draft.date,source:'timer',intervals:draft.intervals,moodBefore:Number(document.getElementById('reflectBefore').value),moodAfter:Number(document.getElementById('reflectAfter').value),notes:document.getElementById('reflectNotes').value,tags:[],intention:draft.intention||null,intentionResponse:draft.intention?draft.intentionResponse||null:null,...(visitIsEnded(draft)?{endedAt:draft.endedAt}:{}),createdAt:draft.startedAt||Date.now()};db.visits=[visit,...db.visits.filter(v=>v.id!==visit.id)];draft=null;if(persist()){closeModal();toast('Your session is saved.');nav('journal')}else{document.getElementById('visitSaveError').textContent='Your visit could not be saved. Your intention and draft are safe. Try Save visit again.'}}
+function openReflectModal(){let body=`${draft.intention?`<div class="notice"><strong>Your intention</strong><p class="intention-text">${esc(draft.intention)}</p></div>${intentionResponseMarkup(draft.intentionResponse,'live')}`:''}<p id="visitSaveError" class="small intention-error" role="alert"></p><p class="small muted">Your time is captured. Reflect for a moment before saving your visit.</p><div class="fields-2"><div class="field"><label>Before (1–5)</label><select id="reflectBefore"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div><div class="field"><label>After (1–5)</label><select id="reflectAfter"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div></div><div class="field"><label>Notes (optional)</label><textarea id="reflectNotes" placeholder="How was the experience?"></textarea></div><p class="input-help">You can edit individual cycle times and temperatures after saving.</p>`;modal('How do you feel?',body,`<div class="dialog-button-bar"><button class="btn" onclick="saveLiveVisit()">Save visit</button><button class="btn btn-outline" onclick="closeModal()">Review timeline</button></div>`)}
+function saveLiveVisit(){if(!draft)return;if(!draft.intervals?.length){document.getElementById('visitSaveError').textContent='This visit has no timed sessions to save. Close this window and choose Discard visit to reset the timer, or add a visit manually to record your time.';return}let visit={id:draft.id,date:draft.date,source:'timer',intervals:draft.intervals,moodBefore:document.getElementById('reflectBefore').value===''?null:Number(document.getElementById('reflectBefore').value),moodAfter:document.getElementById('reflectAfter').value===''?null:Number(document.getElementById('reflectAfter').value),notes:document.getElementById('reflectNotes').value,tags:[],intention:draft.intention||null,intentionResponse:draft.intention?draft.intentionResponse||null:null,...(visitIsEnded(draft)?{endedAt:draft.endedAt}:{}),createdAt:draft.startedAt||Date.now()};db.visits=[visit,...db.visits.filter(v=>v.id!==visit.id)];draft=null;if(persist()){closeModal();toast('Your session is saved.');nav('journal')}else{document.getElementById('visitSaveError').textContent='Your visit could not be saved. Your intention and draft are safe. Try Save visit again.'}}
 let visitsExpanded=false;
 function toggleVisitsCollection(){visitsExpanded=!visitsExpanded;renderJournal();document.getElementById('visitCollectionToggle')?.focus({preventScroll:true})}
 function renderJournal(){captureTimerRippleMotion();let vs=[...db.visits].sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt),visible=visitsExpanded?vs:vs.slice(0,5);document.getElementById('page-journal').innerHTML=`<h1>Visits</h1><p class="lede">Follow your ritual in real time, or select any of the guided sessions for structure.</p>${visitControlsMarkup()}<section class="section content-width" id="visitLog" aria-labelledby="visitLogTitle"><div class="section-head visit-log-header"><div><h2 id="visitLogTitle" tabindex="-1">Recent Visits</h2><p class="small muted" role="status">${vs.length>5?`Showing ${visible.length} of ${vs.length} visits`:`${vs.length} recorded visit${vs.length===1?'':'s'}`}</p></div><button type="button" class="btn" onclick="beginManual()">${icon('plus')} Add visit</button></div><p class="small muted">Every visit is a small investment in how you feel. Revisit the moments that matter.</p><div id="visitsCollection">${vs.length?`<div class="list">${visible.map(visitRow).join('')}</div>`:empty('No visits yet','Your saved visits will appear here. Start with a quick entry or a live session.')}</div>${vs.length>5?`<div class="visit-collection-footer"><button type="button" class="text-btn" id="visitCollectionToggle" aria-expanded="${visitsExpanded}" aria-controls="visitsCollection" onclick="toggleVisitsCollection()">${visitsExpanded?'Show recent visits':'See all visits'}</button></div>`:''}</section>`;renderSessionArea()}
@@ -1238,13 +1399,13 @@ function visitMoodMarkup(v){
  return `<div class="visit-moods"${delta===null?'':` data-mood-delta="${delta}"`}>${card(v.moodBefore,'before')}${card(v.moodAfter,'after')}${delta===null?'':`<span class="sr-only">Mood change: ${delta>0?'+':''}${delta} points.</span>`}</div>`;
 }
 function openVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;modal(pretty(v.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}),`${v.ritual&&OloRituals.validRecord(v.ritual)?guidedSummaryMarkup(v.ritual):''}${v.intention?`<div class="notice visit-detail-intention"><strong>Your intention</strong><p class="intention-text">${esc(v.intention)}</p>${v.intentionResponse?`<p class="small">Did your visit support your intention? <strong>${esc(v.intentionResponse)}</strong></p>`:''}</div>`:''}<div class="stats visit-detail-stats" style="margin:18px 0 15px"><div class="card metric-card metric-sauna"><div class="stat-label">Sauna</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'sauna')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-cold"><div class="stat-label">Cold</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'cold')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-rest"><div class="stat-label">Rest</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'rest')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div></div><div class="interval-list">${v.intervals.map((x,i)=>`<div class="interval-row" data-type="${x.type}"><div class="interval-icon ${x.type}">${icon(x.type==='sauna'?'flame':x.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(x.type)}</strong><p>${x.temp!=null?x.temp+'°F · ':''}${esc(x.activity?.join(', ')||'')}</p></div><div class="interval-length">${fmtM(x.durationMs)}</div></div>`).join('')}</div><div class="hr"></div>${visitMoodMarkup(v)}${v.notes?`<section class="visit-detail-notes" aria-labelledby="visitNotesTitle"><h3 id="visitNotesTitle">Notes</h3><p class="small muted">${esc(v.notes)}</p></section>`:''}`,`<button class="btn btn-outline" onclick="deleteVisit('${v.id}')">${icon('trash')} Delete</button><button class="btn btn-outline" onclick="closeModal();editVisit('${v.id}')">${icon('edit')} Edit</button><button class="btn" onclick="closeModal()">Close</button>`)}
-function editVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;if(v.ritual){editGuidedVisit(vid);return;}resetManual();journalEditingId=vid;manualDate=v.date;manualIntervals=JSON.parse(JSON.stringify(v.intervals));manualMoodBefore=v.moodBefore??3;manualMoodAfter=v.moodAfter??4;manualNotes=v.notes||'';manualTags=v.tags||[];manualIntention=v.intention||'';manualIntentionResponse=v.intentionResponse||null;manualMode='detailed';sessionTab='manual';nav('journal')}
+function editVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;if(v.ritual){editGuidedVisit(vid);return;}resetManual();journalEditingId=vid;manualDate=v.date;manualIntervals=JSON.parse(JSON.stringify(v.intervals));manualMoodBefore=v.moodBefore??null;manualMoodAfter=v.moodAfter??null;manualNotes=v.notes||'';manualTags=v.tags||[];manualIntention=v.intention||'';manualIntentionResponse=v.intentionResponse||null;manualMode='detailed';sessionTab='manual';nav('journal')}
 function deleteVisit(vid){if(!confirm('Delete this visit permanently?'))return;db.visits=db.visits.filter(x=>x.id!==vid);if(persist()){closeModal();toast('Visit deleted.');renderPage()}}
 function visitGoalProgress(start,end,period,goal,visits){const days=Math.max(0,Math.round((Date.UTC(...end.split('-').map((n,i)=>Number(n)-(i===1?1:0)))-Date.UTC(...start.split('-').map((n,i)=>Number(n)-(i===1?1:0))))/86400000)+1),target=period==='week'?goal:Math.ceil(days*goal/7),completed=visitDays(visits);return {target,completed,percent:target?Math.min(100,Math.round(completed/target*100)):0}}
-function renderOriginalInsights(){let g=Number(db.profile.goal)||3,now=new Date(),wstart=insightPeriod==='week'&&insightWeekStart?insightWeekStart:startOfWeek(now),start='',end=localDate(now),labels=[],buckets=[];if(insightPeriod==='day'){start=end;labels=['Today'];buckets=[visitDays(rangeVisits(start,end))]}if(insightPeriod==='week'){start=wstart;const last=dayStart(start);last.setDate(last.getDate()+6);end=localDate(last)<end?localDate(last):end;for(let i=0;i<7;i++){let d=new Date(dayStart(start));d.setDate(d.getDate()+i);let ds=localDate(d);labels.push(['S','M','T','W','T','F','S'][i]);buckets.push(visitDays(rangeVisits(ds,ds)))}}if(insightPeriod==='month'){start=localDate(new Date(now.getFullYear(),now.getMonth(),1));for(let i=0;i<5;i++){let d=new Date(now.getFullYear(),now.getMonth(),1+i*7),e=new Date(now.getFullYear(),now.getMonth(),Math.min((i+1)*7,new Date(now.getFullYear(),now.getMonth()+1,0).getDate()));labels.push('W'+(i+1));buckets.push(d.getMonth()===now.getMonth()?visitDays(rangeVisits(localDate(d),localDate(e))):0)}}if(insightPeriod==='year'){start=`${now.getFullYear()}-01-01`;for(let i=0;i<12;i++){let s=localDate(new Date(now.getFullYear(),i,1)),e=localDate(new Date(now.getFullYear(),i+1,0));labels.push(new Date(now.getFullYear(),i,1).toLocaleDateString('en-US',{month:'short'}));buckets.push(visitDays(rangeVisits(s,e)))}}let vs=rangeVisits(start,end),heat=vs.reduce((a,v)=>a+total(v,'sauna'),0),cold=vs.reduce((a,v)=>a+total(v,'cold'),0),unique=visitDays(vs),avg=vs.filter(v=>Number.isFinite(v.moodAfter)&&Number.isFinite(v.moodBefore)),avgDelta=avg.length?avg.reduce((a,v)=>a+v.moodAfter-v.moodBefore,0)/avg.length:null,max=Math.max(1,...buckets),progress=visitGoalProgress(start,end,insightPeriod,g,vs);document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">Look beyond individual visits. See the patterns shaping your wellness routine.</p><div class="tabs">${[['week',insightWeekStart?'Selected week':'This week'],['month','This month'],['year','This year']].map(([x,t])=>`<button class="tab ${insightPeriod===x?'active':''}" onclick="insightWeekStart=null;insightPeriod='${x}';renderInsights()">${t}</button>`).join('')}</div>${insightPeriod==='week'&&insightWeekStart?`<p class="small muted">${homeWeekLabel(insightWeekStart)}</p>`:''}<div class="stats"><div class="card metric-card metric-visits"><div class="stat-label">Visit goal completion</div><div class="stat-values"><span class="stat-number">${progress.percent}</span><span class="stat-unit">%</span></div><div class="stat-bottom">${unique} of ${progress.target} visit days${insightPeriod==='week'?' this week':' · weekly goal prorated through today'}</div></div><div class="card metric-card metric-sauna"><div class="stat-label">Sauna exposure</div><div class="stat-values"><span class="stat-number">${Math.round(heat/60000)}</span><span class="stat-unit">min</span></div><div class="stat-bottom">Total in this period</div></div><div class="card metric-card metric-cold"><div class="stat-label">Cold exposure</div><div class="stat-values"><span class="stat-number">${Math.round(cold/60000)}</span><span class="stat-unit">min</span></div><div class="stat-bottom">Total in this period</div></div></div><div class="section split"><div class="card"><h2>Attendance over time</h2><p class="small muted">Days with at least one recorded visit</p><div class="bar-chart">${buckets.map((x,i)=>`<div class="bar-col"><div class="bar-fill" title="${x} visit days" style="height:${x?Math.max(6,x/max*145):2}px"></div><small>${labels[i]}</small></div>`).join('')}</div><p class="risk" style="margin-top:42px">Your consistency is calculated from recorded visits, not estimated exposure.</p></div><div class="card"><h2>How you felt</h2><div class="stat-label">Average mood change (1–5 scale)</div><div class="stat-number">${avgDelta===null?'—':`${avgDelta>0?'+':''}${avgDelta.toFixed(1)}`}</div><p class="small muted" style="line-height:1.8;margin-top:18px">${avg.length?`Based on ${avg.length} recorded visit${avg.length===1?'':'s'} in this period. Positive numbers reflect improved self-reported mood.`:'Record before-and-after mood in your journal to see your personal pattern here.'}</p><div class="notice">Changes in mood are personal observations, not proof of medical benefit or causation.</div></div></div><div class="section card"><div class="section-head"><h2>Your attendance goal</h2><span class="pill">${g} days / week</span></div><p class="small muted">Build a sustainable rhythm. Progress counts, not perfection.</p><div class="flex between"><div class="goal-number">${visitDays(rangeVisits(wstart,insightPeriod==='week'?end:localDate()))}<span class="stat-unit goal-denominator"><span>/</span><span>${g}</span></span></div><button class="btn btn-outline" onclick="nav('profile')">Edit goal</button></div><div class="progress-line"><div class="progress-fill" style="width:${Math.min(100,visitDays(rangeVisits(wstart,insightPeriod==='week'?end:localDate()))/g*100)}%"></div></div></div>`}
+function renderOriginalInsights(){let g=Number(db.profile.goal)||3,now=new Date(),wstart=insightPeriod==='week'&&insightWeekStart?insightWeekStart:startOfWeek(now),start='',end=localDate(now),labels=[],buckets=[];if(insightPeriod==='week'){start=wstart;const last=dayStart(start);last.setDate(last.getDate()+6);end=localDate(last)<end?localDate(last):end;for(let i=0;i<7;i++){let d=new Date(dayStart(start));d.setDate(d.getDate()+i);let ds=localDate(d);labels.push(['S','M','T','W','T','F','S'][i]);buckets.push(visitDays(rangeVisits(ds,ds)))}}if(insightPeriod==='month'){start=localDate(new Date(now.getFullYear(),now.getMonth(),1));for(let i=0;i<5;i++){let d=new Date(now.getFullYear(),now.getMonth(),1+i*7),e=new Date(now.getFullYear(),now.getMonth(),Math.min((i+1)*7,new Date(now.getFullYear(),now.getMonth()+1,0).getDate()));labels.push('W'+(i+1));buckets.push(d.getMonth()===now.getMonth()?visitDays(rangeVisits(localDate(d),localDate(e))):0)}}if(insightPeriod==='year'){start=`${now.getFullYear()}-01-01`;for(let i=0;i<12;i++){let s=localDate(new Date(now.getFullYear(),i,1)),e=localDate(new Date(now.getFullYear(),i+1,0));labels.push(new Date(now.getFullYear(),i,1).toLocaleDateString('en-US',{month:'short'}));buckets.push(visitDays(rangeVisits(s,e)))}}let vs=rangeVisits(start,end),heat=vs.reduce((a,v)=>a+total(v,'sauna'),0),cold=vs.reduce((a,v)=>a+total(v,'cold'),0),unique=visitDays(vs),avg=vs.filter(v=>Number.isFinite(v.moodAfter)&&Number.isFinite(v.moodBefore)),avgDelta=avg.length?avg.reduce((a,v)=>a+v.moodAfter-v.moodBefore,0)/avg.length:null,max=Math.max(1,...buckets),progress=visitGoalProgress(start,end,insightPeriod,g,vs);document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">Look beyond individual visits. See the patterns shaping your wellness routine.</p><div class="tabs">${[['week',insightWeekStart?'Selected week':'This week'],['month','This month'],['year','This year']].map(([x,t])=>`<button class="tab ${insightPeriod===x?'active':''}" onclick="insightWeekStart=null;insightPeriod='${x}';renderInsights()">${t}</button>`).join('')}</div>${insightPeriod==='week'&&insightWeekStart?`<p class="small muted">${homeWeekLabel(insightWeekStart)}</p>`:''}<div class="stats"><div class="card metric-card metric-visits"><div class="stat-label">Visit goal completion</div><div class="stat-values"><span class="stat-number">${progress.percent}</span><span class="stat-unit">%</span></div><div class="stat-bottom">${unique} of ${progress.target} visit days${insightPeriod==='week'?' this week':' · weekly goal prorated through today'}</div></div><div class="card metric-card metric-sauna"><div class="stat-label">Sauna exposure</div><div class="stat-values"><span class="stat-number">${Math.round(heat/60000)}</span><span class="stat-unit">min</span></div><div class="stat-bottom">Total in this period</div></div><div class="card metric-card metric-cold"><div class="stat-label">Cold exposure</div><div class="stat-values"><span class="stat-number">${Math.round(cold/60000)}</span><span class="stat-unit">min</span></div><div class="stat-bottom">Total in this period</div></div></div><div class="section split"><div class="card"><h2>Attendance over time</h2><p class="small muted">Days with at least one recorded visit</p><div class="bar-chart">${buckets.map((x,i)=>`<div class="bar-col"><div class="bar-fill" title="${x} visit days" style="height:${x?Math.max(6,x/max*145):2}px"></div><small>${labels[i]}</small></div>`).join('')}</div><p class="risk" style="margin-top:42px">Your consistency is calculated from recorded visits, not estimated exposure.</p></div><div class="card"><h2>How you felt</h2><div class="stat-label">Average mood change (1–5 scale)</div><div class="stat-number">${avgDelta===null?'—':`${avgDelta>0?'+':''}${avgDelta.toFixed(1)}`}</div><p class="small muted" style="line-height:1.8;margin-top:18px">${avg.length?`Based on ${avg.length} recorded visit${avg.length===1?'':'s'} in this period. Positive numbers reflect improved self-reported mood.`:'Record before-and-after mood in your journal to see your personal pattern here.'}</p><div class="notice">Changes in mood are personal observations, not proof of medical benefit or causation.</div></div></div><div class="section card"><div class="section-head"><h2>Your attendance goal</h2><span class="pill">${g} days / week</span></div><p class="small muted">Build a sustainable rhythm. Progress counts, not perfection.</p><div class="flex between"><div class="goal-number">${visitDays(rangeVisits(wstart,insightPeriod==='week'?end:localDate()))}<span class="stat-unit goal-denominator"><span>/</span><span>${g}</span></span></div><button class="btn btn-outline" onclick="nav('profile')">Edit goal</button></div><div class="progress-line"><div class="progress-fill" style="width:${Math.min(100,visitDays(rangeVisits(wstart,insightPeriod==='week'?end:localDate()))/g*100)}%"></div></div></div>`}
 let insightArea='rhythm',insightVersion='experimental';
-function insightPeriodButtons(){return `<div class="tabs" role="group" aria-label="Insights period">${[['day','Day'],['week','Week'],['month','Months'],['year','Year']].map(([key,label])=>`<button type="button" id="period-${key}" class="tab ${insightPeriod===key?'active':''}" aria-pressed="${insightPeriod===key}" onclick="insightWeekStart=null;insightPeriod='${key}';renderInsights();document.getElementById('period-${key}').focus()">${label}</button>`).join('')}</div>`}
-function toggleInsightVersion(){insightVersion=insightVersion==='experimental'?'original':'experimental';if(insightPeriod==='fourweeks')insightPeriod='month';nav('insights');document.getElementById('insightVersionToggle').focus()}
+function insightPeriodButtons(){return `<div class="tabs" role="group" aria-label="Insights period">${[['week','Week'],['month','Month'],['year','Year']].map(([key,label])=>`<button type="button" id="period-${key}" class="tab ${insightPeriod===key?'active':''}" aria-pressed="${insightPeriod===key}" onclick="insightWeekStart=null;insightPeriod='${key}';renderInsights();document.getElementById('period-${key}').focus()">${label}</button>`).join('')}</div>`}
+function toggleInsightVersion(){insightVersion=insightVersion==='experimental'?'original':'experimental';nav('insights');document.getElementById('insightVersionToggle').focus()}
 
 function insightMedian(values){const xs=values.filter(Number.isFinite).sort((a,b)=>a-b),n=xs.length;return n?(xs[Math.floor((n-1)/2)]+xs[Math.ceil((n-1)/2)])/2:null}
 function insightSummary(visits){
@@ -1252,37 +1413,161 @@ function insightSummary(visits){
  const paired=visits.filter(v=>[v.moodBefore,v.moodAfter].every(x=>Number.isFinite(x)&&x>=1&&x<=5));
  const answered=visits.filter(v=>v.intention&&['Yes','Somewhat','Not today'].includes(v.intentionResponse));
  const mean=key=>paired.length?paired.reduce((s,v)=>s+v[key],0)/paired.length:null;
- return {intervals,paired,answered,before:mean('moodBefore'),after:mean('moodAfter'),better:paired.filter(v=>v.moodAfter>v.moodBefore).length,same:paired.filter(v=>v.moodAfter===v.moodBefore).length,lower:paired.filter(v=>v.moodAfter<v.moodBefore).length,typical:insightMedian(visits.map(v=>(v.intervals||[]).reduce((s,x)=>s+(Number.isFinite(x.durationMs)&&x.durationMs>0?x.durationMs:0),0)).filter(x=>x>0))};
+ return {intervals,paired,answered,before:mean('moodBefore'),after:mean('moodAfter'),typical:insightMedian(visits.map(v=>(v.intervals||[]).reduce((s,x)=>s+(Number.isFinite(x.durationMs)&&x.durationMs>0?x.durationMs:0),0)).filter(x=>x>0))};
 }
 function insightRange(now=new Date()){
  const end=localDate(now),week=insightPeriod==='week'&&insightWeekStart?insightWeekStart:startOfWeek(now);let start=week,last=end,spans=[];
  const addDays=(s,n)=>{const d=dayStart(s);d.setDate(d.getDate()+n);return localDate(d)};
- if(insightPeriod==='day'){start=end;spans=[{start:end,end,label:pretty(end,{weekday:'short'})}]}
- else if(insightPeriod==='week'){last=start>end?addDays(start,6):[addDays(start,6),end].sort()[0];spans=Array.from({length:7},(_,i)=>{const date=addDays(start,i);return {start:date,end:date,label:pretty(date,{weekday:'short'}),future:date>end}})}
- else if(insightPeriod==='fourweeks'){start=addDays(end,-27);spans=Array.from({length:4},(_,i)=>({start:addDays(start,i*7),end:addDays(start,i*7+6),label:pretty(addDays(start,i*7),{month:'short',day:'numeric'})}))}
+ if(insightPeriod==='week'){last=start>end?addDays(start,6):[addDays(start,6),end].sort()[0];spans=Array.from({length:7},(_,i)=>{const date=addDays(start,i);return {start:date,end:date,label:pretty(date,{weekday:'short'}),future:date>end}})}
  else if(insightPeriod==='month'){start=localDate(new Date(now.getFullYear(),now.getMonth(),1));const days=now.getDate();spans=Array.from({length:Math.ceil(days/7)},(_,i)=>({start:addDays(start,i*7),end:[addDays(start,i*7+6),end].sort()[0],label:`${i*7+1}–${Math.min(i*7+7,days)}`}))}
  else {start=`${now.getFullYear()}-01-01`;spans=Array.from({length:now.getMonth()+1},(_,i)=>({start:localDate(new Date(now.getFullYear(),i,1)),end:[localDate(new Date(now.getFullYear(),i+1,0)),end].sort()[0],label:new Date(now.getFullYear(),i,1).toLocaleDateString('en-US',{month:'short'})}))}
  return {start,end:last,week,spans};
+}
+function insightDonutSegmentPath(start,end,outer,inner){
+ const point=(radius,angle)=>`${outer+radius*Math.cos(angle)} ${outer+radius*Math.sin(angle)}`;
+ const corner=Math.min(4,inner*(end-start)/5);
+ const outerInset=corner/outer,innerInset=corner/inner;
+ const outerLarge=Number(end-start-2*outerInset>Math.PI);
+ const innerLarge=Number(end-start-2*innerInset>Math.PI);
+ return `M ${point(outer,start+outerInset)}
+ A ${outer} ${outer} 0 ${outerLarge} 1 ${point(outer,end-outerInset)}
+ Q ${point(outer,end)} ${point(outer-corner,end)}
+ L ${point(inner+corner,end)}
+ Q ${point(inner,end)} ${point(inner,end-innerInset)}
+ A ${inner} ${inner} 0 ${innerLarge} 0 ${point(inner,start+innerInset)}
+ Q ${point(inner,start)} ${point(inner+corner,start)}
+ L ${point(outer-corner,start)}
+ Q ${point(outer,start)} ${point(outer,start+outerInset)} Z`;
+}
+function insightSessionBreakdownMarkup(intervals,period){
+ const periodName={week:'Weekly',month:'Monthly',year:'Yearly'}[period];
+ const types=[['sauna','Sauna'],['cold','Cold'],['rest','Rest']];
+ const segments=types.map(([type,label])=>({type,label,ms:intervals.filter(x=>x.type===type).reduce((sum,x)=>sum+x.durationMs,0)})).filter(x=>x.ms>0);
+ const cardStart='<div class="card insight-session-breakdown"><h3>Your rhythm</h3>';
+ if(!segments.length)return `${cardStart}${empty('No recorded interval time','Save a visit with sauna, cold or rest time to see your session breakdown.')}</div>`;
+ const recorded=segments.reduce((sum,x)=>sum+x.ms,0);
+ for(const segment of segments){
+  segment.share=segment.ms/recorded;
+  segment.percent=Math.floor(segment.share*100);
+ }
+ // Allocate the remaining whole percentage points by fractional remainder.
+ const remaining=100-segments.reduce((sum,x)=>sum+x.percent,0);
+ const ranked=[...segments].sort((a,b)=>(b.share*100-b.percent)-(a.share*100-a.percent));
+ for(const segment of ranked.slice(0,remaining))segment.percent++;
+ const percentText=segment=>segment.percent?`${segment.percent}%`:'<1%';
+ const description=`${periodName} session breakdown by recorded interval time. ${segments.map(x=>`${x.label}: ${percentText(x)}, ${fmtM(x.ms)}`).join('; ')}.`;
+ const outer=157,inner=70.5,labelRadius=(outer+inner)/2;
+ let angle=-Math.PI/2-.055;
+ const shapes=[],labels=[],legend=[];
+ for(const segment of segments){
+  const {type,label,share}=segment,sweep=2*Math.PI*share;
+  const gap=Math.min(.045,sweep*.35),mid=angle+sweep/2;
+  const classes=`insight-donut-segment ${type}`;
+  if(segments.length===1){
+   shapes.push(`<circle class="${classes} is-full" cx="${outer}" cy="${outer}" r="${labelRadius}" stroke-width="${outer-inner}"/>`);
+  }else{
+   const path=insightDonutSegmentPath(angle+gap/2,angle+sweep-gap/2,outer,inner);
+   shapes.push(`<path class="${classes}" d="${path}"/>`);
+  }
+  angle+=sweep;
+  const percent=esc(percentText(segment));
+  if(share<.12){
+   legend.push(`<li class="${type}">${label} <strong>${percent}</strong></li>`);
+   continue;
+  }
+  const x=outer+labelRadius*Math.cos(mid),y=outer+labelRadius*Math.sin(mid);
+  const badgeWidth=type==='sauna'?42:35;
+  labels.push(`<g transform="translate(${x} ${y})">
+    <text class="insight-donut-label" y="-5">${label}</text>
+    <rect class="insight-donut-badge" x="${-badgeWidth/2}" y="1" width="${badgeWidth}" height="20" rx="2.2"/>
+    <text class="insight-donut-percent" y="15">${percent}</text>
+   </g>`);
+ }
+ return `${cardStart}<svg class="insight-session-donut" viewBox="0 0 314 314" role="img" aria-label="${esc(description)}">
+   ${shapes.join('')}${labels.join('')}
+   <text class="insight-donut-center" x="157" y="138">${periodName}<tspan x="157" dy="23.8">Session</tspan><tspan x="157" dy="23.8">Breakdown</tspan></text>
+  </svg>${legend.length?`<ul class="insight-donut-legend" aria-hidden="true">${legend.join('')}</ul>`:''}</div>`;
+}
+function moodActivityChart(range,visits,period){
+ const types=[['sauna','Heat'],['cold','Cold'],['rest','Rest']];
+ const [title,group]=period==='week'?['weekly','daily']:period==='month'?['monthly','weekly']:['yearly','monthly'];
+ const buckets=range.spans.map((span,index)=>{
+  const times={sauna:0,cold:0,rest:0};
+  for(const visit of visits){
+   if(visit.date<span.start||visit.date>span.end)continue;
+   for(const {type,durationMs} of visit.intervals||[]){
+    if(Object.hasOwn(times,type)&&Number.isFinite(durationMs)&&durationMs>0)times[type]+=durationMs;
+   }
+  }
+  const label=period==='month'?`Week ${index+1}`:span.label;
+  const date=pretty(span.start,{month:'long',day:'numeric'});
+  const dateRange=span.start===span.end?date:`${date} to ${pretty(span.end,{month:'long',day:'numeric'})}`;
+  const description=period==='year'?pretty(span.start,{month:'long',year:'numeric'}):`${label}, ${dateRange}`;
+  return {label,description,future:span.future,times,total:times.sauna+times.cold+times.rest};
+ });
+ const longest=Math.max(1,...buckets.map(bucket=>bucket.total));
+ const columns=buckets.map(({label,description,future,times},index)=>{
+  const segments=['cold','rest','sauna'].filter(type=>times[type]).map(type=>({type,height:Math.max(1,Math.floor(times[type]/longest*132))}));
+  const stackHeight=segments.reduce((sum,segment)=>sum+segment.height,0)+Math.max(0,segments.length-1);
+  const tooltip=types.map(([type,activity])=>`<span class="mood-chart-time" data-activity="${type}"><strong>${fmtM(times[type]).replace(' min','m')}</strong> ${activity}</span>`).join('');
+  return `<details class="mood-chart-column" name="mood-chart-details">
+    <summary aria-label="${esc(description)} session breakdown">
+      <span class="mood-chart-stack" aria-hidden="true">${segments.map(({type,height})=>`<span class="mood-chart-segment" data-activity="${type}" style="height:${height}px"></span>`).join('')}</span>
+      <span>${esc(label)}</span>
+    </summary>
+    <div class="mood-chart-tooltip" style="--mood-chart-x:${(index+.5)/buckets.length*100}%;--mood-stack-height:${Math.max(1,stackHeight)}px">
+      ${future?'Upcoming':tooltip}
+      <span class="mood-chart-tooltip-arrow" aria-hidden="true"><img src="./assets/mood-tooltip-beak.svg" alt="" width="8" height="8"><img src="./assets/mood-tooltip-beak-stroke.svg" alt="" width="8" height="8"></span>
+    </div>
+  </details>`;
+ }).join('');
+ return `<div onkeydown="closeMoodChartDetails(event)">
+   <div class="mood-chart-header">
+     <details class="mood-chart-info" name="mood-chart-details">
+       <summary aria-label="About mood averages"><span aria-hidden="true">i</span></summary>
+       <p>Older entries may include default mood values; confirmation was not tracked. New entries have no mood selected by default. Visits without both moods are excluded from these averages.</p>
+     </details>
+     <div><h3>Your ${title} rhythm</h3><p class="muted">Your ${group} session breakdown in review.</p></div>
+   </div>
+   <div class="mood-chart-plot" data-period="${period}" style="--mood-chart-columns:${buckets.length}" role="group" aria-label="${group} session breakdown">${columns}</div>
+ </div>`;
+}
+function closeMoodChartDetails(event){
+ if(event.key!=='Escape')return;
+ const open=event.currentTarget.querySelector('details[open]');
+ if(!open)return;
+ open.open=false;
+ open.querySelector('summary').focus();
 }
 function setInsightArea(area){if(!['rhythm','feel','ritual'].includes(area))return;insightArea=area;renderInsights();document.getElementById('insight-'+area)?.focus()}
 function renderInsights(){
  document.getElementById('insightVersionToggle').textContent=insightVersion==='experimental'?'Switch to original Insights':'Switch to experimental Insights';
  if(insightVersion==='original'){renderOriginalInsights();document.querySelector('#page-insights .tabs').outerHTML=insightPeriodButtons();return}
- const range=insightRange(),vs=rangeVisits(range.start,range.end).filter(v=>(!v.status||v.status==='completed')&&v.date<=localDate()),s=insightSummary(vs),goal=weeklyGoal(),max=Math.max(1,...range.spans.map(b=>visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end))));
+ const range=insightRange(),vs=rangeVisits(range.start,range.end).filter(v=>(!v.status||v.status==='completed')&&v.date<=localDate()),s=insightSummary(vs),max=Math.max(1,...range.spans.map(b=>visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end))));
  const time=ms=>ms===null?'—':`${Number((ms/60000).toFixed(1))} min`,value=n=>n===null?'—':n.toFixed(1);
  const row=(label,val)=>`<div class="insight-row"><span>${label}</span><strong>${val}</strong></div>`;
  const tabs=[['rhythm','My rhythm'],['feel','How I feel'],['ritual','My rituals']];
  let panel='';
  if(insightArea==='rhythm'){
- const weekly=visitDays(rangeVisits(range.week,insightPeriod==='week'?range.end:localDate())),activeWeeks=new Set(vs.map(v=>startOfWeek(dayStart(v.date)))).size;
- panel=`<h2>Make space, regularly.</h2><p class="small muted">Your attendance across this period.</p><div class="section split"><div class="card"><h3>Attendance over time</h3><p class="small muted">Days with at least one recorded visit</p><div class="bar-chart insight-chart" role="img" aria-label="${esc(range.spans.map(b=>`${b.label}: ${b.future?'upcoming':visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end))+' visit days'}`).join('; '))}">${range.spans.map(b=>{const n=visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end));return `<div class="bar-col"><small>${b.future?'—':n}</small><div class="bar-fill" style="height:${n?Math.max(6,n/max*120):2}px"></div><small>${b.label}</small></div>`}).join('')}</div><p class="small muted">${activeWeeks} calendar week${activeWeeks===1?'':'s'} with a recorded visit.</p></div><div class="card"><h3>${insightPeriod==='week'&&insightWeekStart?'Selected week':'This week'} · attendance intention</h3><div class="goal-number">${weekly}${goal?`<span class="stat-unit goal-denominator"> / ${goal} days</span>`:'<span class="stat-unit"> days</span>'}</div>${goal?`<div class="progress-line"><div class="progress-fill" style="width:${Math.min(100,weekly/goal*100)}%"></div></div><p class="small muted">Compared with your current intention of ${goal} days per week.</p>`:'<p class="small muted">Set a weekly intention in Settings when you are ready.</p>'}<p class="small muted insight-note">A rhythm that fits your life. There is no need to make up missed days.</p><button class="btn btn-outline" onclick="nav('profile')">${goal?'Edit':'Set'} goal</button></div></div>`;
+ const activeWeeks=new Set(vs.map(v=>startOfWeek(dayStart(v.date)))).size;
+ panel=`<h2>Make space, regularly.</h2><p class="small muted">Your attendance across this period.</p><div class="section split"><div class="card"><h3>Attendance over time</h3><p class="small muted">Days with at least one recorded visit</p><div class="bar-chart insight-chart" role="img" aria-label="${esc(range.spans.map(b=>`${b.label}: ${b.future?'upcoming':visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end))+' visit days'}`).join('; '))}">${range.spans.map(b=>{const n=visitDays(vs.filter(v=>v.date>=b.start&&v.date<=b.end));return `<div class="bar-col"><small>${b.future?'—':n}</small><div class="bar-fill" style="height:${n?Math.max(6,n/max*120):2}px"></div><small>${b.label}</small></div>`}).join('')}</div><p class="small muted">${activeWeeks} calendar week${activeWeeks===1?'':'s'} with a recorded visit.</p></div>${insightSessionBreakdownMarkup(s.intervals,insightPeriod)}</div>`;
  }
- if(insightArea==='feel')panel=`<h2>Notice how you leave.</h2><p class="small muted">${s.paired.length} paired mood entries out of ${vs.length} recorded visits.</p><div class="section split"><div class="card"><h3>Your mood · 1–5 scale</h3>${s.paired.length?`${row('Average before',value(s.before))}${row('Average after',value(s.after))}${row('Average mood change',`${s.after-s.before>0?'+':''}${value(s.after-s.before)}`)}<div class="hr"></div>${row('Felt better',s.better+' visits')}${row('Felt the same',s.same+' visits')}${row('Felt lower',s.lower+' visits')}`:empty('No paired mood entries','Record before-and-after mood in a visit to see your personal patterns.')}<p class="small muted insight-note">Existing entries may include the form’s default mood values; confirmation was not tracked.</p></div><div class="card"><h3>Did your visit support your intention?</h3>${s.answered.length?`${row('Yes',s.answered.filter(v=>v.intentionResponse==='Yes').length+' visits')}${row('Somewhat',s.answered.filter(v=>v.intentionResponse==='Somewhat').length+' visits')}${row('Not today',s.answered.filter(v=>v.intentionResponse==='Not today').length+' visits')}<p class="small muted">Based on ${s.answered.length} answered visits. Unanswered visits are excluded.</p>`:empty('A little reflection, when you want it','Set an intention and answer the optional reflection after your visit.')}<div class="notice insight-note">These are personal observations, not proof of medical benefit or cause and effect.</div></div></div>`;
+ if(insightArea==='feel')panel=`<h2>Notice how you leave.</h2><p class="small muted">${s.paired.length} paired mood entries out of ${vs.length} recorded visits.</p>
+   <div class="section split">
+     <div class="card mood-chart-card">
+       ${moodActivityChart(range,vs,insightPeriod)}
+       <div class="mood-chart-averages">
+         <h3>Your mood · 1–5 scale</h3>
+         ${s.paired.length?`${row('Average before',value(s.before))}${row('Average after',value(s.after))}${row('Average mood change',`${s.after-s.before>0?'+':''}${value(s.after-s.before)}`)}`:'<p class="small muted">Record before-and-after mood in a visit to see your personal patterns.</p>'}
+       </div>
+     </div>
+     <div class="card"><h3>Did your visit support your intention?</h3>${s.answered.length?`${row('Yes',s.answered.filter(v=>v.intentionResponse==='Yes').length+' visits')}${row('Somewhat',s.answered.filter(v=>v.intentionResponse==='Somewhat').length+' visits')}${row('Not today',s.answered.filter(v=>v.intentionResponse==='Not today').length+' visits')}<p class="small muted">Based on ${s.answered.length} answered visits. Unanswered visits are excluded.</p>`:empty('A little reflection, when you want it','Set an intention and answer the optional reflection after your visit.')}<div class="notice insight-note">These are personal observations, not proof of medical benefit or cause and effect.</div></div>
+   </div>`;
  if(insightArea==='ritual'){
  const recorded=s.intervals.reduce((a,x)=>a+x.durationMs,0),types=[['sauna','Sauna'],['cold','Cold'],['rest','Rest']];
  panel=`<h2>Get to know your ritual.</h2><p class="small muted">The time you recorded, including space to rest.</p><div class="section split"><div class="card"><h3>Time across your visits</h3>${recorded?types.map(([type,label])=>{const ms=s.intervals.filter(x=>x.type===type).reduce((a,x)=>a+x.durationMs,0);return `${row(label,time(ms))}<div class="progress-line"><div class="progress-fill" style="width:${ms/recorded*100}%"></div></div>`}).join(''):empty('No recorded interval time','Save a visit with sauna, cold or rest time to explore your ritual.')}<p class="small muted insight-note">Shares of total recorded interval time. Unrecorded breaks are excluded.</p></div><div class="card"><h3>A typical visit</h3>${row('Median recorded visit time',time(s.typical))}${types.map(([type,label])=>{const xs=s.intervals.filter(x=>x.type===type);return `${row(`Median ${label.toLowerCase()} round`,time(insightMedian(xs.map(x=>x.durationMs))))}<p class="small muted">${xs.length} recorded intervals</p>`}).join('')}<p class="small muted insight-note">Your own patterns, without targets for longer or colder sessions.</p></div></div>`;
  }
- document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">A little perspective on what supports you.</p><div class="insight-toolbar">${insightPeriodButtons()}<span class="small muted">${pretty(range.start,{month:'short',day:'numeric',year:'numeric'})} – ${pretty(range.end,{month:'short',day:'numeric',year:'numeric'})}</span></div><div class="stats">${[['Days visited',visitDays(vs),'','visits','Distinct spa days'],['Sauna time',Math.round(s.intervals.filter(x=>x.type==='sauna').reduce((a,x)=>a+x.durationMs,0)/60000),'min','sauna','Recorded exposure'],['Cold time',Math.round(s.intervals.filter(x=>x.type==='cold').reduce((a,x)=>a+x.durationMs,0)/60000),'min','cold','Recorded exposure']].map(([label,n,unit,type,caption])=>`<div class="card metric-card metric-${type}"><div class="stat-label">${label}</div><div class="stat-values"><span class="stat-number">${n}</span><span class="stat-unit">${unit}</span></div><div class="stat-bottom">${caption}</div></div>`).join('')}</div><div class="tabs insight-tabs" role="group" aria-label="Explore your insights">${tabs.map(([key,label])=>`<button type="button" id="insight-${key}" class="tab ${insightArea===key?'active':''}" aria-pressed="${insightArea===key}" aria-controls="insightPanel" onclick="setInsightArea('${key}')">${label}</button>`).join('')}</div><section id="insightPanel" class="section" aria-labelledby="insight-${insightArea}">${panel}</section><p class="small muted insight-note">Completed visits only. Missing entries are excluded. All calculations stay in your journal.</p>`;
+ document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">A little perspective on what supports you.</p><div class="insight-toolbar">${insightPeriodButtons()}<span class="small muted">${pretty(range.start,{month:'short',day:'numeric',year:'numeric'})} – ${pretty(range.end,{month:'short',day:'numeric',year:'numeric'})}</span></div><div class="stats">${[['Days visited',visitDays(vs),'','visits','Distinct spa days'],['Sauna',Math.round(s.intervals.filter(x=>x.type==='sauna').reduce((a,x)=>a+x.durationMs,0)/60000),'min','sauna',''],['Cold plunge',Math.round(s.intervals.filter(x=>x.type==='cold').reduce((a,x)=>a+x.durationMs,0)/60000),'min','cold','']].map(([label,n,unit,type,caption])=>`<div class="card metric-card metric-${type}"><div class="stat-label">${label}</div><div class="stat-values"><span class="stat-number">${n}</span><span class="stat-unit">${unit}</span></div><div class="stat-bottom">${caption}</div></div>`).join('')}</div><div class="tabs insight-tabs" role="group" aria-label="Explore your insights">${tabs.map(([key,label])=>`<button type="button" id="insight-${key}" class="tab ${insightArea===key?'active':''}" aria-pressed="${insightArea===key}" aria-controls="insightPanel" onclick="setInsightArea('${key}')">${label}</button>`).join('')}</div><section id="insightPanel" class="section" aria-labelledby="insight-${insightArea}">${panel}</section><p class="small muted insight-note">Completed visits only. Missing entries are excluded. All calculations stay in your journal.</p>`;
 }
 
 class SectionJumpNav {
@@ -1331,12 +1616,12 @@ function initialOwner(){try{const x=JSON.parse(localStorage.getItem('loyly-cloud
 function validOwner(value){return typeof value==='string'&&/^[a-zA-Z0-9-]{1,100}$/.test(value)}
 function ownerKey(base,owner=activeOwner){return owner?'olo-account-v2:'+owner+':'+base:base}
 function saveManualDraft(){
- const value={journalEditingId,manualIntervals,manualMoodBefore,manualMoodAfter,manualTags,manualMode,manualDate,manualNotes,manualHeat,manualCold,manualTemp,manualHeatTemp,manualIntention,manualIntentionResponse};
+ const value={moodExplicit:true,journalEditingId,manualIntervals,manualMoodBefore,manualMoodAfter,manualTags,manualMode,manualDate,manualNotes,manualHeat,manualCold,manualTemp,manualHeatTemp,manualIntention,manualIntentionResponse};
  if(journalEditingId||manualIntervals.length||manualNotes||manualHeat||manualCold||manualIntention)localStorage.setItem(ownerKey('olo-manual-draft-v2'),JSON.stringify(value));
 }
 function restoreManualDraft(){
  try{const v=JSON.parse(localStorage.getItem(ownerKey('olo-manual-draft-v2'))||'null');if(!v||!Array.isArray(v.manualIntervals)||!Array.isArray(v.manualTags))return;
- ({journalEditingId,manualIntervals,manualMoodBefore,manualMoodAfter,manualTags,manualMode,manualDate,manualNotes,manualHeat,manualCold,manualTemp,manualHeatTemp,manualIntention,manualIntentionResponse}=v);sessionTab=draft?.current?'timer':'manual';
+ ({journalEditingId,manualIntervals,manualMoodBefore,manualMoodAfter,manualTags,manualMode,manualDate,manualNotes,manualHeat,manualCold,manualTemp,manualHeatTemp,manualIntention,manualIntentionResponse}=v);if(!journalEditingId&&!v.moodExplicit){manualMoodBefore=null;manualMoodAfter=null;}sessionTab=draft?.current?'timer':'manual';
  }catch{}
 }
 function emptyJournal(){return {profile:{name:'',gender:'',weight:'',goal:3},visits:[]}}
@@ -1369,20 +1654,34 @@ async function cloudRequest(path,options={}){
  if(!res.ok)throw Object.assign(Error(payload?.msg||payload?.error_description||payload?.message||'Request failed. Please try again.'),{status:res.status,code:payload?.code||payload?.error_code});
  return payload;
 }
-async function validSession(){
+async function validSession(rejectedToken=null){
  if(!cloud.session?.access_token)throw Object.assign(Error('Sign in to resume sync.'),{status:401});
- if(cloud.session.expires_at>Date.now()+60000)return;
+ if(cloud.session.expires_at>Date.now()+60000&&cloud.session.access_token!==rejectedToken)return;
  const epoch=accountEpoch,owner=activeOwner;
  await accountLock('auth',async()=>{
   assertAccount(epoch,owner);const latest=sharedCloud();
   if(!latest.session||latest.userId!==cloud.userId)throw Object.assign(Error('Sign in to resume sync.'),{status:401});
-  cloud=latest;if(cloud.session.expires_at>Date.now()+60000)return;
+  cloud=latest;if(cloud.session.expires_at>Date.now()+60000&&cloud.session.access_token!==rejectedToken)return;
   const r=await cloudRequest('/auth/v1/token?grant_type=refresh_token',{method:'POST',auth:false,body:{refresh_token:cloud.session.refresh_token},signal:accountAbort?.signal});
   assertAccount(epoch,owner);cloud.session=sessionFrom(r);saveSession();
  });
 }
 function sessionFrom(r){if(!r?.access_token||!r.refresh_token)throw Error('The sign-in service returned an incomplete session.');return {access_token:r.access_token,refresh_token:r.refresh_token,expires_at:Date.now()+(r.expires_in||3600)*1000}}
-async function cloudUser(){const u=await cloudRequest('/auth/v1/user',{signal:accountAbort?.signal});if(!validOwner(u?.id))throw Error('Account identity unavailable.');return u.id}
+async function cloudUser(){
+ const epoch=accountEpoch,owner=activeOwner,token=cloud.session?.access_token;
+ const request=()=>cloudRequest('/auth/v1/user',{signal:accountAbort?.signal});
+ let user;
+ try{user=await request()}
+ catch(error){
+  if(error.status!==401||!token)throw error;
+  assertAccount(epoch,owner);
+  await validSession(token);
+  assertAccount(epoch,owner);
+  user=await request();
+ }
+ if(!validOwner(user?.id))throw Error('Account identity unavailable.');
+ return user.id;
+}
 function flattenPreferences(value,prefix='',out={}){
  for(const [key,v] of Object.entries(value||{})){if(['__proto__','constructor','prototype'].includes(key))continue;const path=prefix?prefix+'.'+key:key;if(v&&typeof v==='object'&&!Array.isArray(v))flattenPreferences(v,path,out);else out[path]=v}
  return out;
@@ -1650,7 +1949,7 @@ function exportCSV(){const rows=[['Visit date','Source','Type','Duration (minute
 const INTENTION_SUGGESTIONS={Unwind:'Let myself unwind and release the day.', 'Be present':'Give myself time to slow down and be present.',Recharge:'Make space to rest and feel recharged.',Recover:'Listen to my body and give it space to recover.','Find clarity':'Give my mind room to settle and find clarity.'};
 let intentionEditor=null,intentionReturnFocus=null;
 function visitHasStarted(visit){return !!(visit&&(visit.status==='active'||visit.current||visit.intervals?.length))}
-function upcomingVisit(intention=null){return {id:id(),status:'upcoming',date:null,startedAt:null,intervals:[],current:null,moodBefore:3,intention,intentionResponse:null}}
+function upcomingVisit(intention=null){return {id:id(),status:'upcoming',date:null,startedAt:null,intervals:[],current:null,moodBefore:null,intention,intentionResponse:null}}
 function ensureLiveVisit(){if(!draft)draft=upcomingVisit();return true}
 function migrateIntentionDraft(){
  // Only existing saved data is migrated. Opening an empty editor never creates a visit.
@@ -1774,6 +2073,14 @@ let plannerState=null;
 function lastPlanLocation(){const saved=calendarPreferences().location;if(saved)return saved;const previous=[...(db.plannedVisits||[])].filter(p=>SPA_LOCATIONS.includes(p.location)&&!p.cancelledAt).sort((a,b)=>b.updatedAt-a.updatedAt)[0];return previous?.location||SPA_LOCATIONS[0]}
 function planTimeZoneName(date,time,zone,occurrence=0){try{const candidates=zonedCandidates(date,time,zone),ms=candidates[occurrence]??candidates[0]??Date.parse(date+'T12:00:00Z');return new Intl.DateTimeFormat('en-US',{timeZone:zone,timeZoneName:'long'}).formatToParts(new Date(ms)).find(p=>p.type==='timeZoneName')?.value||zone}catch(e){return 'Choose a time zone'}}
 function togglePlanTimeZone(){const field=document.getElementById('planZoneField'),button=document.getElementById('planZoneEdit');if(!field||!button)return;const open=field.hidden;field.hidden=!open;button.setAttribute('aria-expanded',String(open));button.textContent=open?'Done':'Edit';if(open)document.getElementById('planZone').focus();else button.focus()}
+function rememberPlanCalendar(select){
+ const previous=calendarPreferences(),provider=select.value;
+ if(!provider||provider==='ask'||!Object.hasOwn(CALENDARS,provider)||provider===previous.provider)return;
+ db.profile.calendar={...previous,provider};
+ if(persist())return;
+ select.value=previous.provider==='ask'?'':previous.provider;
+ document.getElementById('planError').textContent='Could not save your calendar preference. Choose it again to retry.';
+}
 function openVisitPlanner(date,planId=null){
  const prior=(db.plannedVisits||[]).find(p=>p.id===planId&&!p.cancelledAt);
  if(!prior&&date<localDate())return;
@@ -1783,7 +2090,7 @@ function openVisitPlanner(date,planId=null){
  const location=SPA_LOCATIONS.includes(p.location)?p.location:lastPlanLocation();
  modal(prior?'Your planned visit':'Plan a spa visit',`
  <form id="visitPlanForm" onsubmit="event.preventDefault();saveVisitPlan()">
-  <div class="field"><label for="planDate">Date</label><div class="planner-date-group"><input id="planDate" type="date" value="${esc(p.date)}" ${prior?'':`min="${localDate()}"`} required onchange="updatePlanTime()"><span class="planner-date-icon" aria-hidden="true">${icon('calendar')}</span></div></div>
+  <div class="field"><label for="planDate">Date</label><input id="planDate" type="date" value="${esc(p.date)}" ${prior?'':`min="${localDate()}"`} required onchange="updatePlanTime()"></div>
   <div class="fields-2">
    <div class="field"><label for="planTime">Start time</label><input id="planTime" type="time" value="${esc(p.time)}" required onchange="updatePlanTime()"></div>
    <div class="field"><label for="planDuration">Duration (minutes)</label><input id="planDuration" type="number" min="15" max="480" value="${p.duration}" required></div>
@@ -1792,7 +2099,7 @@ function openVisitPlanner(date,planId=null){
   <div id="planZoneField" class="field" hidden><label for="planZone">Time zone</label><select id="planZone" required onchange="updatePlanTime()">${timeZoneOptions(p.timeZone)}</select><p class="input-help">Times use this zone, even if you travel.</p></div>
   <div id="planAmbiguity" class="field" hidden><label for="planOccurrence">This time happens twice when clocks change</label><select id="planOccurrence" onchange="updatePlanTime()"><option value="">Choose which occurrence</option><option value="0">First occurrence (earlier)</option><option value="1">Second occurrence (later)</option></select></div>
   <div class="field"><label for="planLocation">Location</label><select id="planLocation" required>${SPA_LOCATIONS.map(value=>`<option value="${value}" ${value===location?'selected':''}>${value}</option>`).join('')}</select></div>
-  <div class="field"><label for="planCalendar">Calendar</label><select id="planCalendar" required><option value="">Choose a calendar</option>${Object.entries(CALENDARS).filter(([value])=>value!=='ask').map(([value,label])=>`<option value="${value}" ${preferences.provider===value?'selected':''}>${label}</option>`).join('')}</select></div>
+  <div class="field"><label for="planCalendar">Calendar</label><select id="planCalendar" required onchange="rememberPlanCalendar(this)"><option value="">Choose a calendar</option>${Object.entries(CALENDARS).filter(([value])=>value!=='ask').map(([value,label])=>`<option value="${value}" ${preferences.provider===value?'selected':''}>${label}</option>`).join('')}</select></div>
   <p class="input-help">Planned visits don’t count toward your goal.</p>
   <p id="planError" class="planner-error" role="alert"></p><p id="planStatus" class="input-help" role="status"></p>
   <div class="actions"><button type="submit" class="btn" id="planCalendarAction">${icon('calendar')} Add to calendar</button>${prior?`<button type="button" class="btn btn-outline" onclick="cancelVisitPlan('${prior.id}')">Cancel visit</button>`:''}</div>
@@ -1906,7 +2213,7 @@ function parseBackup(text){
  if(d.profile.calendar?.location!==undefined&&!['Fort Union','Orem','Salt Lake'].includes(d.profile.calendar.location))fail();
  if(d.profile.thoughtTopic!==undefined&&!['ai','tolle','zen'].includes(d.profile.thoughtTopic))fail();
  if(d.profile.goal!==undefined&&(!Number.isFinite(Number(d.profile.goal))||Number(d.profile.goal)<1||Number(d.profile.goal)>6))fail();
- return {profile:{name:String(d.profile.name||'').slice(0,80),gender:String(d.profile.gender||''),weight:String(d.profile.weight||''),goal:Number(d.profile.goal)||3,...(d.profile.avatarPath&&typeof d.profile.avatarPath==='string'&&/^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\.webp$/.test(d.profile.avatarPath)?{avatarPath:d.profile.avatarPath}:{}),...(d.profile.thoughtTopic?{thoughtTopic:d.profile.thoughtTopic}:{}),...(d.profile.calendar?{calendar:d.profile.calendar}:{}),...(d.profile.appearance?{appearance:normalizeAppearance(d.profile.appearance)}:{})},visits:d.visits,...(d.plannedVisits?{plannedVisits:d.plannedVisits}:{}),...(d.pendingIntention?{pendingIntention:d.pendingIntention,...(d.pendingIntentionNeedsReview?{pendingIntentionNeedsReview:true}:{})}: {}),...(d.upcomingVisit?{upcomingVisit:{id:d.upcomingVisit.id,status:'upcoming',date:null,startedAt:null,current:null,intervals:[],intention:d.upcomingVisit.intention||null,intentionResponse:null,moodBefore:3}}:{})};
+ return {profile:{name:String(d.profile.name||'').slice(0,80),gender:String(d.profile.gender||''),weight:String(d.profile.weight||''),goal:Number(d.profile.goal)||3,...(d.profile.avatarPath&&typeof d.profile.avatarPath==='string'&&/^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\.webp$/.test(d.profile.avatarPath)?{avatarPath:d.profile.avatarPath}:{}),...(d.profile.thoughtTopic?{thoughtTopic:d.profile.thoughtTopic}:{}),...(d.profile.calendar?{calendar:d.profile.calendar}:{}),...(d.profile.appearance?{appearance:normalizeAppearance(d.profile.appearance)}:{})},visits:d.visits,...(d.plannedVisits?{plannedVisits:d.plannedVisits}:{}),...(d.pendingIntention?{pendingIntention:d.pendingIntention,...(d.pendingIntentionNeedsReview?{pendingIntentionNeedsReview:true}:{})}: {}),...(d.upcomingVisit?{upcomingVisit:{id:d.upcomingVisit.id,status:'upcoming',date:null,startedAt:null,current:null,intervals:[],intention:d.upcomingVisit.intention||null,intentionResponse:null,moodBefore:null}}:{})};
 }
 function backupFingerprint(value){
  if(Array.isArray(value))return '['+value.map(backupFingerprint).join(',')+']';
@@ -1988,7 +2295,7 @@ function applyBackupRestore(mode){
 let modalReturnFocus=null;
 function modal(title,body,buttons){if(!document.getElementById('modalRoot').innerHTML)modalReturnFocus=document.activeElement;document.getElementById('modalRoot').innerHTML=`<div class="modal-layer" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="section-head"><h2>${esc(title)}</h2><button class="icon-btn" onclick="closeModal()" aria-label="Close dialog">${icon('close')}</button></div>${body}<div class="actions" style="justify-content:flex-end;margin-top:25px">${buttons||''}</div></div></div>`;setTimeout(()=>document.querySelector('#modalRoot .icon-btn')?.focus(),0)}
 function closeModal(){pendingBackup=null;plannerState=null;document.getElementById('modalRoot').innerHTML='';const old=modalReturnFocus;modalReturnFocus=null;if(old?.isConnected)old.focus();else if(old?.dataset?.date)document.querySelector(`.week-day[data-date="${old.dataset.date}"]`)?.focus()}
-document.addEventListener('keydown',event=>{const box=document.querySelector('#modalRoot .modal');if(!box)return;if(event.key==='Escape'){event.preventDefault();closeModal();return}if(event.key==='Tab'){const all=[...box.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled)')].filter(e=>e.getClientRects().length);const first=all[0],last=all[all.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}}});
+document.addEventListener('keydown',event=>{const box=document.querySelector('#modalRoot .modal');if(!box){if(event.key==='Escape'&&!event.defaultPrevented&&!document.querySelector('dialog[open]')&&view==='journal'&&sessionTab==='manual'&&!journalEditingId){event.preventDefault();closeManual()}return}if(event.key==='Escape'){event.preventDefault();closeModal();return}if(event.key==='Tab'){const all=[...box.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled)')].filter(e=>e.getClientRects().length);const first=all[0],last=all[all.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}}});
 
 // Appearance is part of the existing synced profile. Daily playback is device-local.
 const WELCOME_DAY_KEY='loyly-welcome-day-v1';
