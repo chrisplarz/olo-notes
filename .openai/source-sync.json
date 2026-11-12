@@ -3,7 +3,7 @@
   "github": {
     "remote": "https://github.com/chrisplarz/olo-notes.git",
     "branch": "main",
-    "commit": "643c16e3544054ab277ea99fff06f943ad37591b",
+    "commit": "82bb9a107195a05aa00690b6036da528fcb146c4",
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -27,6 +27,8 @@
       "assets/mood-filled/4-head.svg": "4fe4f061135334bfcb827c1d019535471fe672ff02d752f00fe359e3979ede39",
       "assets/mood-filled/4-mouth.svg": "dfdd1ceef75a713c07d26a10c31a62c8fc5197b861abf4f42dbb04a85a52eaf3",
       "assets/mood-filled/5.svg": "50304ef4e4879c2416b0f252bdc6c92cc9d5b1e1c619063040c524e767cd9f16",
+      "assets/mood-tooltip-beak-stroke.svg": "39e24d428ed3b734a06a308ad10c6b63622a8558767d38291b0a454f533f4a2f",
+      "assets/mood-tooltip-beak.svg": "e652a78784c1a5f12d6b23e3cb5110afb69187a6f524822aee65e0661819f9e9",
       "assets/olo-activity-prototype.html": "6520f0274ebd034e05f832feeae395fad4a4247d51ddff153553bcf329d10a96",
       "assets/olo-notes-logo-ui.svg": "b67ef6563e35112dda67fbdcb094fc37518c01c47263f90e9c383117cc97d304",
       "assets/olo-notes-logo.svg": "18525245edda1917281b042d570b55f11e6070c8a6a3fd71fd2acf6e1ca0df0b",
@@ -42,9 +44,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "ea9de5c0bf90651dec7e7d57ffb428b40d1087658cae3f2f4243ca1e29dc0850",
+      "index.html": "ce5cb52baca3eaf433e54e2b1416a8320d162e7ba9e6fd1aeb88ace35963821d",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "a4fb53d4d936a9e0db8071b0d892c104d78bde96236a5e29cd9a2e0f227661a9"
+      "sw.js": "0af9cadbc1ade564701da31248c0cc6e9871131a0ed255291d42e6e2e05bae57"
     }
   },
   "design": {
@@ -117,7 +119,7 @@
     }
   },
   "prepared": {
-    "version": 87,
+    "version": 88,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -158,9 +160,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "ce5cb52baca3eaf433e54e2b1416a8320d162e7ba9e6fd1aeb88ace35963821d",
+      "index.html": "77096726172a3bba40953e819a603ef26b384041b7eafa2ca8ce5b5dbe70f3d4",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "0af9cadbc1ade564701da31248c0cc6e9871131a0ed255291d42e6e2e05bae57"
+      "sw.js": "3629301bdc15b0d4d6ebb6811be74aa61feff4f49bb5b1c208858aee232c5b34"
     }
   }
 }
