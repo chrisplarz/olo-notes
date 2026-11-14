@@ -13,7 +13,7 @@ function boot(){
 }
 test('desktop and mobile navigation lead to one Visits page with controls before history',()=>{
  const h=boot();h.ctx.nav('journal');for(const id of ['sideNav','bottomNav']){assert.match(h.el(id).innerHTML,/Visits/);assert.doesNotMatch(h.el(id).innerHTML,/Sessions/)}
- const content=h.el('page-journal').innerHTML;assert.match(content,/<h1>Visits<\/h1>/);assert.equal((content.match(/role="tablist"/g)||[]).length,1);assert.ok(content.indexOf('Live Timer<span')<content.indexOf('Guided Session</button>'));assert.ok(content.indexOf('Guided Session</button>')<content.indexOf('visitLog'));assert.doesNotMatch(content,/Post-visit entry<\/button>/);assert.doesNotMatch(h.el('sessionArea').innerHTML,/role="tablist"/);assert.match(h.el('sessionArea').innerHTML,/Begin sauna/);assert.doesNotMatch(html,/page-session/);
+ const content=h.el('page-journal').innerHTML;assert.match(content,/<h1>Visits<\/h1>/);assert.equal((content.match(/role="tablist"/g)||[]).length,1);assert.ok(content.indexOf('Live Timer<span')<content.indexOf('Guided Session<span'));assert.ok(content.indexOf('Guided Session<span')<content.indexOf('visitLog'));assert.doesNotMatch(content,/Post-visit entry<\/button>/);assert.doesNotMatch(h.el('sessionArea').innerHTML,/role="tablist"/);assert.match(h.el('sessionArea').innerHTML,/Begin sauna/);assert.doesNotMatch(html,/page-session/);
  h.ctx.beginManual();assert.match(h.el('sessionArea').innerHTML,/Sauna · total minutes/);assert.match(h.el('page-journal').innerHTML,/Recent Visits/);
 });
 test('Home start opens Visits and the running timer continues updating there',()=>{

@@ -61,14 +61,32 @@ test('Add visit opens manual entry and the single selector returns to either ses
 });
 test('pause, recovery, cold confirmation, partial review, edits and duplicate prevention',async t=>{
   const page=await boot(t);await page.getByRole('button',{name:/Nordic Contrast/}).click();await page.getByRole('button',{name:'Start Ritual',exact:true}).click();
-  await page.clock.runFor(61000);await page.getByRole('button',{name:'Pause',exact:true}).click();await page.clock.runFor(120000);
+  const live=page.getByRole('tab',{name:'Live Timer',exact:true}),guided=page.getByRole('tab',{name:'Guided Session',exact:true});
+  const dot=guided.locator('.live-timer-indicator');
+  async function checkGuidedIndicator(type,color){
+    await live.click();
+    assert.equal(await dot.isVisible(),Boolean(type));
+    if(type){
+      assert.equal(await dot.getAttribute('data-type'),type);
+      assert.equal(await dot.evaluate(e=>getComputedStyle(e).backgroundColor),color);
+      assert.match(await guided.getAttribute('aria-description'),/timer running/);
+    }
+    assert.equal(await page.locator('.guided-resume-note').count(),0);
+    await guided.click();
+    assert.equal(await dot.isVisible(),false);
+  }
+  await checkGuidedIndicator('sauna','rgb(209, 133, 89)');
+  await page.clock.runFor(61000);await page.getByRole('button',{name:'Pause',exact:true}).click();await page.clock.runFor(120000);await checkGuidedIndicator();
   assert.equal(await page.evaluate(()=>OloRituals.elapsed(db.guidedRitual)),61000);await page.reload();await page.evaluate(()=>nav('journal'));
   assert.equal(await page.getByRole('button',{name:'Resume',exact:true}).count(),1);assert.equal(await page.evaluate(()=>OloRituals.elapsed(db.guidedRitual)),61000);
   await page.getByRole('button',{name:'Resume',exact:true}).click();await page.clock.runFor(30000);await page.getByRole('button',{name:'Complete & Next',exact:true}).click();
+  await checkGuidedIndicator('rest','rgb(129, 147, 136)');
   await page.getByRole('button',{name:'Skip Step',exact:true}).click();assert.equal(await page.evaluate(()=>db.guidedRitual.awaitingCold),true);
+  await checkGuidedIndicator();
   await page.clock.runFor(120000);assert.equal(await page.evaluate(()=>OloRituals.elapsed(db.guidedRitual)),0);
   await page.getByRole('button',{name:'Begin Cold Plunge…',exact:true}).click();await page.getByRole('button',{name:'Keep waiting',exact:true}).click();assert.equal(await page.evaluate(()=>db.guidedRitual.runningSince),null);
   await page.getByRole('button',{name:'Begin Cold Plunge…',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'Begin Cold Plunge',exact:true}).click();
+  await checkGuidedIndicator('cold','rgb(110, 159, 171)');
   await page.clock.runFor(45000);await page.getByRole('button',{name:'Complete & Next',exact:true}).click();await page.clock.runFor(10000);
   await page.getByRole('button',{name:'End Ritual',exact:true}).click();await page.getByRole('button',{name:'End & review',exact:true}).click();
   assert.equal(await page.evaluate(()=>db.visits.length),0);assert.equal(await page.evaluate(()=>db.guidedRitual.steps[0].actualMs),91000);
