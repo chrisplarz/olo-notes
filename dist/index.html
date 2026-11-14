@@ -449,11 +449,13 @@ body:has(.sheet-layer,.timer-info-dialog[open]){overflow:hidden}
 .visit-session-card .activity-btn{min-height:52px;font-size:14px;line-height:18px}
 #page-insights>.stats>.metric-sauna{background:#f3e0cb}
 #page-insights>.stats>.metric-cold{background:var(--cold-bg)}
-#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-label{line-height:14px;min-height:28px;margin-bottom:14px}
+#page-insights>.insight-summary>.metric-card{padding-bottom:16px}
+#page-insights>.insight-summary .stat-label{min-height:14px}
 #page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-number{font:700 40px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:-.05em;color:var(--ink)}
 #page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-unit{font-size:11px;line-height:16px;margin-left:0}
-#page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-bottom{display:none}
 @media(max-width:680px){
+ #page-insights>.insight-summary>.metric-card{padding-bottom:12px}
+ #page-insights>.insight-summary .stat-label{min-height:28px}
  #page-insights>.stats>.metric-card:is(.metric-sauna,.metric-cold) .stat-number{font-size:27px}
 }
 .visit-session-card .session-divider{height:1px;background:var(--line);margin-bottom:16px}
@@ -595,7 +597,7 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="93">
+<meta name="olo-release" content="94">
 </head>
 <body>
 <div class="app">
@@ -1643,7 +1645,7 @@ function renderInsights(){
  const recorded=s.intervals.reduce((a,x)=>a+x.durationMs,0),types=[['sauna','Sauna'],['cold','Cold'],['rest','Rest']];
  panel=`<h2>Get to know your ritual.</h2><p class="small muted">The time you recorded, including space to rest.</p><div class="section split"><div class="card"><h3>Time across your visits</h3>${recorded?types.map(([type,label])=>{const ms=s.intervals.filter(x=>x.type===type).reduce((a,x)=>a+x.durationMs,0);return `${row(label,time(ms))}<div class="progress-line"><div class="progress-fill" style="width:${ms/recorded*100}%"></div></div>`}).join(''):empty('No recorded interval time','Save a visit with sauna, cold or rest time to explore your ritual.')}<p class="small muted insight-note">Shares of total recorded interval time. Unrecorded breaks are excluded.</p></div><div class="card"><h3>A typical visit</h3>${row('Median recorded visit time',time(s.typical))}${types.map(([type,label])=>{const xs=s.intervals.filter(x=>x.type===type);return `${row(`Median ${label.toLowerCase()} round`,time(insightMedian(xs.map(x=>x.durationMs))))}<p class="small muted">${xs.length} recorded intervals</p>`}).join('')}<p class="small muted insight-note">Your own patterns, without targets for longer or colder sessions.</p></div></div>`;
  }
- document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">A little perspective on what supports you.</p><div class="insight-toolbar">${insightPeriodButtons()}<span class="small muted">${pretty(range.start,{month:'short',day:'numeric',year:'numeric'})} – ${pretty(range.end,{month:'short',day:'numeric',year:'numeric'})}</span></div><div class="stats">${[['Days visited',visitDays(vs),'','visits','Distinct spa days'],['Sauna',Math.round(s.intervals.filter(x=>x.type==='sauna').reduce((a,x)=>a+x.durationMs,0)/60000),'min','sauna',''],['Cold plunge',Math.round(s.intervals.filter(x=>x.type==='cold').reduce((a,x)=>a+x.durationMs,0)/60000),'min','cold','']].map(([label,n,unit,type,caption])=>`<div class="card metric-card metric-${type}"><div class="stat-label">${label}</div><div class="stat-values"><span class="stat-number">${n}</span><span class="stat-unit">${unit}</span></div><div class="stat-bottom">${caption}</div></div>`).join('')}</div><div class="tabs insight-tabs" role="group" aria-label="Explore your insights">${tabs.map(([key,label])=>`<button type="button" id="insight-${key}" class="tab ${insightArea===key?'active':''}" aria-pressed="${insightArea===key}" aria-controls="insightPanel" onclick="setInsightArea('${key}')">${label}</button>`).join('')}</div><section id="insightPanel" class="section" aria-labelledby="insight-${insightArea}">${panel}</section><p class="small muted insight-note">Completed visits only. Missing entries are excluded. All calculations stay in your journal.</p>`;
+ document.getElementById('page-insights').innerHTML=`<h1>Insights</h1><p class="lede">A little perspective on what supports you.</p><div class="insight-toolbar">${insightPeriodButtons()}<span class="small muted">${pretty(range.start,{month:'short',day:'numeric',year:'numeric'})} – ${pretty(range.end,{month:'short',day:'numeric',year:'numeric'})}</span></div><div class="stats insight-summary">${[['Days visited',visitDays(vs),'','visits'],['Sauna',Math.round(s.intervals.filter(x=>x.type==='sauna').reduce((a,x)=>a+x.durationMs,0)/60000),'min','sauna'],['Cold plunge',Math.round(s.intervals.filter(x=>x.type==='cold').reduce((a,x)=>a+x.durationMs,0)/60000),'min','cold']].map(([label,n,unit,type])=>`<div class="card metric-card metric-${type}"><div class="stat-label">${label}</div><div class="stat-values"><span class="stat-number">${n}</span>${unit?`<span class="stat-unit">${unit}</span>`:''}</div></div>`).join('')}</div><div class="tabs insight-tabs" role="group" aria-label="Explore your insights">${tabs.map(([key,label])=>`<button type="button" id="insight-${key}" class="tab ${insightArea===key?'active':''}" aria-pressed="${insightArea===key}" aria-controls="insightPanel" onclick="setInsightArea('${key}')">${label}</button>`).join('')}</div><section id="insightPanel" class="section" aria-labelledby="insight-${insightArea}">${panel}</section><p class="small muted insight-note">Completed visits only. Missing entries are excluded. All calculations stay in your journal.</p>`;
 }
 
 class SectionJumpNav {
