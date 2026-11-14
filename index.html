@@ -169,6 +169,33 @@ html.textarea-keyboard-short .intention-body:has(textarea:focus){overflow:visibl
 @keyframes intention-sheet-enter{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes intention-backdrop-enter{from{opacity:0}to{opacity:1}}
 
+/* Match the intention sheet on phones. Content sets the height until scrolling is needed. */
+.sheet-modal{background:var(--paper);color:var(--ink)}
+.sheet-modal .section-head{align-items:center;margin-bottom:12px}
+.sheet-modal .section-head .icon-btn{min-width:44px;min-height:44px}
+.sheet-actions{justify-content:flex-end;margin-top:16px}
+.sheet-rows{list-style:none;display:grid;gap:0;padding:0;margin:12px 0 0}
+.sheet-rows li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.sheet-rows li:last-child{border-bottom:0}
+.sheet-modal .guided-safety{margin-top:12px;padding-top:10px}
+body:has(.sheet-layer,.timer-info-dialog[open]){overflow:hidden}
+.day-recap+.day-recap{border-top:1px solid var(--line);margin-top:16px;padding-top:16px}
+.day-recap .visit-moods{margin-top:10px}
+.day-recap .intention-text{margin:8px 0;font-size:14px}
+.day-recap .actions{margin-top:10px}
+.planner-modal #planError:empty,.planner-modal #planStatus:empty{display:none}
+@media(max-width:600px){
+ .sheet-layer{align-items:flex-end;padding:0;background:#19383280;overflow:hidden}
+ .modal.sheet-modal,.timer-info-dialog.sheet-modal{box-sizing:border-box;width:100%;max-width:none;max-height:calc(var(--sheet-visible-height,100dvh) - 12px);min-height:0;padding:16px 20px max(16px,env(safe-area-inset-bottom));border-radius:24px 24px 0 0;overscroll-behavior:contain}
+ .sheet-layer{bottom:var(--sheet-keyboard-inset,0px)}
+ .timer-info-dialog.sheet-modal{margin:auto 0 var(--sheet-keyboard-inset,0px);border-bottom:0}
+ .timer-info-dialog.sheet-modal::backdrop{background:#19383280}
+}
+@media(max-width:600px) and (prefers-reduced-motion:no-preference){
+ .sheet-layer>.sheet-modal,.timer-info-dialog.sheet-modal[open]{animation:intention-sheet-enter 300ms cubic-bezier(.22,1,.36,1) both}
+ .timer-info-dialog.sheet-modal[open]::backdrop{animation:intention-backdrop-enter 220ms ease-out both}
+}
+
 /* Figma 6:116 — shared metric-card foundations and interactive states. */
 :root{--metric-press-visits:#c1d4c1;--metric-press-sauna:#e3c4b0;--metric-press-cold:#b9d3d5;--metric-press-rest:#cdd5cb}
 .metric-card.metric-visits{--metric-bg:var(--mint);--metric-press:var(--metric-press-visits)}
@@ -568,14 +595,14 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="92">
+<meta name="olo-release" content="93">
 </head>
 <body>
 <div class="app">
 <aside class="sidebar"><div class="sidebar-brand" aria-label="Ølo Notes — Your Nordic Wellness Journal"><div class="brand">Ølo Notes</div><div class="brand-sub">Your Nordic Wellness Journal</div></div><nav class="nav" id="sideNav"></nav><div class="sidebar-bottom"><nav class="nav sidebar-settings" id="sidebarSettings" aria-label="Settings"></nav><div class="sidebar-foot"><span class="eyebrow" style="color:#9eb5a4">A SMALL RITUAL, REPEATED.</span><p>Find warmth. Embrace the cold.<br/><strong>Notice how you feel.</strong></p></div></div></aside>
 <main class="main"><header class="topline"><div class="eyebrow" id="pageEyebrow">THE ART OF FEELING WELL</div><div class="topline-right"><button type="button" id="accountControl" class="account-control" aria-label="Sign In" aria-haspopup="dialog" onclick="showAccount()"></button></div></header>
 <section id="page-home" class="page active"></section><section id="page-journal" class="page"></section><section id="page-insights" class="page"></section><section id="page-profile" class="page"></section>
-<footer class="sync-footer"><button type="button" onclick="showSyncDetails()"><span id="syncStatus" role="status" aria-live="polite">Saved on this device</span></button><button type="button" id="insightVersionToggle" onclick="toggleInsightVersion()">Switch to original Insights</button></footer></main></div><dialog id="accountDialog" class="account-dialog" aria-labelledby="accountTitle"></dialog><nav class="bottom-nav" id="bottomNav"></nav><div id="modalRoot"></div><dialog id="intentionDialog" class="intention-dialog"></dialog><dialog id="timerInfoDialog" class="timer-info-dialog" aria-labelledby="timerInfoTitle"><div class="section-head"><h2 id="timerInfoTitle">Using the timer</h2><button type="button" class="icon-btn" aria-label="Close timer information" onclick="document.getElementById('timerInfoDialog').close()"><span aria-hidden="true">×</span></button></div><div class="session-info"><p>A phone may overheat in a sauna. You can leave your phone outside, use the timer when convenient, and adjust any recorded durations afterward.</p><p>Your timer uses timestamps and saves its draft locally, so locking your phone or switching apps won't lose your elapsed time. Pause it during breaks you don't want counted.</p></div><div class="actions" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn" onclick="document.getElementById('timerInfoDialog').close()">Got it</button></div></dialog><aside id="calendarFeedback" aria-live="polite"></aside><div id="toastRoot"></div>
+<footer class="sync-footer"><button type="button" onclick="showSyncDetails()"><span id="syncStatus" role="status" aria-live="polite">Saved on this device</span></button><button type="button" id="insightVersionToggle" onclick="toggleInsightVersion()">Switch to original Insights</button></footer></main></div><dialog id="accountDialog" class="account-dialog" aria-labelledby="accountTitle"></dialog><nav class="bottom-nav" id="bottomNav"></nav><div id="modalRoot"></div><dialog id="intentionDialog" class="intention-dialog"></dialog><dialog id="timerInfoDialog" class="timer-info-dialog sheet-modal" aria-labelledby="timerInfoTitle"><div class="section-head"><h2 id="timerInfoTitle">Using the timer</h2><button type="button" class="icon-btn" aria-label="Close timer information" onclick="document.getElementById('timerInfoDialog').close()"><span aria-hidden="true">×</span></button></div><div class="session-info"><p>A phone may overheat in a sauna. You can leave your phone outside, use the timer when convenient, and adjust any recorded durations afterward.</p><p>Your timer uses timestamps and saves its draft locally, so locking your phone or switching apps won't lose your elapsed time. Pause it during breaks you don't want counted.</p></div><div class="actions sheet-actions"><button type="button" class="btn" onclick="document.getElementById('timerInfoDialog').close()">Got it</button></div></dialog><aside id="calendarFeedback" aria-live="polite"></aside><div id="toastRoot"></div>
 <script>
 'use strict';
 // BEGIN GUIDED RITUAL CORE
@@ -762,7 +789,19 @@ function guidedMarkup(){
   if(r?.phase==='review')return guidedReviewMarkup(r);
   if(r?.phase==='active')return guidedActiveMarkup(r);
   if(r?.phase==='preview'&&!guidedShowList)return guidedPreviewMarkup(r);
-  return `<section class="guided-experience" aria-labelledby="guidedTitle">${guidedHeading('Find your ritual','A little structure, at your own pace. Preview a ritual and make it yours before beginning.')}<div class="guided-presets">${['mindful-reset','pure-sauna','first-dip','nordic-contrast'].map(id=>OloRituals.templates.find(t=>t.id===id)).map(t=>`<button type="button" class="guided-preset" onclick="chooseGuidedPreset('${t.id}')">${guidedThumb(t)}<span class="guided-preset-copy"><strong>${t.name}</strong><span>${t.description}</span><small>${t.steps.length} steps · ${guidedTime(OloRituals.plannedMs(t))}</small></span><span class="chevron" aria-hidden="true"><img src="assets/rituals/ritual-chevron.svg" width="20" height="20" alt=""/></span></button>`).join('')}</div></section>`;
+  return `<section class="guided-experience" aria-labelledby="guidedTitle">${guidedHeading('Find your ritual','A little structure, at your own pace. Preview a ritual and make it yours before beginning.')}<div class="guided-presets">${['mindful-reset','pure-sauna','first-dip','nordic-contrast'].map(id=>OloRituals.templates.find(t=>t.id===id)).map(t=>`<button type="button" class="guided-preset" onclick="openGuidedPresetSheet('${t.id}')">${guidedThumb(t)}<span class="guided-preset-copy"><strong>${t.name}</strong><span>${t.description}</span><small>${t.steps.length} steps · ${guidedTime(OloRituals.plannedMs(t))}</small></span><span class="chevron" aria-hidden="true"><img src="assets/rituals/ritual-chevron.svg" width="20" height="20" alt=""/></span></button>`).join('')}</div></section>`;
+}
+function openGuidedPresetSheet(presetId){
+  const template=OloRituals.templates.find(t=>t.id===presetId);
+  if(!template)return;
+  modal(template.name,`<p class="small">${esc(template.description)}</p><p class="pill">${template.steps.length} steps · ${guidedTime(OloRituals.plannedMs(template))} planned</p><ol class="sheet-rows">${template.steps.map((step,index)=>`<li><span>${index+1}. ${OloRituals.activities[step.activity].label}</span><span>${guidedTime(step.plannedMs)}</span></li>`).join('')}</ol>${guidedSafety()}`,`<button type="button" class="btn btn-outline" onclick="closeModal();chooseGuidedPreset('${presetId}')">Customize</button><button type="button" class="btn" onclick="startGuidedPresetFromSheet('${presetId}')">${icon('play')} Start Ritual</button>`,'sheet-modal');
+}
+function startGuidedPresetFromSheet(presetId){
+  if(db.guidedRitual&&['active','review'].includes(db.guidedRitual.phase))return;
+  const previous=guidedPreview;
+  guidedPreview=OloRituals.create(presetId,id(),id);
+  if(!startGuidedRitual()){guidedPreview=previous;return}
+  closeModal();
 }
 function chooseGuidedPreset(presetId){
   if(db.guidedRitual&&['active','review'].includes(db.guidedRitual.phase))return;
@@ -825,9 +864,10 @@ function guidedField(key,value){
   guidedCommit(r,slot,false);
 }
 function startGuidedRitual(){
-  const r=guidedPreview;if(r?.phase!=='preview')return;
+  const r=guidedPreview;if(r?.phase!=='preview')return false;
   guidedRecovery=false;
-  if(guidedCommit(OloRituals.transition(r,'start'),'guidedRitual',false)){guidedPreview=null;guidedRenderFocus();}
+  if(!guidedCommit(OloRituals.transition(r,'start'),'guidedRitual',false))return false;
+  guidedPreview=null;guidedRenderFocus();return true;
 }
 function guidedActiveMarkup(r){
   const s=r.steps[r.cursor],activity=OloRituals.activities[s.activity],elapsed=OloRituals.elapsed(r),waiting=!!r.awaitingCold;
@@ -1376,7 +1416,7 @@ ${draft?.intention?`<div class="session-divider" aria-hidden="true"></div>${inte
 ${legacyIntentionMarkup()}
 ${visitHasStarted(draft)?`<div class="section-head session-timeline-heading"><h2>Session timeline</h2><span class="pill live">${ended?'Visit ended':cur?'In progress':'Ready to save'}</span></div><div class="interval-list">${done.map((x,i)=>intervalRow(x,i,'live')).join('')}${cur?`<div class="interval-row" data-type="${cur.type}"><div class="interval-icon ${cur.type}">${icon(cur.type==='sauna'?'flame':cur.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(cur.type)}</strong><p>Currently ${cur.running?'timing':'paused'}</p></div><div class="interval-length" id="currentIntervalLabel">${fmtM(currentElapsed())}</div></div>`:''}</div><div class="actions" style="margin-top:22px"><button class="btn${ended?'':' live-timer-end'}" onclick="finishLive()">${icon('check')} ${ended?'Reflect &amp; save':'End Visit'}</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button></div>`:''}
 `}
-function openTimerInfo(){document.getElementById('timerInfoDialog').showModal()}
+function openTimerInfo(){updateSheetViewport();document.getElementById('timerInfoDialog').showModal()}
 function labelType(x){return {sauna:'Sauna',cold:'Cold plunge',rest:'Rest'}[x]||x}
 function intervalRow(x,i,source){return `<div class="interval-row" data-type="${x.type}"><div class="interval-icon ${x.type}">${icon(x.type==='sauna'?'flame':x.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(x.type)}</strong><p>${x.temp!=null&&x.temp!==''?esc(x.temp)+'°F · ':''}${x.activity?.length?esc(x.activity.join(', ')):'Cycle '+(i+1)}</p></div><div class="interval-length">${fmtM(x.durationMs)}</div><button class="icon-btn" aria-label="Edit cycle" onclick="editInterval('${source}',${i})">${icon('edit')}</button><button class="icon-btn" aria-label="Remove cycle" onclick="removeInterval('${source}',${i})">${icon('trash')}</button></div>`}
 function syncSessionHeaderAction(){
@@ -2143,7 +2183,15 @@ function renderWeeklyHome(){const start=homeWeekStart(),endDay=dayStart(start);e
 }
 function refreshHomeWeek(){const el=document.querySelector('.home-week');if(view==='home'&&el&&(el.dataset.today!==localDate()||el.dataset.week!==homeWeekStart())){const focused=document.activeElement?.dataset?.date;renderHome();if(focused)document.querySelector(`.week-day[data-date="${focused}"]`)?.focus()}}
 setInterval(refreshHomeWeek,30000);window.addEventListener('focus',refreshHomeWeek);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshHomeWeek()});
-function openHomeDay(date){const visits=db.visits.filter(v=>v.date===date),plans=plansOn(date),future=date>=localDate();if(!visits.length&&!plans.length&&future){openVisitPlanner(date);return}if(visits.length===1){openVisit(visits[0].id);return}if(!visits.length&&!plans.length)return;modal(pretty(date,{weekday:'long',month:'long',day:'numeric'}),`${visits.length?`<h3>Recorded visits</h3><div class="list">${visits.map(v=>`<button class="visit-item" data-visit-id="${esc(v.id)}" onclick="openVisit(this.dataset.visitId)"><span class="visit-info"><strong>${fmtM(duration(v))}</strong><p>${esc(v.intention||'View this visit')}</p></span>${icon('chev')}</button>`).join('')}</div>`:''}${plans.length?`<h3 style="margin-top:20px">Planned visits</h3><div class="list">${plans.map(p=>`<button class="visit-item" onclick="openVisitPlanner('${p.date}','${p.id}')"><span class="visit-info"><strong>${esc(p.time)} · ${p.duration} min</strong><p>${esc(p.location||'Spa visit')} · ${esc(p.timeZone)}</p></span>${icon('chev')}</button>`).join('')}</div>`:''}`,`${future&&!visits.length?`<button class="btn" onclick="openVisitPlanner('${date}')">${icon('plus')} Plan a spa visit</button>`:''}<button class="btn ${visits.length?'':'btn-outline'}" onclick="closeModal()">Close</button>`)}
+function openHomeDay(date){const visits=db.visits.filter(v=>v.date===date),plans=plansOn(date),future=date>=localDate();if(!visits.length&&!plans.length&&future){openVisitPlanner(date);return}if(!visits.length&&!plans.length)return;
+ const title=pretty(date,{weekday:'long',month:'long',day:'numeric'});
+ const recaps=visits.map(v=>{
+  const mood=[v.moodBefore,v.moodAfter].some(n=>Number.isInteger(n)&&n>=1&&n<=5);
+  return `<section class="day-recap"><p><strong>Sauna</strong> ${fmtM(total(v,'sauna'))} · <strong>Cold plunge</strong> ${fmtM(total(v,'cold'))}</p>${mood?visitMoodMarkup(v):''}${v.intention?`<p class="intention-text"><strong>Intention</strong> ${esc(v.intention)}</p>`:''}<div class="actions"><button type="button" class="btn btn-outline" data-visit-id="${esc(v.id)}" onclick="openVisit(this.dataset.visitId)">View visit</button></div></section>`;
+ }).join('');
+ const scheduled=plans.length?`<h3>Planned visits</h3><div class="list">${plans.map(p=>`<button class="visit-item" onclick="openVisitPlanner('${p.date}','${p.id}')"><span class="visit-info"><strong>${esc(p.time)} · ${p.duration} min</strong><p>${esc(p.location||'Spa visit')} · ${esc(p.timeZone)}</p></span>${icon('chev')}</button>`).join('')}</div>`:'';
+ modal(title,recaps+scheduled,future&&!visits.length?`<button class="btn" onclick="openVisitPlanner('${date}')">${icon('plus')} Plan a spa visit</button>`:'','sheet-modal');
+}
 function zoneParts(ms,zone){return Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(new Date(ms)).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
 function zonedCandidates(date,time,zone){if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(time))return [];const base=Date.parse(`${date}T${time}:00Z`);if(!Number.isFinite(base)||new Date(base).toISOString().slice(0,10)!==date)return [];const offsets=new Set();for(let h=-36;h<=36;h+=6){const ms=base+h*3600000,p=zoneParts(ms,zone);offsets.add(Date.UTC(+p.year,+p.month-1,+p.day,+p.hour,+p.minute,+p.second)-ms)}return [...offsets].map(o=>base-o).filter(ms=>{const p=zoneParts(ms,zone);return `${p.year}-${p.month}-${p.day}`===date&&`${p.hour}:${p.minute}`===time}).sort((a,b)=>a-b)}
 function timeZoneOptions(selected){const zones=typeof Intl.supportedValuesOf==='function'?Intl.supportedValuesOf('timeZone'):['UTC',deviceTimeZone(),'America/Denver','America/New_York','Europe/London'];return [...new Set([selected,...zones])].sort().map(zone=>`<option value="${esc(zone)}" ${zone===selected?'selected':''}>${esc(zone.replaceAll('_',' ').replaceAll('/',' · '))}</option>`).join('')}
@@ -2182,8 +2230,7 @@ function openVisitPlanner(date,planId=null){
   <p class="input-help">Planned visits don’t count toward your goal.</p>
   <p id="planError" class="planner-error" role="alert"></p><p id="planStatus" class="input-help" role="status"></p>
   <div class="actions"><button type="submit" class="btn" id="planCalendarAction">${icon('calendar')} Add to calendar</button>${prior?`<button type="button" class="btn btn-outline" onclick="cancelVisitPlan('${prior.id}')">Cancel visit</button>`:''}</div>
- </form>`,'');
- document.querySelector('#modalRoot .modal')?.classList.add('planner-modal');
+ </form>`,'','sheet-modal planner-modal');
  if(prior){try{const options=zonedCandidates(p.date,p.time,p.timeZone);if(options.length>1)document.getElementById('planOccurrence').value=String(options.indexOf(p.startMs))}catch(e){}}
  updatePlanTime();
 }
@@ -2372,8 +2419,26 @@ function applyBackupRestore(mode){
 }
 
 let modalReturnFocus=null;
-function modal(title,body,buttons){if(!document.getElementById('modalRoot').innerHTML)modalReturnFocus=document.activeElement;document.getElementById('modalRoot').innerHTML=`<div class="modal-layer" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="section-head"><h2>${esc(title)}</h2><button class="icon-btn" onclick="closeModal()" aria-label="Close dialog">${icon('close')}</button></div>${body}<div class="actions" style="justify-content:flex-end;margin-top:25px">${buttons||''}</div></div></div>`;setTimeout(()=>document.querySelector('#modalRoot .icon-btn')?.focus(),0)}
-function closeModal(){pendingBackup=null;plannerState=null;document.getElementById('modalRoot').innerHTML='';const old=modalReturnFocus;modalReturnFocus=null;if(old?.isConnected)old.focus();else if(old?.dataset?.date)document.querySelector(`.week-day[data-date="${old.dataset.date}"]`)?.focus()}
+function modal(title,body,buttons,classes=''){
+ const root=document.getElementById('modalRoot');
+ if(!root.innerHTML)modalReturnFocus=document.activeElement;
+ const sheet=classes.includes('sheet-modal');
+ root.innerHTML=`<div class="modal-layer${sheet?' sheet-layer':''}" onclick="if(event.target===this)closeModal()"><div class="modal ${classes}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="section-head"><h2>${esc(title)}</h2><button class="icon-btn" type="button" onclick="closeModal()" aria-label="Close dialog">${icon('close')}</button></div>${body}${buttons?`<div class="actions ${sheet?'sheet-actions':''}" ${sheet?'':'style="justify-content:flex-end;margin-top:25px"'}>${buttons}</div>`:''}</div></div>`;
+ if(sheet)updateSheetViewport();
+ setTimeout(()=>root.querySelector('.icon-btn')?.focus({preventScroll:sheet}),0);
+}
+function updateSheetViewport(){
+ const viewport=window.visualViewport;
+ const height=viewport?.height??window.innerHeight;
+ const inset=Math.max(0,window.innerHeight-height-(viewport?.offsetTop??0));
+ const root=document.documentElement;
+ root.style.setProperty('--sheet-visible-height',height+'px');
+ root.style.setProperty('--sheet-keyboard-inset',inset+'px');
+}
+window.visualViewport?.addEventListener('resize',updateSheetViewport);
+window.visualViewport?.addEventListener('scroll',updateSheetViewport);
+window.addEventListener('resize',updateSheetViewport);
+function closeModal(){pendingBackup=null;plannerState=null;document.getElementById('modalRoot').innerHTML='';const old=modalReturnFocus;modalReturnFocus=null;if(old?.isConnected)old.focus({preventScroll:true});else if(old?.dataset?.date)document.querySelector(`.week-day[data-date="${old.dataset.date}"]`)?.focus()}
 document.addEventListener('keydown',event=>{const box=document.querySelector('#modalRoot .modal');if(!box){if(event.key==='Escape'&&!event.defaultPrevented&&!document.querySelector('dialog[open]')&&view==='journal'&&sessionTab==='manual'&&!journalEditingId){event.preventDefault();closeManual()}return}if(event.key==='Escape'){event.preventDefault();closeModal();return}if(event.key==='Tab'){const all=[...box.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled)')].filter(e=>e.getClientRects().length);const first=all[0],last=all[all.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}}});
 
 // Appearance is part of the existing synced profile. Daily playback is device-local.
