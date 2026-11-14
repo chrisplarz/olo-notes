@@ -6,7 +6,7 @@ for(const width of [320,390,1280])test(`Live Timer indicator follows running act
  await page.route('**/*',r=>{const u=new URL(r.request().url());if(u.href==='http://indicator.test/')return r.fulfill({contentType:'text/html',body:html});if(u.origin==='http://indicator.test'&&u.pathname.startsWith('/assets/'))return r.fulfill({body:fs.readFileSync(path.join(__dirname,'..',u.pathname))});return r.abort()});
  await page.addInitScript(()=>{if(!localStorage.getItem('loyly-journal-v1'))localStorage.setItem('loyly-journal-v1',JSON.stringify({profile:{appearance:{dailyIntro:false}},visits:[]}))});
  await page.goto('http://indicator.test/');await page.evaluate(()=>nav('journal'));
- const live=page.getByRole('tab',{name:'Live Timer',exact:true}),guided=page.getByRole('tab',{name:'Guided Session',exact:true}),dot=page.locator('.live-timer-indicator');
+ const live=page.getByRole('tab',{name:'Live Timer',exact:true}),guided=page.getByRole('tab',{name:'Guided Session',exact:true}),dot=live.locator('.live-timer-indicator');
  assert.equal(await dot.isVisible(),false);await guided.click();assert.equal(await dot.isVisible(),false);
  for(const [type,color] of [['sauna','rgb(209, 133, 89)'],['cold','rgb(110, 159, 171)'],['rest','rgb(129, 147, 136)']]){
   await live.click();await page.locator(`.activity-btn[data-type=${type}]`).click();assert.equal(await dot.isVisible(),false);

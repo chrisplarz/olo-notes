@@ -339,6 +339,11 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .guided-thumb{display:block;width:52px;height:52px;flex:none;border-radius:14px;object-fit:cover;background:var(--mint)}
 .guided-preset-copy{display:grid;gap:7px;min-width:0;flex:1}.guided-preset-copy strong{font:600 14px Lora,Georgia,serif}.guided-preset-copy>span{font-size:12px;line-height:1.65;color:var(--pine2)}.guided-preset-copy small{font-size:11px;color:var(--pine2)}.guided-preset .chevron{flex:none;color:var(--pine)}
 .guided-back{display:inline-flex;align-items:center;min-height:44px;margin:-8px 0 10px}.guided-return{margin-bottom:18px}
+.guided-experience.guided-preview{background:var(--pine);border-color:var(--pine);color:var(--paper)}
+.guided-preview>.guided-copy,.guided-preview>.field>label{color:var(--mint)}
+.guided-preview .text-btn,.guided-preview .btn-outline{color:var(--button-light)}
+.guided-preview .btn-outline{border-color:var(--moss)}
+.guided-preview :is(.text-btn,.btn,textarea):focus-visible{outline-color:var(--button-light)}
 .guided-steps{list-style:none;padding:0;display:grid;gap:8px;margin:22px 0 18px}
 .guided-step{display:grid;grid-template-columns:28px minmax(0,1fr) auto 32px;align-items:center;gap:6px;border:1px solid var(--line);border-radius:14px;padding:8px;background:var(--paper)}
 .guided-step .field{min-width:0;margin:0}
@@ -538,7 +543,7 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="88">
+<meta name="olo-release" content="90">
 </head>
 <body>
 <div class="app">
@@ -679,10 +684,9 @@ function mergeGuidedLocalDrafts(incoming){
   }
 }
 function guidedOtherSessionMarkup(){
-  const r=db.guidedRitual,otherGuided=guidedMode==='timer'&&r&&['active','review'].includes(r.phase);
+  const r=db.guidedRitual;
   if(guidedMode==='guided'&&db.guidedRitualEdit?.phase==='review'&&r&&['active','review'].includes(r.phase))return `<aside class="guided-resume-note"><p>${guidedEditHidden?'You have unsaved edits to a journal visit.':r.phase==='review'?'Your current ritual is also ready to review.':`Your current ritual is ${r.runningSince===null?'paused or waiting':'still timing'}.`}</p><button type="button" class="text-btn" onclick="guidedEditHidden=!guidedEditHidden;guidedRenderFocus()">${guidedEditHidden?'Return to visit edits':'Return to current ritual'}</button></aside>`;
   if(guidedMode==='guided'&&guidedEditHidden&&db.guidedRitualEdit?.phase==='review')return `<aside class="guided-resume-note"><p>You have unsaved edits to a journal visit.</p><button type="button" class="text-btn" onclick="guidedEditHidden=false;guidedRenderFocus()">Return to visit edits</button></aside>`;
-  if(otherGuided)return `<aside class="guided-resume-note"><p>${r.phase==='review'?'Your guided ritual is ready to review.':`Your guided ritual is ${r.runningSince===null?'paused or waiting':'still timing'}.`}</p><button type="button" class="text-btn" onclick="setGuidedMode('guided')">Return to Guided</button></aside>`;
   return '';
 }
 function guidedFresh(slot){
@@ -707,12 +711,20 @@ function setGuidedMode(mode){
   if(!['timer','guided'].includes(mode))return;
   guidedMode=mode;sessionTab='timer';renderJournal();guidedFocus(mode==='timer'?'liveSessionTab':'guidedSessionTab');
 }
-function guidedTabsMarkup(){const live=sessionTab==='timer'&&guidedMode==='timer',guided=sessionTab==='timer'&&guidedMode==='guided';return `<div class="tabs guided-tabs" role="tablist" aria-label="Session experience" onkeydown="guidedTabKey(event)"><button type="button" id="liveSessionTab" class="tab ${live?'active':''}" role="tab" aria-selected="${live}" aria-controls="sessionArea" tabindex="${guided?-1:0}" onclick="setGuidedMode('timer')">${icon('timer')} Live Timer<span class="live-timer-indicator" aria-hidden="true" hidden></span></button><button type="button" id="guidedSessionTab" class="tab ${guided?'active':''}" role="tab" aria-selected="${guided}" aria-controls="sessionArea" tabindex="${guided?0:-1}" onclick="setGuidedMode('guided')">Guided Session</button></div>`}
-function syncLiveTimerIndicator(){
- const tab=document.getElementById('liveSessionTab'),dot=document.querySelector('#liveSessionTab .live-timer-indicator');if(!dot)return;
- const current=draft?.current,show=sessionTab==='timer'&&guidedMode==='guided'&&current?.running&&!visitIsEnded(draft)&&['sauna','cold','rest'].includes(current.type);
+function guidedTabsMarkup(){const live=sessionTab==='timer'&&guidedMode==='timer',guided=sessionTab==='timer'&&guidedMode==='guided';return `<div class="tabs guided-tabs" role="tablist" aria-label="Session experience" onkeydown="guidedTabKey(event)"><button type="button" id="liveSessionTab" class="tab ${live?'active':''}" role="tab" aria-selected="${live}" aria-controls="sessionArea" tabindex="${guided?-1:0}" onclick="setGuidedMode('timer')">${icon('timer')} Live Timer<span class="live-timer-indicator" aria-hidden="true" hidden></span></button><button type="button" id="guidedSessionTab" class="tab ${guided?'active':''}" role="tab" aria-selected="${guided}" aria-controls="sessionArea" tabindex="${guided?0:-1}" onclick="setGuidedMode('guided')">Guided Session<span class="live-timer-indicator" aria-hidden="true" hidden></span></button></div>`}
+function syncSessionIndicators(){
+ const current=draft?.current,ritual=db.guidedRitual;
+ const liveType=sessionTab==='timer'&&guidedMode==='guided'&&current?.running&&!visitIsEnded(draft)?current.type:null;
+ const guidedType=sessionTab==='timer'&&guidedMode==='timer'&&ritual?.phase==='active'&&ritual.runningSince!==null&&!ritual.awaitingCold
+  ?OloRituals.activities[ritual.steps[ritual.cursor]?.activity]?.type:null;
+ syncSessionIndicator('liveSessionTab',liveType,'Live Timer');
+ syncSessionIndicator('guidedSessionTab',guidedType,'Guided Session');
+}
+function syncSessionIndicator(id,type,tabLabel){
+ const tab=document.getElementById(id),dot=document.querySelector(`#${id} .live-timer-indicator`);if(!dot)return;
+ const show=['sauna','cold','rest'].includes(type);
  dot.hidden=!show;
- if(show){dot.dataset.type=current.type;tab.setAttribute('aria-description',`${labelType(current.type)} timer running in Live Timer`)}
+ if(show){dot.dataset.type=type;tab.setAttribute('aria-description',`${labelType(type)} timer running in ${tabLabel}`)}
  else{delete dot.dataset.type;tab.removeAttribute('aria-description')}
 }
 function guidedTabKey(event){if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();setGuidedMode(event.key==='Home'?'timer':event.key==='End'?'guided':guidedMode==='timer'?'guided':'timer')}}
@@ -732,7 +744,7 @@ function chooseGuidedPreset(presetId){
   const next=OloRituals.create(presetId,id(),id);guidedShowList=false;
   if(guidedCommit(next,'guidedRitual'))guidedFocus('guidedTitle');
 }
-function guidedPreviewMarkup(r){return `<section class="card guided-experience" aria-labelledby="guidedTitle"><button type="button" class="text-btn guided-back" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">← All rituals</button>${guidedHeading(r.name,r.templateSnapshot.description)}<p class="pill">${r.steps.length} steps · ${guidedTime(OloRituals.plannedMs(r))} planned</p><p class="small guided-copy">Adjust each step in 30-second increments. These changes are just for this visit.</p><ol class="guided-steps">${r.steps.map((s,i)=>guidedStepEditor(s,i,r.steps.length)).join('')}</ol><div class="actions guided-edit-actions"><button type="button" class="btn btn-outline" onclick="guidedAddStep()" ${r.steps.length>=100?'disabled':''}>${icon('plus')} Add step</button><button type="button" class="text-btn" onclick="guidedRestorePreset()">Restore preset</button></div><div class="field"><label for="guidedIntention">Intention (optional)</label><textarea id="guidedIntention" maxlength="200" oninput="guidedField('intention',this.value)">${esc(r.intention)}</textarea></div><div class="dialog-button-bar guided-start"><button type="button" class="btn" onclick="startGuidedRitual()">${icon('play')} Start Ritual</button><button type="button" class="btn btn-outline" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">Back to rituals</button></div>${guidedSafety()}</section>`}
+function guidedPreviewMarkup(r){return `<section class="card guided-experience guided-preview" aria-labelledby="guidedTitle"><button type="button" class="text-btn guided-back" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">← All rituals</button>${guidedHeading(r.name,r.templateSnapshot.description)}<p class="pill">${r.steps.length} steps · ${guidedTime(OloRituals.plannedMs(r))} planned</p><p class="small guided-copy">Adjust each step in 30-second increments. These changes are just for this visit.</p><ol class="guided-steps">${r.steps.map((s,i)=>guidedStepEditor(s,i,r.steps.length)).join('')}</ol><div class="actions guided-edit-actions"><button type="button" class="btn btn-outline" onclick="guidedAddStep()" ${r.steps.length>=100?'disabled':''}>${icon('plus')} Add step</button><button type="button" class="text-btn" onclick="guidedRestorePreset()">Restore preset</button></div><div class="field"><label for="guidedIntention">Intention (optional)</label><textarea id="guidedIntention" maxlength="200" oninput="guidedField('intention',this.value)">${esc(r.intention)}</textarea></div><div class="dialog-button-bar guided-start"><button type="button" class="btn btn-light" onclick="startGuidedRitual()">${icon('play')} Start Ritual</button><button type="button" class="btn btn-outline" onclick="guidedPreview=null;guidedShowList=true;guidedRenderFocus()">Back to rituals</button></div>${guidedSafety()}</section>`}
 function guidedStepEditor(s,i,count){return `<li class="guided-step" id="guidedStep${i}" data-step-index="${i}"><button type="button" class="icon-btn guided-grip" id="guidedGrip${i}" aria-label="Reorder step ${i+1}" aria-description="Drag to reorder, or use the up and down arrow keys." onkeydown="guidedStepKey(event,${i})" onpointerdown="beginGuidedDrag(event,${i})"><span aria-hidden="true">⠿</span></button><div class="field"><label for="guidedActivity${i}" class="sr-only">Activity for step ${i+1}</label><select id="guidedActivity${i}" onchange="guidedEditStep(${i},'activity',this.value)">${Object.entries(OloRituals.activities).map(([key,a])=>`<option value="${key}" ${s.activity===key?'selected':''}>${a.label}</option>`).join('')}</select></div><div class="guided-duration" role="group" aria-label="Step ${i+1} planned duration"><button type="button" class="icon-btn" id="guidedMinus${i}" aria-label="Decrease step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs<=30000?'disabled':''} onclick="guidedAdjust(${i},-30000)">−</button><output id="guidedDuration${i}" aria-live="polite">${guidedTime(s.plannedMs)}</output><button type="button" class="icon-btn" id="guidedPlus${i}" aria-label="Increase step ${i+1} by 30 seconds, currently ${guidedTime(s.plannedMs)}" ${s.plannedMs>=86400000?'disabled':''} onclick="guidedAdjust(${i},30000)">+</button></div><button type="button" class="icon-btn guided-remove" aria-label="Remove step ${i+1}" ${count===1?'disabled':''} onclick="guidedRemoveStep(${i})">${icon('trash')}</button></li>`}
 function guidedEditStep(index,key,value){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||!r.steps[index])return;if(key==='activity'&&!Object.hasOwn(OloRituals.activities,value))return;r.steps[index][key]=value;guidedCommit(r,'guidedRitual');guidedFocus('guidedActivity'+index)}
 function guidedAdjust(index,delta){const r=structuredClone(guidedPreview);if(r?.phase!=='preview'||!r.steps[index])return;r.steps[index].plannedMs=Math.min(86400000,Math.max(30000,r.steps[index].plannedMs+delta));if(guidedCommit(r,'guidedRitual'))guidedFocus((delta>0&&r.steps[index].plannedMs<86400000?'guidedPlus':delta<0&&r.steps[index].plannedMs>30000?'guidedMinus':'guidedActivity')+index)}
@@ -1346,7 +1358,7 @@ function syncSessionHeaderAction(){
  const area=document.getElementById('sessionHeaderAction');if(!area)return;
  area.innerHTML=sessionTab==='timer'&&guidedMode==='timer'&&!draft?.intention?`<button type="button" class="text-btn timer-intention-action" id="timerIntentionButton" aria-label="Set an intention" title="Set an intention" onclick="openIntention()">${icon('heart')}<span class="timer-intention-label">Set an intention</span></button>`:'';
 }
-function renderSessionArea(){syncSessionHeaderAction();syncLiveTimerIndicator();captureTimerRippleMotion();const area=document.getElementById('sessionArea');if(!area)return;if(sessionTab==='timer'){area.setAttribute('role','tabpanel');area.setAttribute('aria-labelledby',guidedMode==='guided'?'guidedSessionTab':'liveSessionTab');area.removeAttribute('aria-label');area.innerHTML=`${guidedOtherSessionMarkup()}<div id="sessionExperience">${guidedMode==='guided'?guidedMarkup():timerMarkup()}</div>`}else{area.setAttribute('role','region');area.setAttribute('aria-label','Post-visit entry');area.removeAttribute('aria-labelledby');area.innerHTML=manualMarkup()}if(sessionTab==='timer'&&guidedMode==='timer')mountTimerRippleMotion();else pauseTimerRippleMotion()}
+function renderSessionArea(){syncSessionHeaderAction();syncSessionIndicators();captureTimerRippleMotion();const area=document.getElementById('sessionArea');if(!area)return;if(sessionTab==='timer'){area.setAttribute('role','tabpanel');area.setAttribute('aria-labelledby',guidedMode==='guided'?'guidedSessionTab':'liveSessionTab');area.removeAttribute('aria-label');area.innerHTML=`${guidedOtherSessionMarkup()}<div id="sessionExperience">${guidedMode==='guided'?guidedMarkup():timerMarkup()}</div>`}else{area.setAttribute('role','region');area.setAttribute('aria-label','Post-visit entry');area.removeAttribute('aria-labelledby');area.innerHTML=manualMarkup()}if(sessionTab==='timer'&&guidedMode==='timer')mountTimerRippleMotion();else pauseTimerRippleMotion()}
 function startInterval(type){if(visitIsEnded(draft)){openReflectModal();return}if(!['sauna','cold','rest'].includes(type))return;ensureLiveVisit();const now=Date.now();if(!visitHasStarted(draft)){draft.status='active';draft.date=localDate(new Date(now));draft.startedAt=now}if(draft.current)completeCurrent();draft.current={type,accumulated:0,startedAt:now,running:true};if(persistDraft())renderSessionArea()}
 function completeCurrent(){if(!draft?.current)return;let c=draft.current,ms=num(c.accumulated)+(c.running?Date.now()-c.startedAt:0);if(ms>0)draft.intervals.push({id:id(),type:c.type,durationMs:ms,temp:null,activity:[]});draft.current=null}
 function pauseResume(){if(!draft?.current)return;let c=draft.current;if(c.running){c.accumulated+=Math.max(0,Date.now()-c.startedAt);c.running=false}else{c.startedAt=Date.now();c.running=true}persistDraft();renderSessionArea()}
@@ -2387,7 +2399,7 @@ window.addEventListener('blur',clearMetricPress);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)clearMetricPress()});
 
 migrateIntentionDraft();
-restoreManualDraft();navRender();nav('home');playWelcome();refreshWeather();initializeAccount();initializeGuidedRituals();setInterval(()=>{if(view==='journal'&&sessionTab==='timer'&&draft?.current){syncLiveTimerIndicator();let clock=document.getElementById('liveClock'),label=document.getElementById('currentIntervalLabel');if(clock)clock.textContent=fmtTime(currentElapsed());if(label)label.textContent=fmtM(currentElapsed())}},500);
+restoreManualDraft();navRender();nav('home');playWelcome();refreshWeather();initializeAccount();initializeGuidedRituals();setInterval(()=>{if(view==='journal'&&sessionTab==='timer'&&draft?.current){syncSessionIndicators();let clock=document.getElementById('liveClock'),label=document.getElementById('currentIntervalLabel');if(clock)clock.textContent=fmtTime(currentElapsed());if(label)label.textContent=fmtM(currentElapsed())}},500);
 </script>
 </body></html>
 
