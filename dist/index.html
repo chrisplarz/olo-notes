@@ -128,6 +128,7 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .intention-card .intention-text:last-child{margin-bottom:0}
 .intention-history{margin-top:6px!important;color:var(--pine);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:50ch}
 .intention-dialog{box-sizing:border-box;width:min(560px,calc(100vw - 32px));max-height:min(90dvh,var(--intention-visible-height,90dvh));padding:0;border:1px solid var(--line);border-radius:24px;background:var(--paper);color:var(--ink);box-shadow:var(--shadow);overflow:auto;overscroll-behavior:contain}
+#intentionTitle:focus{outline:none}
 .intention-dialog::backdrop{background:#19383280}.intention-dialog [hidden]{display:none!important}
 .intention-dialog form{display:flex;flex-direction:column;max-height:inherit}
 .intention-body{padding:28px;overflow:auto;min-height:0}.intention-body .section-head{align-items:center;margin-bottom:8px}
@@ -143,6 +144,30 @@ html.welcome-pending .app,html.welcome-pending .bottom-nav{visibility:hidden}
 .intention-error{color:#9b3b2f}.intention-response{border:0;padding:0;margin:22px 0;min-width:0}.intention-response legend{font-size:16px;font-weight:600}.intention-response .intention-chips{margin:12px 0}
 @media(max-width:600px){.intention-dialog{width:100%;max-width:none;max-height:calc(var(--intention-visible-height,100dvh) - 12px);margin:auto 0 var(--intention-keyboard-inset,0px);border-radius:24px 24px 0 0;border-bottom:0}.intention-body{padding:24px 20px 12px}.intention-footer{padding:16px 20px max(16px,env(safe-area-inset-bottom))}.intention-footer .actions{display:flex;flex-wrap:nowrap}.intention-footer .actions .btn{flex:1;justify-content:center}.intention-card{padding:16px 20px}.intention-invitation{gap:0}.intention-invitation .small{width:100%;padding-left:26px}.intention-history{max-width:28ch}}
 
+
+@media(max-width:600px) and (prefers-reduced-motion:no-preference){
+ .intention-dialog[open]{animation:intention-sheet-enter 300ms cubic-bezier(.22,1,.36,1) both}
+ .intention-dialog[open]::backdrop{animation:intention-backdrop-enter 220ms ease-out both}
+}
+/* Keep editing surfaces inside the mobile visual viewport while the keyboard is open. */
+html.textarea-keyboard .modal-layer:has(textarea:focus){
+ top:var(--textarea-viewport-top);bottom:auto;height:var(--textarea-viewport-height);
+}
+html.textarea-keyboard .modal:has(textarea:focus){
+ max-height:calc(var(--textarea-viewport-height) - 40px);
+}
+html.textarea-keyboard body:has(textarea:focus):not(:has([role="dialog"] textarea:focus,.intention-dialog textarea:focus)){
+ padding-bottom:var(--textarea-keyboard-inset);
+}
+html.textarea-keyboard .bottom-nav{visibility:hidden}
+html.textarea-keyboard .intention-body:has(textarea:focus){overflow-anchor:none}
+html.textarea-keyboard .intention-dialog:has(textarea:focus) textarea{
+ min-height:min(120px, max(48px, calc(var(--textarea-viewport-height) - 170px)));
+}
+html.textarea-keyboard-short .intention-dialog:has(textarea:focus) form{max-height:none}
+html.textarea-keyboard-short .intention-body:has(textarea:focus){overflow:visible}
+@keyframes intention-sheet-enter{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes intention-backdrop-enter{from{opacity:0}to{opacity:1}}
 
 /* Figma 6:116 — shared metric-card foundations and interactive states. */
 :root{--metric-press-visits:#c1d4c1;--metric-press-sauna:#e3c4b0;--metric-press-cold:#b9d3d5;--metric-press-rest:#cdd5cb}
@@ -543,7 +568,7 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="90">
+<meta name="olo-release" content="92">
 </head>
 <body>
 <div class="app">
@@ -1990,19 +2015,19 @@ function openIntention(source='current'){
  intentionReturnFocus=document.activeElement;
  const dialog=document.getElementById('intentionDialog');
  dialog.setAttribute('aria-labelledby','intentionTitle');
- dialog.innerHTML=`<form id="intentionForm" onsubmit="event.preventDefault();saveIntention()"><div class="intention-body"><div class="section-head"><h2 id="intentionTitle">Set an intention</h2><button type="button" class="icon-btn" aria-label="Close intention form" onclick="requestIntentionDismiss()">${icon('close')}</button></div><p class="small muted" id="intentionDescription">${fromLegacy?'Saving uses this previously saved intention for this visit.':'What would feel good to make space for?'}</p><div class="intention-chips" role="group" aria-label="Intention suggestions (optional)">${Object.keys(INTENTION_SUGGESTIONS).map((label,i)=>`<button type="button" class="tag" data-suggestion="${i}" aria-pressed="false" onclick="chooseIntentionSuggestion(${i})">${label}</button>`).join('')}</div><div class="field"><label for="intentionText">Your intention</label><textarea id="intentionText" rows="3" maxlength="200" placeholder="Slow down and leave feeling more grounded." aria-describedby="intentionCount intentionDescription" oninput="updateIntentionInput(this.value)">${esc(text)}</textarea><span class="input-help intention-count" id="intentionCount" aria-live="polite">${text.length} / 200</span></div><p id="intentionError" class="small intention-error" role="alert" hidden></p></div><div class="intention-footer"><button type="button" class="text-btn intention-remove" onclick="saveIntention(true)" ${text?'':'hidden'}>Remove intention</button><div class="actions"><button type="button" class="btn btn-outline" onclick="requestIntentionDismiss()">Cancel</button><button type="submit" class="btn" id="intentionSave" ${text.trim()?'':'disabled'}>Save intention</button></div></div></form><section id="intentionDiscard" class="intention-body" hidden aria-labelledby="discardIntentionTitle"><h2 id="discardIntentionTitle">Discard changes?</h2><p class="small muted">Your saved intention will stay as it was.</p><div class="actions"><button type="button" class="btn" id="keepIntentionEditing" onclick="keepIntentionEditing()">Keep editing</button><button type="button" class="btn btn-outline" onclick="closeIntention()">Discard</button></div></section>`;
+ dialog.innerHTML=`<form id="intentionForm" onsubmit="event.preventDefault();saveIntention()"><div class="intention-body"><div class="section-head"><h2 id="intentionTitle" tabindex="-1" autofocus>Set an intention</h2><button type="button" class="icon-btn" aria-label="Close intention form" onclick="requestIntentionDismiss()">${icon('close')}</button></div><p class="small muted" id="intentionDescription">${fromLegacy?'Saving uses this previously saved intention for this visit.':'What would feel good to make space for?'}</p><div class="intention-chips" role="group" aria-label="Intention suggestions (optional)">${Object.keys(INTENTION_SUGGESTIONS).map((label,i)=>`<button type="button" class="tag" data-suggestion="${i}" aria-pressed="false" onclick="chooseIntentionSuggestion(${i})">${label}</button>`).join('')}</div><div class="field"><label for="intentionText">Your intention</label><textarea id="intentionText" rows="3" maxlength="200" placeholder="Slow down and leave feeling more grounded." aria-describedby="intentionCount intentionDescription" oninput="updateIntentionInput(this.value)">${esc(text)}</textarea><span class="input-help intention-count" id="intentionCount" aria-live="polite">${text.length} / 200</span></div><p id="intentionError" class="small intention-error" role="alert" hidden></p></div><div class="intention-footer"><button type="button" class="text-btn intention-remove" onclick="saveIntention(true)" ${text?'':'hidden'}>Remove intention</button><div class="actions"><button type="button" class="btn btn-outline" onclick="requestIntentionDismiss()">Cancel</button><button type="submit" class="btn" id="intentionSave" ${text.trim()?'':'disabled'}>Save intention</button></div></div></form><section id="intentionDiscard" class="intention-body" hidden aria-labelledby="discardIntentionTitle"><h2 id="discardIntentionTitle">Discard changes?</h2><p class="small muted">Your saved intention will stay as it was.</p><div class="actions"><button type="button" class="btn" id="keepIntentionEditing" onclick="keepIntentionEditing()">Keep editing</button><button type="button" class="btn btn-outline" onclick="closeIntention()">Discard</button></div></section>`;
  dialog.onkeydown=trapIntentionFocus;
  dialog.oncancel=e=>{e.preventDefault();if(document.getElementById('intentionDiscard').hidden)requestIntentionDismiss();else keepIntentionEditing()};
  dialog.onclick=e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)requestIntentionDismiss()}};
- dialog.showModal();updateIntentionViewport();document.getElementById('intentionText').focus({preventScroll:true});
+ dialog.showModal();updateIntentionViewport();
 }
 function trapIntentionFocus(event){
  if(event.key!=='Tab')return;
  const dialog=event.currentTarget,items=[...dialog.querySelectorAll('button:not([disabled]),textarea,input,select,[tabindex="0"]')].filter(el=>el.getClientRects().length&&!el.closest('[hidden]'));
  if(!items.length){event.preventDefault();return}
  const first=items[0],last=items[items.length-1],active=document.activeElement;
- if(event.shiftKey&&(active===first||!dialog.contains(active))){event.preventDefault();last.focus()}
- else if(!event.shiftKey&&(active===last||!dialog.contains(active))){event.preventDefault();first.focus()}
+ if(event.shiftKey&&(active===first||!items.includes(active))){event.preventDefault();last.focus()}
+ else if(!event.shiftKey&&(active===last||!items.includes(active))){event.preventDefault();first.focus()}
 }
 function updateIntentionInput(value){if(!intentionEditor)return;if(intentionEditor.retryRemove){intentionEditor.retryRemove=false;document.getElementById('intentionSave').textContent='Save intention'}intentionEditor.text=value.slice(0,200);if(intentionEditor.selected!==null&&intentionEditor.text!==Object.values(INTENTION_SUGGESTIONS)[intentionEditor.selected])intentionEditor.selected=null;document.getElementById('intentionCount').textContent=intentionEditor.text.length+' / 200';document.getElementById('intentionSave').disabled=!intentionEditor.text.trim()||intentionEditor.saving;document.querySelectorAll('[data-suggestion]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.suggestion)===intentionEditor.selected)))}
 function chooseIntentionSuggestion(index){const text=Object.values(INTENTION_SUGGESTIONS)[index];if(!intentionEditor||!text)return;intentionEditor.selected=intentionEditor.selected===index?null:index;document.getElementById('intentionText').value=text;updateIntentionInput(text)}
@@ -2023,7 +2048,46 @@ function saveIntention(remove=intentionEditor?.retryRemove||false){
  (document.querySelector('.page.active .intention-card button')||document.getElementById('timerIntentionButton')||document.querySelector('.page.active button'))?.focus({preventScroll:true});
 }
 function updateIntentionViewport(){const dialog=document.getElementById('intentionDialog');if(!dialog?.open)return;const vv=window.visualViewport;dialog.style.setProperty('--intention-visible-height',(vv?.height||window.innerHeight)+'px');dialog.style.setProperty('--intention-keyboard-inset',Math.max(0,window.innerHeight-(vv?.height||window.innerHeight)-(vv?.offsetTop||0))+'px')}
-window.visualViewport?.addEventListener('resize',updateIntentionViewport);window.visualViewport?.addEventListener('scroll',updateIntentionViewport);
+// Resize the sheet first, then reveal the field inside its scrolling body.
+const touchViewport=window.matchMedia?.('(any-pointer: coarse)');
+let textareaViewportFrame=0;
+function queueTextareaViewport(){
+ if(!textareaViewportFrame)textareaViewportFrame=requestAnimationFrame(revealFocusedTextarea);
+}
+function revealFocusedTextarea(){
+ textareaViewportFrame=0;
+ updateIntentionViewport();
+ const textarea=document.activeElement;
+ const root=document.documentElement;
+ const viewport=window.visualViewport;
+ const height=viewport?.height??window.innerHeight;
+ const top=viewport?.offsetTop??0;
+ const obscured=Math.max(0,window.innerHeight-height);
+ const editing=touchViewport?.matches&&textarea instanceof HTMLTextAreaElement&&!textarea.readOnly;
+ const keyboard=editing&&obscured>60;
+ root.classList.toggle('textarea-keyboard',keyboard);
+ root.classList.toggle('textarea-keyboard-short',keyboard&&height<280);
+ if(!editing)return;
+ root.style.setProperty('--textarea-viewport-height',height+'px');
+ root.style.setProperty('--textarea-viewport-top',top+'px');
+ root.style.setProperty('--textarea-keyboard-inset',obscured+'px');
+ const scroller=textarea.closest('.intention-body,.modal')||document.scrollingElement;
+ const container=keyboard&&height<280&&scroller.matches('.intention-body')
+   ?scroller.closest('dialog'):scroller;
+ const area=container===document.scrollingElement?{top,bottom:top+height}:container.getBoundingClientRect();
+ const visibleTop=Math.max(top,area.top)+8;
+ const visibleBottom=Math.min(top+height,area.bottom)-8;
+ const field=textarea.getBoundingClientRect();
+ const delta=field.height>visibleBottom-visibleTop||field.top<visibleTop
+   ?field.top-visibleTop:Math.max(0,field.bottom-visibleBottom);
+ if(Math.abs(delta)>1)container.scrollBy({top:delta,behavior:'instant'});
+}
+window.visualViewport?.addEventListener('resize',queueTextareaViewport);
+window.visualViewport?.addEventListener('scroll',updateIntentionViewport);
+window.addEventListener('resize',queueTextareaViewport);
+document.addEventListener('focusin',queueTextareaViewport);
+document.addEventListener('focusout',queueTextareaViewport);
+document.getElementById('intentionDialog').addEventListener?.('animationend',queueTextareaViewport);
 function intentionResponseMarkup(value,source){return `<fieldset class="intention-response"><legend>Did your visit support your intention?</legend><p class="input-help">Optional. Choose again to clear your response.</p><div class="intention-chips">${['Yes','Somewhat','Not today'].map(x=>`<button type="button" class="tag" aria-pressed="${value===x}" onclick="setIntentionResponse('${source}','${x}')">${x}</button>`).join('')}</div></fieldset>`}
 function setIntentionResponse(source,value){if(source==='live'){if(!draft?.intention)return;draft.intentionResponse=draft.intentionResponse===value?null:value;if(!persistDraft()){document.getElementById('visitSaveError').textContent='Could not save that response. Please try again.'}}else manualIntentionResponse=manualIntentionResponse===value?null:value;const el=document.getElementById(source==='live'?'modalRoot':'manualIntentionResponse');el?.querySelectorAll('.intention-response button').forEach(b=>b.setAttribute('aria-pressed',String(b.textContent===(source==='live'?draft?.intentionResponse:manualIntentionResponse))))}
 function manualIntentionMarkup(){return `<div class="field"><label for="manualIntention">Your intention (optional)</label><textarea id="manualIntention" maxlength="200" rows="2" aria-describedby="manualIntentionCount" placeholder="What did you want to make space for?" oninput="updateManualIntention(this.value)">${esc(manualIntention)}</textarea><span class="input-help intention-count" id="manualIntentionCount">${manualIntention.length} / 200</span></div><div id="manualIntentionResponse">${manualIntention.trim()?intentionResponseMarkup(manualIntentionResponse,'manual'):''}</div>`}
