@@ -3,7 +3,7 @@
   "github": {
     "remote": "https://github.com/chrisplarz/olo-notes.git",
     "branch": "main",
-    "commit": "fd057d3e3dd6217c7de0eda862b10aab9cb9cbbd",
+    "commit": "9aa1b081bf33fb713441050dbed3af34c690024a",
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -44,9 +44,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "fc55e1450e6983dec5990b2e2755ba6ab44cf980ca3a38a392385824249f942c",
+      "index.html": "ca160fb871ff51a246b02bc1e26535c7f3830eeb68dbb337e96135958173fb29",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "45c97066119031ae24887226daf50b53a02a1a1d01cfd0fe2b8d77bf94337eab"
+      "sw.js": "f95a2a99e20dcc13e7254df4eec927d9baface5c36d5367b57a731a3952e08ab"
     }
   },
   "design": {
@@ -119,7 +119,7 @@
     }
   },
   "prepared": {
-    "version": 93,
+    "version": 94,
     "files": {
       "assets/botanical.svg": "0e1c981f5206233bd0dd557116525400af27f11b1461de30dac6be2bb0812469",
       "assets/contours.svg": "15e835c4a78f0a490bc42d8ae951a50397f702bf9f265772cfbf5b1320f73415",
@@ -160,9 +160,9 @@
       "assets/welcome-landscape.webp": "ef4edddaf93ad78b673bc3d377ed6dfdf66b5c2a30bdef967de4e6e41f0ef7b7",
       "icons/icon-192.png": "f89fba16440f02158adaa7ac1326744ba87838c2955a905af41c5ef0b782991a",
       "icons/icon-512.png": "0402c442aab7b2f15fa4b54e83fdfb21afd95f9d6f47d1290288a6116693836c",
-      "index.html": "ca160fb871ff51a246b02bc1e26535c7f3830eeb68dbb337e96135958173fb29",
+      "index.html": "05e5b460cb7a3c00781172de0f8406a71827fa1e483338ec864692416ee9128f",
       "manifest.webmanifest": "3e8ba8756f557b560a9676c372949bbb82c25428fdc8e12212186eb17f4e9856",
-      "sw.js": "f95a2a99e20dcc13e7254df4eec927d9baface5c36d5367b57a731a3952e08ab"
+      "sw.js": "8b73c744bd2b1f2dccbc1162b2a1037185ab8ce7938c07b4d319f77280d0bd32"
     }
   }
 }
