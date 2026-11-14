@@ -27,6 +27,14 @@ for(const width of [320,390,1280])test(`presets, editing and independent Live Ti
   assert.equal(await page.getByRole('button',{name:'Post-visit entry',exact:true}).count(),0);
   assert.match(await page.locator('.guided-presets').textContent(),/19m/);assert.match(await page.locator('.guided-presets').textContent(),/10m 30s/);
   await page.getByRole('button',{name:/Mindful Reset/}).click();
+  const preview=page.getByRole('dialog',{name:'Mindful Reset'});
+  assert.equal(await preview.locator('.sheet-rows li').count(),3);
+  assert.equal(await page.evaluate(()=>guidedPreview===null&&db.guidedRitual==null),true);
+  if(width<=600){const box=await preview.boundingBox();assert.ok(box.y>200&&Math.abs(box.y+box.height-950)<1);}
+  await page.keyboard.press('Escape');
+  assert.equal(await page.getByRole('button',{name:/Mindful Reset/}).evaluate(e=>e===document.activeElement),true);
+  await page.getByRole('button',{name:/Mindful Reset/}).click();
+  await preview.getByRole('button',{name:'Customize'}).click();
   assert.equal(await page.evaluate(()=>guidedPreview.phase),'preview');assert.equal(await page.evaluate(()=>guidedPreview.startedAt),null);assert.equal(await page.evaluate(()=>draft),null);assert.equal(await page.evaluate(()=>db.guidedRitual==null),true);
   await page.getByRole('button',{name:/Increase step 1 by 30 seconds/}).click();assert.equal(await page.evaluate(()=>guidedPreview.steps[0].plannedMs),510000);
   await page.getByRole('button',{name:'Add step',exact:true}).click();assert.equal(await page.locator('.guided-step').count(),4);
@@ -104,7 +112,8 @@ test('pause, recovery, cold confirmation, partial review, edits and duplicate pr
 test('storage failure preserves the temporary preview or committed review',async t=>{
   const page=await boot(t);await page.getByRole('button',{name:/Pure Sauna/}).click();
   await page.evaluate(()=>{const original=Storage.prototype.setItem;window.ritualFailWrites=true;Storage.prototype.setItem=function(k,v){if(window.ritualFailWrites&&k===KEY)throw Error('quota');return original.call(this,k,v);};});
-  await page.getByRole('button',{name:'Start Ritual',exact:true}).click();assert.equal(await page.evaluate(()=>guidedPreview.phase),'preview');
+  await page.getByRole('button',{name:'Start Ritual',exact:true}).click();assert.equal(await page.evaluate(()=>guidedPreview===null),true);
+  assert.equal(await page.getByRole('dialog',{name:'Pure Sauna'}).isVisible(),true);
   await page.evaluate(()=>window.ritualFailWrites=false);await page.getByRole('button',{name:'Start Ritual',exact:true}).click();await page.clock.runFor(1000);
   await page.getByRole('button',{name:'End Ritual',exact:true}).click();await page.getByRole('button',{name:'End & review',exact:true}).click();
   await page.evaluate(()=>window.ritualFailWrites=true);await page.getByRole('button',{name:'Save visit',exact:true}).click();assert.equal(await page.evaluate(()=>db.visits.length),0);assert.equal(await page.evaluate(()=>db.guidedRitual.phase),'review');
