@@ -8,8 +8,20 @@ for(const width of [320,390,768,1280])test('metric typography, pointer and keybo
  const expectedPress=['rgb(193, 212, 193)','rgb(227, 196, 176)','rgb(185, 211, 213)'];
  for(let i=0;i<3;i++){
   const tile=tiles.nth(i);await tile.scrollIntoViewIfNeeded();
-  const type=await tile.evaluate(e=>{const s=x=>getComputedStyle(e.querySelector(x)),n=s('.stat-number'),l=s('.stat-label'),u=s('.stat-unit');return {number:[n.fontFamily,n.fontWeight,n.fontSize,n.lineHeight,n.letterSpacing],label:[l.fontWeight,l.fontSize,l.lineHeight,l.letterSpacing,l.textTransform],unit:[u.fontSize,u.lineHeight,u.marginLeft],gap:s('.stat-values').gap,fit:e.scrollWidth<=e.clientWidth}});
-  assert.match(type.number[0],/Plus Jakarta Sans/);assert.equal(type.number[1],'700');assert.ok(['27px','38px'].includes(type.number[2]));if(width<=680)assert.equal(type.number[2],'27px');if(width===1280)assert.equal(type.number[2],'38px');assert.equal(type.number[2],type.number[3]);assert.deepEqual(type.label,['700','10px','14px','1.6px','uppercase']);assert.deepEqual(type.unit,['11px','17.6px','0px']);assert.equal(type.gap,'5px');assert.equal(type.fit,true);
+  const type=await tile.evaluate(e=>{const s=x=>getComputedStyle(e.querySelector(x)),n=s('.stat-number'),l=s('.stat-label'),u=s('.stat-unit');const week=e.closest('.home-week'),weekStyle=getComputedStyle(week),containerWidth=week.getBoundingClientRect().width-parseFloat(weekStyle.paddingLeft)-parseFloat(weekStyle.paddingRight)-parseFloat(weekStyle.borderLeftWidth)-parseFloat(weekStyle.borderRightWidth);return {containerWidth,number:[n.fontFamily,n.fontWeight,n.fontSize,n.lineHeight,n.letterSpacing],label:[l.fontWeight,l.fontSize,l.lineHeight,l.letterSpacing,l.textTransform],unit:[u.fontSize,u.lineHeight,u.marginLeft],gap:s('.stat-values').gap,fit:e.scrollWidth<=e.clientWidth}});
+  assert.match(type.number[0],/Plus Jakarta Sans/);assert.equal(type.number[1],'700');assert.equal(type.number[2],type.number[3]);
+  if(type.containerWidth<=560){
+   assert.ok(parseFloat(type.number[2])>=19&&parseFloat(type.number[2])<=27);
+   assert.equal(type.label[0],'700');assert.ok(parseFloat(type.label[1])>=8&&parseFloat(type.label[1])<=10);
+   assert.equal(type.label[3],'0.7px');assert.equal(type.label[4],'uppercase');
+   assert.ok(parseFloat(type.unit[0])>=8&&parseFloat(type.unit[0])<=11);
+   assert.equal(type.unit[2],'0px');assert.equal(type.gap,'2px');
+  }else{
+   assert.equal(type.number[2],'38px');
+   assert.deepEqual(type.label,['700','10px','14px','1.6px','uppercase']);
+   assert.deepEqual(type.unit,['11px','17.6px','0px']);assert.equal(type.gap,'5px');
+  }
+  assert.equal(type.fit,true);
   assert.equal(await tile.locator('.home-metric-heading>svg').count(),1);const alignment=await tile.evaluate(e=>{const h=e.querySelector('.home-metric-heading'),i=h.querySelector('svg').getBoundingClientRect(),l=h.querySelector('.stat-label').getBoundingClientRect();return {direction:getComputedStyle(h).flexDirection,centerDelta:Math.abs(i.y+i.height/2-l.y-l.height/2),leftDelta:Math.abs(i.x-l.x)}});assert.ok((alignment.direction==='row'?alignment.centerDelta:alignment.leftDelta)<0.5,JSON.stringify(alignment));const before=await tile.boundingBox(),normal=await tile.evaluate(e=>getComputedStyle(e).backgroundColor);assert.equal(normal,expectedDefault[i]);await tile.hover();assert.equal(await tile.evaluate(e=>getComputedStyle(e).boxShadow),expectedPress[i]+' 0px 0px 0px 1px inset');assert.equal(await tile.evaluate(e=>getComputedStyle(e).backgroundColor),normal);assert.deepEqual(await tile.boundingBox(),before);
   await page.mouse.down();assert.equal(await tile.evaluate(e=>getComputedStyle(e).backgroundColor),expectedPress[i]);assert.equal(await tile.evaluate(e=>getComputedStyle(e).boxShadow),'none');await page.mouse.move(0,0);await page.mouse.up();
   await tile.focus();await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await tile.evaluate(e=>e.matches(':focus-visible')),true);assert.equal(await tile.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
