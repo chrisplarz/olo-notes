@@ -391,11 +391,7 @@ body:has(.sheet-layer,.timer-info-dialog[open]){overflow:hidden}
 .guided-thumb{display:block;width:52px;height:52px;flex:none;border-radius:14px;object-fit:cover;background:var(--mint)}
 .guided-preset-copy{display:grid;gap:7px;min-width:0;flex:1}.guided-preset-copy strong{font:600 14px Lora,Georgia,serif}.guided-preset-copy>span{font-size:12px;line-height:1.65;color:var(--pine2)}.guided-preset-copy small{font-size:11px;color:var(--pine2)}.guided-preset .chevron{flex:none;color:var(--pine)}
 .guided-back{display:inline-flex;align-items:center;min-height:44px;margin:-8px 0 10px}.guided-return{margin-bottom:18px}
-.guided-experience.guided-preview{background:var(--pine);border-color:var(--pine);color:var(--paper)}
-.guided-preview>.guided-copy,.guided-preview>.field>label{color:var(--mint)}
-.guided-preview .text-btn,.guided-preview .btn-outline{color:var(--button-light)}
-.guided-preview .btn-outline{border-color:var(--moss)}
-.guided-preview :is(.text-btn,.btn,textarea):focus-visible{outline-color:var(--button-light)}
+.guided-experience.guided-preview{background:#f4f1e6;border-color:var(--line);color:var(--ink)}
 .guided-steps{list-style:none;padding:0;display:grid;gap:8px;margin:22px 0 18px}
 .guided-step{display:grid;grid-template-columns:28px minmax(0,1fr) auto 32px;align-items:center;gap:6px;border:1px solid var(--line);border-radius:14px;padding:8px;background:var(--paper)}
 .guided-step .field{min-width:0;margin:0}
@@ -508,6 +504,35 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 
 @media(max-width:680px){.home-week-description,.fort-union-details{--home-detail-size:13px}}
 .visit-session-card .session-timeline-heading{margin-top:24px;margin-bottom:16px}
+.live-cycle-list{list-style:none;margin:0;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper);font-size:12px}
+.live-cycle-row{display:grid;grid-template-columns:3.8em minmax(0,1fr) max-content;align-items:center;gap:8px;padding:10px 0}
+.live-cycle-row+.live-cycle-row{border-top:1px solid var(--line)}
+.live-cycle-name,.live-cycle-total{font-weight:700;font-variant-numeric:tabular-nums}
+.live-cycle-total{text-align:right}
+.live-cycle-track{display:flex;gap:2px;min-width:0}
+.live-cycle-segment{display:flex;flex:0 1 var(--segment-width,100%);min-width:36px;min-height:44px;align-content:center;align-items:center;justify-content:center;flex-wrap:wrap;gap:1px 4px;padding:2px;border:1px solid var(--segment-border);border-radius:6px;background:var(--segment-bg);color:var(--ink);font:inherit;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.live-cycle-list [data-type=sauna]{--segment-bg:var(--sauna);--segment-border:var(--metric-press-sauna);--segment-accent:#995128}
+.live-cycle-list [data-type=cold]{--segment-bg:var(--cold-bg);--segment-border:var(--metric-press-cold);--segment-accent:var(--cold)}
+.live-cycle-list [data-type=rest]{--segment-bg:var(--rest-bg);--segment-border:var(--metric-press-rest);--segment-accent:var(--rest)}
+.live-cycle-segment svg{width:15px;height:15px;flex:none;color:var(--segment-accent)}
+button.live-cycle-segment{cursor:pointer}
+button.live-cycle-segment:hover,.live-cycle-segment.is-current{border-color:var(--segment-accent)}
+.live-cycle-segment.is-current{box-shadow:inset 0 -2px var(--segment-accent)}
+.live-cycle-layout{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:12px}
+.live-cycle-layout select{width:auto;padding:6px 8px;min-height:36px}
+.live-cycle-list.is-compact .live-cycle-row{grid-template-columns:3.8em minmax(30px,24%) minmax(0,1fr)}
+.live-cycle-summary{display:grid;gap:3px}
+.live-cycle-summary .live-cycle-total{font-weight:400;color:var(--muted);text-align:left}
+.live-cycle-meter{height:20px;display:flex;overflow:hidden;border-radius:5px;background:var(--line)}
+.live-cycle-meter span{flex:0 0 var(--segment-width);background:var(--segment-bg)}
+.is-compact .live-cycle-track{gap:2px;flex-wrap:wrap}
+.is-compact .live-cycle-segment{flex:0 0 auto;min-width:36px;padding:2px 5px;background:none;border-color:transparent}
+.is-compact .live-cycle-segment:hover,.is-compact .live-cycle-segment.is-current{background:var(--segment-bg)}
+@media(max-width:420px){.is-compact .live-cycle-segment{flex-direction:column;min-width:28px;padding-inline:2px}}
+.live-cycle-remove{margin-inline-start:auto}
+.live-cycle-segment:focus-visible{outline:2px solid var(--pine);outline-offset:1px;z-index:1}
+@media(max-width:420px){.live-cycle-list{padding:0 8px}.live-cycle-row{gap:4px}.live-cycle-segment{column-gap:2px;font-size:11px}}
+
 
 .planner-modal #visitPlanForm,.planner-modal #visitPlanForm>.field{min-width:0;max-width:100%}
 .planner-modal #planDate{appearance:auto;box-sizing:border-box;display:block;width:100%;height:48px;min-width:0;line-height:22px}
@@ -591,13 +616,33 @@ body:has(#page-home.active) #insightVersionToggle{display:none}
 .mood-chart-averages h3{margin-bottom:4px}
 .mood-chart-averages .insight-row:last-child{border-bottom:0;padding-bottom:0}
 @media(max-width:680px){.mood-chart-plot[data-period=year] summary{font-size:clamp(8px,2.5vw,11px)}}
+
+@media(min-width:1000px){.home-support{align-items:stretch}.home-support .daily-reflection{min-height:291px}}
+.home-activity>.metric-card{aspect-ratio:1;min-height:0;gap:8px}
+@container(max-width:560px){
+ .home-activity>.metric-card{padding:clamp(7px,2.2cqw,12px);gap:4px}
+ .home-metric-heading{gap:4px}
+ .home-metric-heading>svg{width:16px;height:16px}
+ .home-activity .stat-label{min-height:0;letter-spacing:.7px;font-size:clamp(8px,2.2cqw,10px);line-height:1.2}
+ .home-activity .stat-number{font-size:clamp(19px,6cqw,27px);line-height:1}
+ .home-activity .stat-values{gap:2px}
+ .home-activity .stat-unit{font-size:clamp(8px,2.2cqw,11px);line-height:1.15}
+}
+.day-recap-metrics{display:flex;flex-wrap:wrap;gap:8px}
+.visit-detail-intervals.compact{gap:3px}
+.visit-detail-intervals.compact .interval-row{padding-block:4px;min-height:0;gap:8px}
+.visit-detail-intervals.compact .interval-icon{width:26px;height:26px}
+.visit-detail-intervals.compact .interval-icon svg{width:15px;height:15px}
+.visit-detail-intervals.compact .interval-content p{margin:0}
+.visit-detail-intervals.compact .interval-content p:empty{display:none}
+
 </style>
 <script>
 // Gate the first paint only when a daily intro is eligible. No journal data is changed.
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="94">
+<meta name="olo-release" content="96">
 </head>
 <body>
 <div class="app">
@@ -1413,11 +1458,100 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseTimerR
 
 function timerRippleMarkup(){return `<svg class="timer-ripples ${draft?.current?.running?'is-active':'is-idle'}" viewBox="-500 0 1000 500" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false" style="--timer-ripple-phase:0ms"><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/><circle cx="0" cy="0" r="100" vector-effect="non-scaling-stroke"/></svg>`}
 function timerMarkup(){let cur=draft?.current,done=draft?.intervals||[],ended=visitIsEnded(draft),type=cur?.type||done.at(-1)?.type||'sauna';return `<div class="timer-panel live-timer-panel ${cur||ended?type:''}">${timerRippleMarkup()}<button type="button" class="timer-info-button" onclick="openTimerInfo()" aria-label="Timer information"><span aria-hidden="true">i</span></button><div class="timer-label">${ended?'VISIT ENDED':cur?'LIVE SESSION · '+(type==='sauna'?'SAUNA':type==='cold'?'COLD PLUNGE':'REST'):'READY WHEN YOU ARE'}</div><div class="live-timer-readout"><div class="timer-value" id="liveClock">${fmtTime(ended?duration(draft):currentElapsed())}</div><div class="timer-hint">${ended?'Your time is captured. Take a moment to reflect and save.':cur?(cur.running?'Your moment, uninterrupted.':'Timer paused'):'Begin with warmth, cold, or a moment of rest.'}</div></div><div class="actions live-timer-actions">${ended?`<button class="btn btn-light" onclick="openReflectModal()">Reflect &amp; save</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button>`:cur?`<button class="btn live-timer-primary" onclick="pauseResume()">${icon(cur.running?'pause':'play')} ${cur.running?'Pause':'Resume'}</button><button class="btn live-timer-end" onclick="finishLive()">End Visit</button>`:`<button class="btn live-timer-primary" onclick="startInterval('sauna')">${icon('play')} Begin sauna</button>`}</div></div>
-<div class="activity-options">${[['sauna','Sauna','flame'],['cold','Cold plunge','snow'],['rest','Rest','coffee']].map(([x,label,i])=>`<button class="activity-btn ${cur?.type===x?'selected':''}" data-type="${x}" aria-pressed="${cur?.type===x}" ${ended?'disabled':''} onclick="startInterval('${x}')">${icon(i)}<span>${label}</span></button>`).join('')}</div>
+<div class="activity-options">${Object.entries(LIVE_ACTIVITY_ICONS).map(([x,i])=>`<button class="activity-btn ${cur?.type===x?'selected':''}" data-type="${x}" aria-pressed="${cur?.type===x}" ${ended?'disabled':''} onclick="startInterval('${x}')">${icon(i)}<span>${labelType(x)}</span></button>`).join('')}</div>
 ${draft?.intention?`<div class="session-divider" aria-hidden="true"></div>${intentionCard(draft)}`:''}
 ${legacyIntentionMarkup()}
-${visitHasStarted(draft)?`<div class="section-head session-timeline-heading"><h2>Session timeline</h2><span class="pill live">${ended?'Visit ended':cur?'In progress':'Ready to save'}</span></div><div class="interval-list">${done.map((x,i)=>intervalRow(x,i,'live')).join('')}${cur?`<div class="interval-row" data-type="${cur.type}"><div class="interval-icon ${cur.type}">${icon(cur.type==='sauna'?'flame':cur.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(cur.type)}</strong><p>Currently ${cur.running?'timing':'paused'}</p></div><div class="interval-length" id="currentIntervalLabel">${fmtM(currentElapsed())}</div></div>`:''}</div><div class="actions" style="margin-top:22px"><button class="btn${ended?'':' live-timer-end'}" onclick="finishLive()">${icon('check')} ${ended?'Reflect &amp; save':'End Visit'}</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button></div>`:''}
+${visitHasStarted(draft)?`<div class="section-head session-timeline-heading"><h2>Session timeline</h2><span class="pill live">${ended?'Visit ended':cur?'In progress':'Ready to save'}</span></div>${liveCycleTimeline(done,cur)}<div class="actions" style="margin-top:22px"><button class="btn${ended?'':' live-timer-end'}" onclick="finishLive()">${icon('check')} ${ended?'Reflect &amp; save':'End Visit'}</button><button class="btn btn-outline" onclick="discardLive()">Discard visit</button></div>`:''}
 `}
+const LIVE_ACTIVITY_ICONS={sauna:'flame',cold:'snow',rest:'coffee'};
+function groupLiveCycles(intervals){
+ const cycles=[];
+ for(const entry of intervals){
+  let cycle=cycles.at(-1);
+  const type=entry.type;
+  // One sauna, one plunge, and one rest on either side of the plunge.
+  if(!cycle||type==='sauna'||(type==='cold'&&cycle.some(x=>x.type==='cold'))||
+    (type==='rest'&&cycle.at(-1).type==='rest')){
+   cycle=[];
+   cycles.push(cycle);
+  }
+  cycle.push(entry);
+ }
+ return cycles;
+}
+function cycleDurationLabel(ms){
+ const seconds=Math.floor(Math.max(0,ms)/1000);
+ if(seconds<60)return seconds+'s';
+ return fmtM(ms).replace(' min','m');
+}
+function liveCycleSegment(entry,longest){
+ const name=labelType(entry.type),time=cycleDurationLabel(entry.durationMs);
+ const style=`style="--segment-width:${entry.durationMs/longest*100}%"`;
+ const content=`${icon(LIVE_ACTIVITY_ICONS[entry.type])}<span>${time}</span>`;
+ if(entry.current){
+  return `<span class="live-cycle-segment is-current" role="img" ${style} data-type="${entry.type}" data-current="true" aria-label="${name}, ${entry.running?'timing':'paused'}, ${time}">${content}</span>`;
+ }
+ return `<button type="button" class="live-cycle-segment" ${style} data-type="${entry.type}" data-session-index="${entry.index}" data-duration="${entry.durationMs}" aria-label="Edit ${name}, ${time}" title="${name} · ${time}" onclick="editInterval('live',${entry.index})">${content}</button>`;
+}
+function setLiveCycleLayout(select){
+ const previous=appearance().liveCycleLayout;
+ db.profile.appearance={...appearance(),liveCycleLayout:select.value};
+ if(!persist()){select.value=previous||'segmented';return}
+ select.closest('.live-cycle-layout').nextElementSibling.outerHTML=liveCycleRows(draft.intervals,draft.current);
+}
+function liveCycleTimeline(done,current){
+ const compact=appearance().liveCycleLayout==='compact';
+ return `<div class="live-cycle-layout"><label for="liveCycleLayout">Timeline style</label>
+  <select id="liveCycleLayout" onchange="setLiveCycleLayout(this)">
+   <option value="segmented" ${compact?'':'selected'}>Segmented</option>
+   <option value="compact" ${compact?'selected':''}>Compact</option>
+  </select></div>${liveCycleRows(done,current)}`;
+}
+function liveCycleRows(done,current){
+ const entries=done.map((entry,index)=>({...entry,index}));
+ if(current)entries.push({...current,current:true,durationMs:currentElapsed()});
+ const cycles=groupLiveCycles(entries);
+ const totals=cycles.map(cycle=>cycle.reduce((sum,entry)=>sum+entry.durationMs,0));
+ const compact=appearance().liveCycleLayout==='compact';
+ const longest=totals.reduce((max,total)=>Math.max(max,total),1);
+ return `<ol class="live-cycle-list${compact?' is-compact':''}" aria-label="Session cycles">${cycles.map((cycle,index)=>{
+  const name=`<span class="live-cycle-name">Cycle ${index+1}</span>`;
+  const total=`<span class="live-cycle-total">${cycleDurationLabel(totals[index])}</span>`;
+  const track=`<div class="live-cycle-track">${cycle.map(entry=>liveCycleSegment(entry,longest)).join('')}</div>`;
+  if(!compact)return `<li class="live-cycle-row">${name}${track}${total}</li>`;
+  const meter=cycle.map(entry=>`<span data-type="${entry.type}" style="--segment-width:${entry.durationMs/Math.max(1,totals[index])*100}%"></span>`).join('');
+  return `<li class="live-cycle-row"><div class="live-cycle-summary">${name}${total}</div><div class="live-cycle-meter" aria-hidden="true">${meter}</div>${track}</li>`;
+ }).join('')}</ol>`;
+}
+function updateLiveCycleTimeline(elapsed){
+ const active=document.querySelector('.live-cycle-segment[data-current]');
+ if(!active)return;
+ const time=cycleDurationLabel(elapsed);
+ active.lastElementChild.textContent=time;
+ active.setAttribute('aria-label',`${labelType(draft.current.type)}, ${draft.current.running?'timing':'paused'}, ${time}`);
+ const rows=[...active.closest('.live-cycle-list').children].map(row=>{
+  const segments=[...row.querySelector('.live-cycle-track').children];
+  const times=segments.map(segment=>segment===active?elapsed:Number(segment.dataset.duration));
+  return {row,segments,times,total:times.reduce((sum,ms)=>sum+ms,0)};
+ });
+ const longest=rows.reduce((max,row)=>Math.max(max,row.total),1);
+ for(const {row,segments,times,total} of rows){
+  const meter=row.querySelector('.live-cycle-meter');
+  const blocks=meter?[...meter.children]:segments;
+  const scale=meter?Math.max(1,total):longest;
+  blocks.forEach((block,index)=>block.style.setProperty('--segment-width',times[index]/scale*100+'%'));
+  row.querySelector('.live-cycle-total').textContent=cycleDurationLabel(total);
+ }
+}
+function removeLiveCycleSegment(index){
+ draft.intervals.splice(index,1);
+ if(!persistDraft()){toast('Could not remove this session. Try again.');return}
+ closeModal();
+ renderSessionArea();
+ const next=document.querySelector(`.live-cycle-segment[data-session-index="${index}"]`);
+ (next||document.querySelector(`.live-cycle-segment[data-session-index="${index-1}"]`)||
+  document.querySelector('.activity-btn.selected, .activity-btn:not(:disabled), .live-timer-actions .btn'))?.focus({preventScroll:true});
+}
 function openTimerInfo(){updateSheetViewport();document.getElementById('timerInfoDialog').showModal()}
 function labelType(x){return {sauna:'Sauna',cold:'Cold plunge',rest:'Rest'}[x]||x}
 function intervalRow(x,i,source){return `<div class="interval-row" data-type="${x.type}"><div class="interval-icon ${x.type}">${icon(x.type==='sauna'?'flame':x.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(x.type)}</strong><p>${x.temp!=null&&x.temp!==''?esc(x.temp)+'°F · ':''}${x.activity?.length?esc(x.activity.join(', ')):'Cycle '+(i+1)}</p></div><div class="interval-length">${fmtM(x.durationMs)}</div><button class="icon-btn" aria-label="Edit cycle" onclick="editInterval('${source}',${i})">${icon('edit')}</button><button class="icon-btn" aria-label="Remove cycle" onclick="removeInterval('${source}',${i})">${icon('trash')}</button></div>`}
@@ -1451,8 +1585,11 @@ function activityOptions(type){return ACTIVITY_TAGS.flatMap(t=>[t,...(t==='Quiet
 function selectedActivities(id){return Array.from(document.querySelectorAll('#'+id+' input:checked')).map(n=>n.value)}
 function activityMenu(id,type,selected=[]){const options=[...new Set([...activityOptions(type),...selected])];return `<details class="activity-menu" id="${id}"><summary><span class="activity-summary">${selected.length?esc(selected.join(', ')):'Choose activities'}</span></summary><div class="activity-checks" role="group" aria-label="Activities">${options.map(t=>`<label class="activity-option"><input type="checkbox" value="${esc(t)}" ${selected.includes(t)?'checked':''} onchange="updateActivitySummary('${id}')"/><span>${esc(t)}</span></label>`).join('')}</div></details><p class="input-help">Select any that apply. Leave all unchecked for none.</p>`}
 function updateActivitySummary(id){const menu=document.getElementById(id),selected=selectedActivities(id);menu.querySelector('.activity-summary').textContent=selected.length?selected.join(', '):'Choose activities'}
-function editInterval(source,i){let list=source==='live'?draft.intervals:manualIntervals,x=list[i];const body=`<div class="fields-2"><div class="field"><label>Duration (minutes)</label><input id="editMinutes" type="number" min="0.1" step="0.1" value="${(x.durationMs/60000).toFixed(2)}"/></div><div class="field" ${x.type==='rest'?'hidden':''}><label>Temperature °F (optional)</label><input id="editTemp" type="number" value="${x.temp??(x.type==='sauna'?180:x.type==='cold'?54:'')}"/></div></div><div class="field"><label>Activities (optional)</label>${activityMenu('editActivity',x.type,x.activity||[])}</div>`;modal('Edit cycle',body,`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveIntervalEdit('${source}',${i})">Save changes</button>`)}
-function saveIntervalEdit(source,i){let m=Number(document.getElementById('editMinutes').value),t=document.getElementById('editTemp').value,a=selectedActivities('editActivity');if(!Number.isFinite(m)||m<=0||m>1440){toast('Enter a duration between 0 and 1,440 minutes.');return}let list=source==='live'?draft.intervals:manualIntervals;list[i]={...list[i],durationMs:Math.round(m*60000),temp:list[i].type==='rest'||t===''?null:Number(t),activity:a};if(source==='live')persistDraft();closeModal();renderSessionArea()}
+function editInterval(source,i){let list=source==='live'?draft.intervals:manualIntervals,x=list[i];const body=`<div class="fields-2"><div class="field"><label for="editMinutes">Duration (minutes)</label><input id="editMinutes" type="number" min="${source==='live'?'0':'0.1'}" step="${source==='live'?'any':'0.1'}" value="${source==='live'?x.durationMs/60000:(x.durationMs/60000).toFixed(2)}"/></div><div class="field" ${x.type==='rest'?'hidden':''}><label for="editTemp">Temperature °F (optional)</label><input id="editTemp" type="number" value="${x.temp??(source==='live'?'':x.type==='sauna'?180:x.type==='cold'?54:'')}"/></div></div><div class="field"><label>Activities (optional)</label>${activityMenu('editActivity',x.type,x.activity||[])}</div>`;const save=`<button class="btn" onclick="saveIntervalEdit('${source}',${i})">Save changes</button>`,cancel='<button class="btn btn-outline" onclick="closeModal()">Cancel</button>';
+ if(source==='live'){
+  modal(`Edit ${labelType(x.type).toLowerCase()} session`,body,`<div class="dialog-button-bar">${save}${cancel}<button class="btn btn-danger live-cycle-remove" onclick="removeLiveCycleSegment(${i})">Remove session</button></div>`);
+ }else modal('Edit cycle',body,cancel+save)}
+function saveIntervalEdit(source,i){let m=Number(document.getElementById('editMinutes').value),t=document.getElementById('editTemp').value,a=selectedActivities('editActivity');if(!Number.isFinite(m)||m<=0||m>1440){toast('Enter a duration between 0 and 1,440 minutes.');return}let list=source==='live'?draft.intervals:manualIntervals;list[i]={...list[i],durationMs:Math.round(m*60000),temp:list[i].type==='rest'||t===''?null:Number(t),activity:a};if(source==='live'&&!persistDraft()){toast('Could not save this session. Try again.');return}closeModal();renderSessionArea();if(source==='live')document.querySelector(`.live-cycle-segment[data-session-index="${i}"]`)?.focus({preventScroll:true})}
 let manualIntention='',manualIntentionResponse=null;
 function resetManual(clearSaved=true){if(clearSaved)try{localStorage.removeItem(ownerKey('olo-manual-draft-v2'))}catch{}manualIntention='';manualIntentionResponse=null;journalEditingId=null;manualIntervals=[];manualDate=localDate();manualMoodBefore=null;manualMoodAfter=null;manualTags=[];manualNotes='';manualHeat='';manualCold='';manualTemp='';manualHeatTemp='';manualMode='quick'}
 function moodBtns(value,prefix){return `<div class="mood-row" role="group" aria-label="${prefix==='before'?'Before':'After'} your visit mood">${[1,2,3,4,5].map(n=>`<button type="button" class="mood-choice ${value===n?'selected':''}" data-mood="${n}" aria-pressed="${value===n}" aria-label="${n} · ${['','Upset','Down','OK','Good','Excellent'][n]}" onclick="setMood('${prefix}',${n})"><img class="mood-icon" src="assets/mood-${n}.svg" alt=""/><span class="mood-label">${['','Upset','Down','OK','Good','Excellent'][n]}</span></button>`).join('')}</div>`}
@@ -1465,7 +1602,7 @@ function addManualInterval(){if(manualVisitEnded())return;modal('Add a cycle',`<
 function updateRestOutsideTag(){const temp=document.getElementById('newTemp'),rest=document.getElementById('newType')?.value==='rest';if(temp){temp.closest('.field').hidden=rest;temp.disabled=rest;temp.parentElement.parentElement.style.gridTemplateColumns=rest?'1fr':''}const menu=document.getElementById('newActivity'),type=document.getElementById('newType')?.value;if(!menu)return;const selected=selectedActivities('newActivity').filter(t=>activityOptions(type).includes(t)),wrap=menu.parentElement;wrap.innerHTML='<label>Activities (optional)</label>'+activityMenu('newActivity',type,selected)}
 function confirmManualInterval(){if(manualVisitEnded())return;let m=Number(document.getElementById('newMinutes').value),t=document.getElementById('newTemp').value,a=selectedActivities('newActivity');if(!Number.isFinite(m)||m<=0||m>1440){toast('Enter a positive duration of up to 1,440 minutes.');return}manualIntervals.push({id:id(),type:document.getElementById('newType').value,durationMs:Math.round(m*60000),temp:document.getElementById('newType').value==='rest'||t===''?null:Number(t),activity:a});closeModal();renderSessionArea()}
 function saveManual(){if(manualVisitEnded()){const existing=db.visits.find(v=>v.id===journalEditingId),ids=new Set(existing.intervals.map(x=>x.id));if(manualMode!=='detailed'||manualIntervals.some(x=>!ids.has(x.id))){toast('This visit has ended. You can adjust existing sessions, but cannot add new ones.');return}}manualDate=document.getElementById('manualDate')?.value||manualDate;manualNotes=document.getElementById('manualNotes')?.value??manualNotes;if(!/^\d{4}-\d{2}-\d{2}$/.test(manualDate)||manualDate>localDate()){toast('Choose a valid date that is not in the future.');return}let intervals;if(manualMode==='quick'){let h=Number(document.getElementById('manualHeat').value||0),c=Number(document.getElementById('manualCold').value||0);if(!Number.isFinite(h)||!Number.isFinite(c)||h<0||c<0||h>1440||c>1440||(!h&&!c)){toast('Enter at least one valid sauna or cold duration.');return}let ht=document.getElementById('manualHeatTemp').value,ct=document.getElementById('manualTemp').value;intervals=[h?{id:id(),type:'sauna',durationMs:Math.round(h*60000),temp:ht===''?null:Number(ht),activity:[...manualTags]}:null,c?{id:id(),type:'cold',durationMs:Math.round(c*60000),temp:ct===''?null:Number(ct),activity:[...manualTags]}:null].filter(Boolean)}else{intervals=manualIntervals;if(!intervals.length){toast('Add a cycle to save this visit.');return}}let visit={...(journalEditingId?db.visits.find(v=>v.id===journalEditingId):{}),id:journalEditingId||id(),date:manualDate,source:'manual',intervals,moodBefore:manualMoodBefore,moodAfter:manualMoodAfter,tags:[...manualTags],notes:manualNotes,intention:manualIntention.trim()||null,intentionResponse:manualIntention.trim()?manualIntentionResponse:null,createdAt:journalEditingId?(db.visits.find(v=>v.id===journalEditingId)?.createdAt||Date.now()):Date.now()};db.visits=journalEditingId?db.visits.map(x=>x.id===journalEditingId?visit:x):[visit,...db.visits];if(persist()){resetManual();toast('Visit saved to your visits.');nav('journal')}}
-function openReflectModal(){let body=`${draft.intention?`<div class="notice"><strong>Your intention</strong><p class="intention-text">${esc(draft.intention)}</p></div>${intentionResponseMarkup(draft.intentionResponse,'live')}`:''}<p id="visitSaveError" class="small intention-error" role="alert"></p><p class="small muted">Your time is captured. Reflect for a moment before saving your visit.</p><div class="fields-2"><div class="field"><label>Before (1–5)</label><select id="reflectBefore"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div><div class="field"><label>After (1–5)</label><select id="reflectAfter"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div></div><div class="field"><label>Notes (optional)</label><textarea id="reflectNotes" placeholder="How was the experience?"></textarea></div><p class="input-help">You can edit individual cycle times and temperatures after saving.</p>`;modal('How do you feel?',body,`<div class="dialog-button-bar"><button class="btn" onclick="saveLiveVisit()">Save visit</button><button class="btn btn-outline" onclick="closeModal()">Review timeline</button></div>`)}
+function openReflectModal(){let body=`${draft.intention?`<div class="notice"><strong>Your intention</strong><p class="intention-text">${esc(draft.intention)}</p></div>${intentionResponseMarkup(draft.intentionResponse,'live')}`:''}<p id="visitSaveError" class="small intention-error" role="alert"></p><p class="small muted">Your time is captured. Reflect for a moment before saving your visit.</p><div class="fields-2"><div class="field"><label>Before (1–5)</label><select id="reflectBefore"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div><div class="field"><label>After (1–5)</label><select id="reflectAfter"><option value="">Leave blank</option>${[1,2,3,4,5].map(n=>`<option value="${n}" >${n} · ${['','Very low','Low','Okay','Good','Excellent'][n]}</option>`).join('')}</select></div></div><div class="field"><label>Notes (optional)</label><textarea id="reflectNotes" placeholder="How was the experience?"></textarea></div><p class="input-help">Choose Review timeline to adjust any session before saving.</p>`;modal('How do you feel?',body,`<div class="dialog-button-bar"><button class="btn" onclick="saveLiveVisit()">Save visit</button><button class="btn btn-outline" onclick="closeModal()">Review timeline</button></div>`)}
 function saveLiveVisit(){if(!draft)return;if(!draft.intervals?.length){document.getElementById('visitSaveError').textContent='This visit has no timed sessions to save. Close this window and choose Discard visit to reset the timer, or add a visit manually to record your time.';return}let visit={id:draft.id,date:draft.date,source:'timer',intervals:draft.intervals,moodBefore:document.getElementById('reflectBefore').value===''?null:Number(document.getElementById('reflectBefore').value),moodAfter:document.getElementById('reflectAfter').value===''?null:Number(document.getElementById('reflectAfter').value),notes:document.getElementById('reflectNotes').value,tags:[],intention:draft.intention||null,intentionResponse:draft.intention?draft.intentionResponse||null:null,...(visitIsEnded(draft)?{endedAt:draft.endedAt}:{}),createdAt:draft.startedAt||Date.now()};db.visits=[visit,...db.visits.filter(v=>v.id!==visit.id)];draft=null;if(persist()){closeModal();toast('Your session is saved.');nav('journal')}else{document.getElementById('visitSaveError').textContent='Your visit could not be saved. Your intention and draft are safe. Try Save visit again.'}}
 let visitsExpanded=false;
 function toggleVisitsCollection(){visitsExpanded=!visitsExpanded;renderJournal();document.getElementById('visitCollectionToggle')?.focus({preventScroll:true})}
@@ -1476,7 +1613,7 @@ function visitMoodMarkup(v){
  const delta=valid(v.moodBefore)&&valid(v.moodAfter)?v.moodAfter-v.moodBefore:null;
  return `<div class="visit-moods"${delta===null?'':` data-mood-delta="${delta}"`}>${card(v.moodBefore,'before')}${card(v.moodAfter,'after')}${delta===null?'':`<span class="sr-only">Mood change: ${delta>0?'+':''}${delta} points.</span>`}</div>`;
 }
-function openVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;modal(pretty(v.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}),`${v.ritual&&OloRituals.validRecord(v.ritual)?guidedSummaryMarkup(v.ritual):''}${v.intention?`<div class="notice visit-detail-intention"><strong>Your intention</strong><p class="intention-text">${esc(v.intention)}</p>${v.intentionResponse?`<p class="small">Did your visit support your intention? <strong>${esc(v.intentionResponse)}</strong></p>`:''}</div>`:''}<div class="stats visit-detail-stats" style="margin:18px 0 15px"><div class="card metric-card metric-sauna"><div class="stat-label">Sauna</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'sauna')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-cold"><div class="stat-label">Cold</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'cold')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-rest"><div class="stat-label">Rest</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'rest')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div></div><div class="interval-list">${v.intervals.map((x,i)=>`<div class="interval-row" data-type="${x.type}"><div class="interval-icon ${x.type}">${icon(x.type==='sauna'?'flame':x.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(x.type)}</strong><p>${x.temp!=null?x.temp+'°F · ':''}${esc(x.activity?.join(', ')||'')}</p></div><div class="interval-length">${fmtM(x.durationMs)}</div></div>`).join('')}</div><div class="hr"></div>${visitMoodMarkup(v)}${v.notes?`<section class="visit-detail-notes" aria-labelledby="visitNotesTitle"><h3 id="visitNotesTitle">Notes</h3><p class="small muted">${esc(v.notes)}</p></section>`:''}`,`<button class="btn btn-outline" onclick="deleteVisit('${v.id}')">${icon('trash')} Delete</button><button class="btn btn-outline" onclick="closeModal();editVisit('${v.id}')">${icon('edit')} Edit</button><button class="btn" onclick="closeModal()">Close</button>`)}
+function openVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;modal(pretty(v.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}),`${v.ritual&&OloRituals.validRecord(v.ritual)?guidedSummaryMarkup(v.ritual):''}${v.intention?`<div class="notice visit-detail-intention"><strong>Your intention</strong><p class="intention-text">${esc(v.intention)}</p>${v.intentionResponse?`<p class="small">Did your visit support your intention? <strong>${esc(v.intentionResponse)}</strong></p>`:''}</div>`:''}<div class="stats visit-detail-stats" style="margin:18px 0 15px"><div class="card metric-card metric-sauna"><div class="stat-label">Sauna</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'sauna')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-cold"><div class="stat-label">Cold</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'cold')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div><div class="card metric-card metric-rest"><div class="stat-label">Rest</div><div class="stat-values"><span class="stat-number">${fmtM(total(v,'rest')).replace(/ min$/,'')}</span><span class="stat-unit">min</span></div></div></div><div class="interval-list visit-detail-intervals ${appearance().sessionLayout||'compact'}">${v.intervals.map(x=>`<div class="interval-row" data-type="${x.type}"><div class="interval-icon ${x.type}">${icon(x.type==='sauna'?'flame':x.type==='cold'?'snow':'coffee')}</div><div class="interval-content"><strong>${labelType(x.type)}</strong><p>${x.temp!=null?x.temp+'°F · ':''}${esc(x.activity?.join(', ')||'')}</p></div><div class="interval-length">${fmtM(x.durationMs)}</div></div>`).join('')}</div><div class="hr"></div>${visitMoodMarkup(v)}${v.notes?`<section class="visit-detail-notes" aria-labelledby="visitNotesTitle"><h3 id="visitNotesTitle">Notes</h3><p class="small muted">${esc(v.notes)}</p></section>`:''}`,`<button class="btn btn-outline" onclick="deleteVisit('${v.id}')">${icon('trash')} Delete</button><button class="btn btn-outline" onclick="closeModal();editVisit('${v.id}')">${icon('edit')} Edit</button><button class="btn" onclick="closeModal()">Close</button>`)}
 function editVisit(vid){let v=db.visits.find(x=>x.id===vid);if(!v)return;if(v.ritual){editGuidedVisit(vid);return;}resetManual();journalEditingId=vid;manualDate=v.date;manualIntervals=JSON.parse(JSON.stringify(v.intervals));manualMoodBefore=v.moodBefore??null;manualMoodAfter=v.moodAfter??null;manualNotes=v.notes||'';manualTags=v.tags||[];manualIntention=v.intention||'';manualIntentionResponse=v.intentionResponse||null;manualMode='detailed';sessionTab='manual';nav('journal')}
 function deleteVisit(vid){if(!confirm('Delete this visit permanently?'))return;db.visits=db.visits.filter(x=>x.id!==vid);if(persist()){closeModal();toast('Visit deleted.');renderPage()}}
 function visitGoalProgress(start,end,period,goal,visits){const days=Math.max(0,Math.round((Date.UTC(...end.split('-').map((n,i)=>Number(n)-(i===1?1:0)))-Date.UTC(...start.split('-').map((n,i)=>Number(n)-(i===1?1:0))))/86400000)+1),target=period==='week'?goal:Math.ceil(days*goal/7),completed=visitDays(visits);return {target,completed,percent:target?Math.min(100,Math.round(completed/target*100)):0}}
@@ -2189,7 +2326,7 @@ function openHomeDay(date){const visits=db.visits.filter(v=>v.date===date),plans
  const title=pretty(date,{weekday:'long',month:'long',day:'numeric'});
  const recaps=visits.map(v=>{
   const mood=[v.moodBefore,v.moodAfter].some(n=>Number.isInteger(n)&&n>=1&&n<=5);
-  return `<section class="day-recap"><p><strong>Sauna</strong> ${fmtM(total(v,'sauna'))} · <strong>Cold plunge</strong> ${fmtM(total(v,'cold'))}</p>${mood?visitMoodMarkup(v):''}${v.intention?`<p class="intention-text"><strong>Intention</strong> ${esc(v.intention)}</p>`:''}<div class="actions"><button type="button" class="btn btn-outline" data-visit-id="${esc(v.id)}" onclick="openVisit(this.dataset.visitId)">View visit</button></div></section>`;
+  return `<section class="day-recap"><p class="day-recap-metrics"><span class="duration-badge metric-sauna"><strong>Sauna</strong> ${fmtM(total(v,'sauna'))}</span><span class="duration-badge metric-cold"><strong>Cold plunge</strong> ${fmtM(total(v,'cold'))}</span></p>${mood?visitMoodMarkup(v):''}${v.intention?`<p class="intention-text"><strong>Intention</strong> ${esc(v.intention)}</p>`:''}<div class="actions"><button type="button" class="btn btn-outline" data-visit-id="${esc(v.id)}" onclick="openVisit(this.dataset.visitId)">View visit</button></div></section>`;
  }).join('');
  const scheduled=plans.length?`<h3>Planned visits</h3><div class="list">${plans.map(p=>`<button class="visit-item" onclick="openVisitPlanner('${p.date}','${p.id}')"><span class="visit-info"><strong>${esc(p.time)} · ${p.duration} min</strong><p>${esc(p.location||'Spa visit')} · ${esc(p.timeZone)}</p></span>${icon('chev')}</button>`).join('')}</div>`:'';
  modal(title,recaps+scheduled,future&&!visits.length?`<button class="btn" onclick="openVisitPlanner('${date}')">${icon('plus')} Plan a spa visit</button>`:'','sheet-modal');
@@ -2312,7 +2449,7 @@ function validateBackupPlans(plans){
  for(const p of plans){if(!p||typeof p.id!=='string'||!/^[a-zA-Z0-9_-]{1,100}$/.test(p.id)||ids.has(p.id)||typeof p.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(p.date)||!Number.isFinite(Date.parse(p.date))||new Date(p.date).toISOString().slice(0,10)!==p.date||typeof p.time!=='string'||!/^([01]\d|2[0-3]):[0-5]\d$/.test(p.time)||typeof p.timeZone!=='string'||p.timeZone.length>100||!Number.isFinite(p.startMs)||p.startMs<=0||!Number.isInteger(p.duration)||p.duration<15||p.duration>480||typeof p.location!=='string'||p.location.length>200||typeof p.intention!=='string'||p.intention.length>200||!Number.isFinite(p.updatedAt)||p.updatedAt<0||(p.cancelledAt!==undefined&&!Number.isFinite(p.cancelledAt)))throw Error('Invalid planned visits in backup.');ids.add(p.id)}
 }
 
-function normalizeAppearance(value){return {background:'botanical',dailyIntro:value?.dailyIntro!==false}}
+function normalizeAppearance(value){return {background:'botanical',dailyIntro:value?.dailyIntro!==false,...(['list','compact'].includes(value?.sessionLayout)?{sessionLayout:value.sessionLayout}:{}),...(['segmented','compact'].includes(value?.liveCycleLayout)?{liveCycleLayout:value.liveCycleLayout}:{})}}
 function parseBackup(text){
  const d=JSON.parse(text),object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
  const fail=()=>{throw Error('That file is not a compatible Ølo Notes backup.')};
@@ -2450,7 +2587,7 @@ const WELCOME_SCENE='./assets/welcome-landscape.webp';
 let welcomeRun=null;
 function appearance(){return normalizeAppearance(db.profile.appearance)}
 function applyAppearance(){document.body.dataset.background=appearance().background;if(!appearance().dailyIntro)closeWelcome()}
-function appearanceMarkup(){const a=appearance();return `<h2 class="settings-title">${icon('sun')} Appearance</h2><h3>Welcome Experience</h3><label class="welcome-preference" for="dailyWelcome"><input type="checkbox" id="dailyWelcome" ${a.dailyIntro?'checked':''} onchange="saveAppearance('dailyIntro',this.checked)"/><span>Show welcome on launch</span></label><button class="btn btn-outline" id="previewWelcome" onclick="playWelcome(true)">${icon('play')} Preview introduction</button><p class="input-help" style="margin-top:12px">A quiet, five-second welcome. Skip at any time. Reduced-motion settings are respected.</p>`}
+function appearanceMarkup(){const a=appearance();return `<h2 class="settings-title">${icon('sun')} Appearance</h2><div class="field"><label for="sessionLayout">Session list layout</label><select id="sessionLayout" onchange="saveAppearance('sessionLayout',this.value)"><option value="compact" ${a.sessionLayout!=='list'?'selected':''}>Compact</option><option value="list" ${a.sessionLayout==='list'?'selected':''}>List</option></select></div><h3>Welcome Experience</h3><label class="welcome-preference" for="dailyWelcome"><input type="checkbox" id="dailyWelcome" ${a.dailyIntro?'checked':''} onchange="saveAppearance('dailyIntro',this.checked)"/><span>Show welcome on launch</span></label><button class="btn btn-outline" id="previewWelcome" onclick="playWelcome(true)">${icon('play')} Preview introduction</button><p class="input-help" style="margin-top:12px">A quiet, five-second welcome. Skip at any time. Reduced-motion settings are respected.</p>`}
 function saveAppearance(key,value){
  const previous=db.profile.appearance;
  db.profile.appearance={...appearance(),[key]:value};
@@ -2530,7 +2667,7 @@ window.addEventListener('blur',clearMetricPress);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)clearMetricPress()});
 
 migrateIntentionDraft();
-restoreManualDraft();navRender();nav('home');playWelcome();refreshWeather();initializeAccount();initializeGuidedRituals();setInterval(()=>{if(view==='journal'&&sessionTab==='timer'&&draft?.current){syncSessionIndicators();let clock=document.getElementById('liveClock'),label=document.getElementById('currentIntervalLabel');if(clock)clock.textContent=fmtTime(currentElapsed());if(label)label.textContent=fmtM(currentElapsed())}},500);
+restoreManualDraft();navRender();nav('home');playWelcome();refreshWeather();initializeAccount();initializeGuidedRituals();setInterval(()=>{if(view==='journal'&&sessionTab==='timer'&&draft?.current){syncSessionIndicators();const clock=document.getElementById('liveClock'),elapsed=currentElapsed();if(clock)clock.textContent=fmtTime(elapsed);updateLiveCycleTimeline(elapsed)}},500);
 </script>
 </body></html>
 

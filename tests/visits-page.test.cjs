@@ -17,8 +17,16 @@ test('desktop and mobile navigation lead to one Visits page with controls before
  h.ctx.beginManual();assert.match(h.el('sessionArea').innerHTML,/Sauna · total minutes/);assert.match(h.el('page-journal').innerHTML,/Recent Visits/);
 });
 test('Home start opens Visits and the running timer continues updating there',()=>{
- const h=boot();h.ctx.beginLive();assert.equal(h.run('view'),'journal');h.ctx.startInterval('sauna');h.run('draft.current.startedAt=Date.now()-65000');h.tick();assert.match(h.el('liveClock').textContent,/01:05/);assert.match(h.el('currentIntervalLabel').textContent,/1.1 min/);
+ const h=boot();h.ctx.beginLive();assert.equal(h.run('view'),'journal');h.ctx.startInterval('sauna');h.run('draft.current.startedAt=Date.now()-65000');h.tick();assert.match(h.el('liveClock').textContent,/01:05/);assert.match(h.ctx.timerMarkup(),/Sauna, timing, 1.1m/);
  h.ctx.pauseResume();assert.equal(h.run('draft.current.running'),false);h.ctx.setSessionTab('manual');h.ctx.setSessionTab('timer');assert.equal(h.run('draft.current.running'),false);assert.match(h.el('sessionArea').innerHTML,/Timer paused/);
+});
+test('live cycles preserve both rests and start a new row when a round repeats',()=>{
+ const h=boot();
+ const types=['sauna','rest','cold','rest','sauna','cold','cold','rest','rest'];
+ const cycles=h.ctx.groupLiveCycles(types.map(type=>({type})));
+ assert.equal(JSON.stringify(cycles.map(cycle=>cycle.map(entry=>entry.type))),JSON.stringify([
+  ['sauna','rest','cold','rest'],['sauna','cold'],['cold','rest'],['rest']
+ ]));
 });
 test('post-visit save and history edit stay on Visits without changing unrelated records',()=>{
  const h=boot();h.ctx.beginManual();assert.equal(h.run('view'),'journal');h.el('manualHeat').value='15';h.el('manualCold').value='2';h.ctx.saveManual();assert.equal(h.run('db.visits.length'),1);const id=h.run('db.visits[0].id');assert.match(h.el('page-journal').innerHTML,/1 recorded visit/);
