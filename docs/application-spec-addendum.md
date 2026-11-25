@@ -15,8 +15,8 @@
 
 - The title/arrow and “Read more” operate the same expander.
 - Use one native button for “Read more” / “Read less”, with aria-expanded synchronized with the header and aria-controls referencing the disclosure body.
-- When collapsed, place “Read more” beneath the attribution. When expanded, move that same control below the quote source link and label it “Read less”. Topics without a source place the control after the reflection body.
-- Activating “Read less” collapses the body and restores the control beneath the attribution. Preserve focus when moving the activated control.
+- When collapsed, place “Read more” at the far right of the attribution row. Keep the card’s content padding even and avoid excess space below the row. When expanded, move that same control below the quote source link and label it “Read less”. Topics without a source place the control after the reflection body.
+- Activating “Read less” collapses the body and restores the control at the right side of the attribution row. Preserve focus when moving the activated control.
 - Keep the source link independent: it opens the original source in a new tab and does not toggle the card.
 - Collapsed content is inert and unavailable to keyboard focus. Buttons retain a minimum 44px height and visible keyboard focus. Expansion respects reduced-motion preferences.
 - Preserve daily content selection, topics, quote attribution, production Georgia typography, and journal/timer/sync data.
