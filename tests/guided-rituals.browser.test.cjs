@@ -119,3 +119,17 @@ test('storage failure preserves the temporary preview or committed review',async
   await page.evaluate(()=>window.ritualFailWrites=true);await page.getByRole('button',{name:'Save visit',exact:true}).click();assert.equal(await page.evaluate(()=>db.visits.length),0);assert.equal(await page.evaluate(()=>db.guidedRitual.phase),'review');
   await page.evaluate(()=>window.ritualFailWrites=false);await page.getByRole('button',{name:'Save visit',exact:true}).click();assert.equal(await page.evaluate(()=>db.visits.length),1);
 });
+
+for(const width of [320,390,680,681,1280])test(`mobile wordmark and recovery dismissal preserve the ritual at ${width}px`,async t=>{
+ const page=await boot(t,width),mobile=width<=680;
+ assert.equal(await page.locator('.mobile-wordmark').isVisible(),mobile);
+ assert.equal(await page.locator('#pageEyebrow').isVisible(),!mobile);
+ assert.equal(await page.locator('.sidebar').isVisible(),!mobile);
+ if(mobile){assert.equal(await page.locator('.mobile-wordmark').evaluate(e=>getComputedStyle(e).color),await page.locator('.sidebar').evaluate(e=>getComputedStyle(e).backgroundColor));const logo=await page.locator('.mobile-wordmark').boundingBox(),account=await page.locator('#accountControl').boundingBox();assert.ok(logo.x+logo.width<=account.x)}
+ await page.getByRole('button',{name:/Mindful Reset/}).click();await page.getByRole('button',{name:'Start Ritual',exact:true}).click();
+ await page.evaluate(()=>{guidedRecovery=true;renderSessionArea()});const before=await page.evaluate(()=>JSON.stringify(db.guidedRitual));
+ const dismiss=page.getByRole('button',{name:'Dismiss recovery notice',exact:true});await dismiss.focus();await page.keyboard.press('Enter');
+ assert.equal(await dismiss.count(),0);assert.equal(await page.evaluate(()=>JSON.stringify(db.guidedRitual)),before);
+ await page.evaluate(()=>renderSessionArea());assert.equal(await page.getByRole('button',{name:'Dismiss recovery notice',exact:true}).count(),0);
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+});
