@@ -522,7 +522,7 @@ button.live-cycle-segment{cursor:pointer}
 button.live-cycle-segment:hover,.live-cycle-segment.is-current{border-color:var(--segment-accent)}
 .live-cycle-segment.is-current{box-shadow:inset 0 -2px var(--segment-accent)}
 .live-cycle-layout{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:12px}
-.live-cycle-layout select{width:auto;padding:6px 8px;min-height:36px}
+.live-cycle-layout select{width:auto;padding:6px 10px;min-height:36px;border:1px solid var(--line);border-radius:12px;background-color:var(--paper);color:var(--ink);font:inherit}
 .live-cycle-list.is-compact .live-cycle-row{grid-template-columns:3.8em minmax(30px,24%) minmax(0,1fr)}
 .live-cycle-summary{display:grid;gap:3px}
 .live-cycle-summary .live-cycle-total{font-weight:400;color:var(--muted);text-align:left}
@@ -645,7 +645,7 @@ button.live-cycle-segment:hover,.live-cycle-segment.is-current{border-color:var(
 try{const saved=JSON.parse(localStorage.getItem('loyly-journal-v1')||'null');
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&saved?.profile?.appearance?.dailyIntro!==false&&!document.hidden){document.documentElement.classList.add('welcome-pending');setTimeout(()=>document.documentElement.classList.remove('welcome-pending'),2000)}}catch(e){}
 </script>
-<meta name="olo-release" content="103">
+<meta name="olo-release" content="104">
 </head>
 <body>
 <div class="app">
@@ -1366,7 +1366,7 @@ function fortUnionStatus(now=new Date()){
 }
 function fortUnionStatusMarkup(status){return status.isOpen?`<span class="pill">Open now</span>`:`<span class="pill">Closed</span><span class="fort-union-status-detail">${status.text.split(" · ")[1]}</span>`}
 function membershipKey(){return '<img src="assets/membership-key.svg" width="16" height="16" alt=""/>'}
-function fortUnionMarkup(){const status=fortUnionStatus();return `<section class="card fort-union-card" aria-label="Fort Union"><div class="fort-union-heading"><h2 id="fortUnionTitle">${icon('home')} Home location</h2><div class="fort-union-heading-actions"><button type="button" class="icon-btn fort-union-share" onclick="shareFortUnion()" aria-label="Share Fort Union by text message">${icon('share')}</button><span class="fort-union-status" data-open="${status.isOpen}">${fortUnionStatusMarkup(status)}</span></div></div><div class="fort-union-details"><address class="fort-union-address"><strong>Fort Union</strong><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(FORT_UNION.address)}" target="_blank" rel="noopener noreferrer" aria-label="Fort Union address: ${FORT_UNION.address}. Open map">7198 S Union Park Ave, Midvale, UT 84047</a></address><dl class="fort-union-hours" aria-label="Fort Union regular hours"><dt>Mon–Thu</dt><dd>6 am – 9 pm</dd><dt>Fri–Sat</dt><dd>6 am – 10 pm</dd><dt>Sunday</dt><dd>8 am – 2 pm</dd></dl></div><div class="fort-union-membership"><div class="membership-caption"><strong>CHECK-IN CODE</strong><span>Available on your live card</span></div><a class="btn btn-outline membership-card-link" href="https://loylymemberships.com/card" target="_blank" rel="noopener noreferrer">${membershipKey()} Membership card</a></div></section>`}
+function fortUnionMarkup(){const status=fortUnionStatus();return `<section class="card fort-union-card" aria-label="Fort Union"><div class="fort-union-heading"><h2 id="fortUnionTitle">${icon('home')} Home location</h2><div class="fort-union-heading-actions"><button type="button" class="icon-btn fort-union-share" onclick="shareFortUnion()" aria-label="Share Fort Union by text message">${icon('share')}</button><span class="fort-union-status" data-open="${status.isOpen}">${fortUnionStatusMarkup(status)}</span></div></div><div class="fort-union-details"><address class="fort-union-address"><strong>Fort Union</strong><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(FORT_UNION.address)}" target="_blank" rel="noopener noreferrer" aria-label="Fort Union address: ${FORT_UNION.address}. Open map">7198 S Union Park Ave<br>Midvale, UT 84047</a></address><dl class="fort-union-hours" aria-label="Fort Union regular hours"><dt>Mon–Thu</dt><dd>6 am – 9 pm</dd><dt>Fri–Sat</dt><dd>6 am – 10 pm</dd><dt>Sunday</dt><dd>8 am – 2 pm</dd></dl></div><div class="fort-union-membership"><div class="membership-caption"><strong>CHECK-IN CODE</strong><span>Available on your live card</span></div><a class="btn btn-outline membership-card-link" href="https://loylymemberships.com/card" target="_blank" rel="noopener noreferrer">${membershipKey()} Membership card</a></div></section>`}
 function shareFortUnion(){const message='Come unwind with me at Fort Union! 7198 S Union Park Ave, Midvale, UT 84047. '+ 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(FORT_UNION.address);const url='sms:?&body='+encodeURIComponent(message);window.location.href=url}
 function refreshFortUnion(){const el=document.querySelector('.fort-union-status');if(view!=='home'||!el)return;const status=fortUnionStatus();el.innerHTML=fortUnionStatusMarkup(status);el.dataset.open=String(status.isOpen)}
 function planFortUnionVisit(){
